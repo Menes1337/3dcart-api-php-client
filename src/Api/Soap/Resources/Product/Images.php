@@ -1,6 +1,6 @@
 <?php
 
-namespace ThreeDCart\Resources\catalog\product;
+namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
 

@@ -3,16 +3,8 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
-use ThreeDCart\Resources\catalog\product\Category;
-use ThreeDCart\Resources\catalog\product\EProduct;
-use ThreeDCart\Resources\catalog\product\ExtraField;
-use ThreeDCart\Resources\catalog\product\Images;
-use ThreeDCart\Resources\catalog\product\Option;
-use ThreeDCart\Resources\catalog\product\PriceLevel;
-use ThreeDCart\Resources\catalog\product\RelatedProduct;
-use ThreeDCart\Resources\catalog\product\Reward;
 
-class Product extends SoapResource 
+class Product extends SoapResource
 {
     /** @var int */
     public $CatalogID;
@@ -20,7 +12,7 @@ class Product extends SoapResource
     public $ProductID;
     /** @var string */
     public $ProductName;
-    /** @var Category[] */
+    /** @var \ThreeDCart\Api\Soap\Resources\Product\Category[] */
     public $Categories;
     /** @var string */
     public $Mfgid;
@@ -198,7 +190,7 @@ class Product extends SoapResource
     }
     
     /**
-     * @return \ThreeDCart\Resources\catalog\product\Category[]
+     * @return Category[]
      */
     public function getCategories()
     {
@@ -206,7 +198,7 @@ class Product extends SoapResource
     }
     
     /**
-     * @param \ThreeDCart\Resources\catalog\product\Category[] $Categories
+     * @param Category[] $Categories
      */
     public function setCategories($Categories)
     {
@@ -534,7 +526,7 @@ class Product extends SoapResource
     }
     
     /**
-     * @return \ThreeDCart\Resources\catalog\product\RelatedProduct[]
+     * @return RelatedProduct[]
      */
     public function getRelatedProducts()
     {
@@ -542,7 +534,7 @@ class Product extends SoapResource
     }
     
     /**
-     * @param \ThreeDCart\Resources\catalog\product\RelatedProduct[] $RelatedProducts
+     * @param RelatedProduct[] $RelatedProducts
      */
     public function setRelatedProducts($RelatedProducts)
     {
@@ -1206,7 +1198,7 @@ class Product extends SoapResource
     }
     
     /**
-     * @return \ThreeDCart\Resources\catalog\product\Option[]
+     * @return Option[]
      */
     public function getOptions()
     {
@@ -1214,7 +1206,7 @@ class Product extends SoapResource
     }
     
     /**
-     * @param \ThreeDCart\Resources\catalog\product\Option[] $Options
+     * @param Option[] $Options
      */
     public function setOptions($Options)
     {

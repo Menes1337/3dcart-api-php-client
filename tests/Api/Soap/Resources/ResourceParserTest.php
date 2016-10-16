@@ -5,6 +5,7 @@ namespace tests\Api\Soap\Resources;
 use tests\ThreeDCartTestCase;
 use ThreeDCart\Api\Soap\Exceptions\ParseException;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
+use ThreeDCart\Api\Soap\Resources\Product\Reward;
 use ThreeDCart\Api\Soap\Resources\ResourceParser;
 use ThreeDCart\Api\Soap\Resources\ResourceParserInterface;
 

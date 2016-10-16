@@ -6,6 +6,14 @@ use ThreeDCart\Api\Soap\Exceptions\ParseException;
 
 class ResourceParser implements ResourceParserInterface
 {
+    
+    /**
+     * @param string $className
+     * @param array  $data
+     *
+     * @return SoapResource
+     * @throws ParseException
+     */
     public function getResourceFromArray($className, array $data)
     {
         if (empty($data)) {
@@ -20,5 +28,7 @@ class ResourceParser implements ResourceParserInterface
                 throw new ParseException('unable to create resource. key ' . $key . ' don\'t exist');
             }
         }
+        
+        return $resource;
     }
 }
