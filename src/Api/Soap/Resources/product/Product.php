@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
 class Product extends SoapResource
 {
@@ -1211,5 +1212,10 @@ class Product extends SoapResource
     public function setOptions($Options)
     {
         $this->Options = $Options;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProduct($this);
     }
 }

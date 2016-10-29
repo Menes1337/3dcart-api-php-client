@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
 class Image extends SoapResource
 {
@@ -41,5 +42,10 @@ class Image extends SoapResource
     public function setCaption($Caption)
     {
         $this->Caption = $Caption;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductImage($this);
     }
 }

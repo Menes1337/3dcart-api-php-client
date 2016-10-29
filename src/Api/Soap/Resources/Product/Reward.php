@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
 class Reward extends SoapResource
 {
@@ -59,5 +60,10 @@ class Reward extends SoapResource
     public function setRewardRedeem($RewardRedeem)
     {
         $this->RewardRedeem = $RewardRedeem;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductReward($this);
     }
 }

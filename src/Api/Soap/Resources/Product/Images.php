@@ -3,8 +3,9 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
-class Images extends SoapResource 
+class Images extends SoapResource
 {
     /** @var Images[] */
     private $Images;
@@ -41,5 +42,10 @@ class Images extends SoapResource
     public function setThumbnail($Thumbnail)
     {
         $this->Thumbnail = $Thumbnail;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductImages($this);
     }
 }

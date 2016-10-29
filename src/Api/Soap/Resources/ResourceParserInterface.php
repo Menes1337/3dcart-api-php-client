@@ -4,5 +4,7 @@ namespace ThreeDCart\Api\Soap\Resources;
 
 interface ResourceParserInterface
 {
-    public function getResourceFromArray($className, array $resource);
+    public function getResource($className, array $resourceData);
+    
+    public function getResources($className, array $resourcesData);
 }

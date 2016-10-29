@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
 class ExtraField extends SoapResource 
 {
@@ -239,5 +240,10 @@ class ExtraField extends SoapResource
     public function setExtraField13($ExtraField13)
     {
         $this->ExtraField13 = $ExtraField13;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductExtraField($this);
     }
 }

@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
 class Category extends SoapResource
 {
@@ -41,5 +42,10 @@ class Category extends SoapResource
     public function setCategoryName($CategoryName)
     {
         $this->CategoryName = $CategoryName;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductCategory($this);
     }
 }

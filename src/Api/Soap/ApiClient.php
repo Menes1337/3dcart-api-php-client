@@ -2,6 +2,9 @@
 
 namespace ThreeDCart\Api\Soap;
 
+use ThreeDCart\Api\Soap\Resources\Product\Product;
+use ThreeDCart\Api\Soap\Resources\ResourceParser;
+
 class ApiClient
 {
     const THREEDCART_SOAP_API_URL = 'http://api.3dcart.com/cart.asmx';
@@ -14,6 +17,8 @@ class ApiClient
     private $soapClient;
     /** @var ResponseHandlerInterface */
     private $responseHandler;
+    /** @var ResourceParser */
+    private $resourceParser;
     
     /**
      * @param string $threeDCartApiKey
@@ -33,6 +38,7 @@ class ApiClient
                 )
             );
         $this->responseHandler = new ResponseHandler();
+        $this->resourceParser  = new ResourceParser();
     }
     
     /**
@@ -40,7 +46,7 @@ class ApiClient
      * @param int    $startNum
      * @param string $productId
      * @param string $callBackUrl
-     * 
+     *
      * @return array
      */
     public function getProduct($batchSize = 100, $startNum = 1, $productId = '', $callBackUrl = '')
@@ -55,7 +61,77 @@ class ApiClient
             'callBackURL' => $callBackUrl
         ));
         
-        return $this->responseHandler->processXMLToArray($response->getProductResult, 'Product');
+        return $this->resourceParser->getResources(
+            Product::class,
+            $this->responseHandler->processXMLToArray($response->getProductResult, 'Product')
+        );
+    }
+    
+    /**
+     * @param string $callBackUrl
+     *
+     * @return int
+     */
+    public function getProductCount($callBackUrl = '')
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->getProductCount(array(
+            'storeUrl'    => $this->threeDCartStoreUrl,
+            'userKey'     => $this->threeDCartApiKey,
+            'callBackURL' => $callBackUrl
+        ));
+        
+        return $this->responseHandler->processXMLToArray($response->getProductCountResult, 'ProductQuantity');
+    }
+    
+    /**
+     * @param string $callBackUrl
+     *
+     * @return int
+     */
+    public function getCustomerCount($callBackUrl = '')
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->getCustomerCount(array(
+            'storeUrl'    => $this->threeDCartStoreUrl,
+            'userKey'     => $this->threeDCartApiKey,
+            'callBackURL' => $callBackUrl
+        ));
+        
+        return $this->responseHandler->processXMLToArray($response->getCustomerCountResult, 'CustomerCount');
+    }
+    
+    /**
+     * @param string $callBackUrl
+     * @param bool   $startFrom
+     * @param string $invoiceNum
+     * @param string $status
+     * @param string $dateFrom
+     * @param string $dateTo
+     *
+     * @return array
+     */
+    public function getOrderCount(
+        $callBackUrl = '',
+        $startFrom = true,
+        $invoiceNum = '',
+        $status = '',
+        $dateFrom = '',
+        $dateTo = ''
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->getOrderCount(array(
+            'storeUrl'    => $this->threeDCartStoreUrl,
+            'userKey'     => $this->threeDCartApiKey,
+            'startFrom'   => $startFrom,
+            'invoiceNum'  => $invoiceNum,
+            'status'      => $status,
+            'dateFrom'    => $dateFrom,
+            'dateTo'      => $dateTo,
+            'callBackURL' => $callBackUrl
+        ));
+        
+        return $this->responseHandler->processXMLToArray($response->getOrderCountResult, 'Quantity');
     }
     
     /**

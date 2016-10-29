@@ -26,8 +26,7 @@ class ResponseHandler implements ResponseHandlerInterface
         }
         
         $simpleXML = $this->handleErrorMessages($response);
-        
-        $result = json_decode(json_encode((array)$simpleXML), true);
+        $result    = $this->XMLToArray($simpleXML);
         
         if (isset($result['Id']) && isset($result['Description'])) {
             throw new ApiErrorException($result['Description'], $result['Id'], $response->any);
@@ -42,6 +41,40 @@ class ResponseHandler implements ResponseHandlerInterface
         }
         
         return $result[$responseXmlTag];
+    }
+    
+    /**
+     * @param \SimpleXMLElement $xml
+     *
+     * @return array
+     */
+    private function XMLToArray(\SimpleXMLElement $xml)
+    {
+        $stdClassResult = json_decode(json_encode((array)$xml));
+        
+        return (array)$this->convertEmptyStdClassToNull($stdClassResult);
+    }
+    
+    /**
+     * @param mixed $object
+     *
+     * @return mixed
+     */
+    private function convertEmptyStdClassToNull(&$object)
+    {
+        if ($object instanceof \stdClass && count((array)$object) == 0) {
+            return null;
+        } else {
+            if (is_object($object) || is_array($object)) {
+                foreach ($object as $key => &$value) {
+                    $value = $this->convertEmptyStdClassToNull($value);
+                }
+                
+                return (array)$object;
+            }
+        }
+        
+        return $object;
     }
     
     /**

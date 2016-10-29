@@ -2,7 +2,6 @@
 
 namespace ThreeDCart\Api\Soap\Resources;
 
-class SoapResource
+abstract class SoapResource implements VisiteeInterface 
 {
-    
 }

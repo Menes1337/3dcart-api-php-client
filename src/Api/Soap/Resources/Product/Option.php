@@ -3,14 +3,15 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
-class Option extends SoapResource 
+class Option extends SoapResource
 {
     /** @var int */
     private $Id;
     /** @var string */
     private $OptionType;
-    /** @var OptionValues */
+    /** @var OptionValue[] */
     private $Values;
     
     /**
@@ -46,7 +47,7 @@ class Option extends SoapResource
     }
     
     /**
-     * @return OptionValues
+     * @return OptionValue[]
      */
     public function getValues()
     {
@@ -54,10 +55,15 @@ class Option extends SoapResource
     }
     
     /**
-     * @param OptionValues $Values
+     * @param OptionValue[] $Values
      */
     public function setValues($Values)
     {
         $this->Values = $Values;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductOption($this);
     }
 }

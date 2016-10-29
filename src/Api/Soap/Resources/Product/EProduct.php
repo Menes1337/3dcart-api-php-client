@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
 class EProduct extends SoapResource 
 {
@@ -131,5 +132,10 @@ class EProduct extends SoapResource
     public function setEProductReuseSerial($eProductReuseSerial)
     {
         $this->eProductReuseSerial = $eProductReuseSerial;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductEProduct($this);
     }
 }

@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
 class RelatedProduct extends SoapResource 
 {
@@ -41,5 +42,10 @@ class RelatedProduct extends SoapResource
     public function setProductName($ProductName)
     {
         $this->ProductName = $ProductName;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductRelatedProduct($this);
     }
 }

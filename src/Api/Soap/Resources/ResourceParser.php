@@ -14,7 +14,7 @@ class ResourceParser implements ResourceParserInterface
      * @return SoapResource
      * @throws ParseException
      */
-    public function getResourceFromArray($className, array $data)
+    public function getResource($className, array $data)
     {
         if (empty($data)) {
             throw new ParseException('unable to create resource. data empty');
@@ -22,13 +22,33 @@ class ResourceParser implements ResourceParserInterface
         
         /** @var SoapResource $resource */
         $resource = new $className();
-        
-        foreach ($data as $key => $value) {
-            if (!method_exists($resource, 'get' . $key)) {
-                throw new ParseException('unable to create resource. key ' . $key . ' don\'t exist');
-            }
-        }
+        $visitor  = new ResourceParserVisitor($data);
+        $resource->accept($visitor);
         
         return $resource;
+    }
+    
+    /**
+     * @param string $className
+     * @param array  $resourcesData
+     *
+     * @return SoapResource[]
+     * @throws ParseException
+     */
+    public function getResources($className, array $resourcesData)
+    {
+        if (empty($resourcesData)) {
+            throw new ParseException('unable to create resource. data empty');
+        }
+        
+        $resources = array();
+        foreach ($resourcesData as $resourceData) {
+            if (empty($resourceData)) {
+                throw new ParseException('unable to create resource. data empty');
+            }
+            $resources[] = $this->getResource($className, $resourceData);
+        }
+        
+        return $resources;
     }
 }

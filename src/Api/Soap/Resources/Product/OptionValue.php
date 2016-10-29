@@ -3,8 +3,9 @@
 namespace ThreeDCart\Api\Soap\Resources\Product;
 
 use ThreeDCart\Api\Soap\Resources\SoapResource;
+use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
-class OptionValues extends SoapResource
+class OptionValue extends SoapResource
 {
     /** @var int */
     private $ID;
@@ -77,5 +78,10 @@ class OptionValues extends SoapResource
     public function setOptionPartNumber($OptionPartNumber)
     {
         $this->OptionPartNumber = $OptionPartNumber;
+    }
+    
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitProductOptionValue($this);
     }
 }
