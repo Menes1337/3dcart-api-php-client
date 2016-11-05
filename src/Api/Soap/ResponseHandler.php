@@ -93,16 +93,22 @@ class ResponseHandler implements ResponseHandlerInterface
             libxml_clear_errors();
             $simpleXML = new \SimpleXMLElement($response->any);
             
-            if (!empty(($errors = libxml_get_errors()))) {
-                $SimpleXmlExceptionRenderer = new SimpleXmlExceptionRenderer($errors);
-                throw new MalFormedApiResponseException($SimpleXmlExceptionRenderer->getErrorMessage(), $response->any);
-            }
-            
             return $simpleXML;
         } catch (\Exception $ex) {
-            $errors                     = libxml_get_errors();
+            $errors                     = $this->getLibXMLErrors();
             $SimpleXmlExceptionRenderer = new SimpleXmlExceptionRenderer($errors);
             throw new MalFormedApiResponseException($SimpleXmlExceptionRenderer->getErrorMessage(), $response->any);
         }
+    }
+    
+    /**
+     * @return array
+     */
+    private function getLibXMLErrors()
+    {
+        $libXMLErrors = libxml_get_errors();
+        libxml_clear_errors();
+        
+        return $libXMLErrors;
     }
 }

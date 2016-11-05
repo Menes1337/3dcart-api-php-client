@@ -112,6 +112,68 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
         foreach ($product->getImages()->getImages() as $image) {
             $this->assertInstanceOf(Image::class, $image);
         }
+        
+        $this->assertEquals('1', $product->getCatalogID());
+        $this->assertEquals('Custom Cap', $product->getProductID());
+        $this->assertEquals('Custom Cap', $product->getProductName());
+        $this->assertEquals('MPNNUMBER', $product->getMfgid());
+        $this->assertEquals('MyManufacturer', $product->getManufacturer());
+        $this->assertEquals('Test', $product->getDistributor());
+        $this->assertEquals('0.00', $product->getCost());
+        $this->assertEquals('17.99', $product->getPrice());
+        $this->assertEquals('0', $product->getRetailPrice());
+        $this->assertEquals('19.99', $product->getSalePrice());
+        $this->assertEquals('1', $product->isOnSale());
+        $this->assertEquals('0', $product->getStock());
+        $this->assertEquals('0', $product->getStockAlert());
+        $this->assertEquals('2.00', $product->getWeight());
+        $this->assertEquals('44.00', $product->getWidth());
+        $this->assertEquals('33.00', $product->getHeight());
+        $this->assertEquals('55.00', $product->getDepth());
+        $this->assertEquals('1', $product->getMinimumOrder());
+        $this->assertEquals('0', $product->getMaximumOrder());
+        $this->assertEquals('6/22/2009', $product->getDateCreated());
+        $this->assertEquals('Sample Product', $product->getDescription());
+        $this->assertEquals('<div><strong><span style="COLOR: #ff0000">SAMPLE PRODUCT </span></strong></div><div>&nbsp;</div><div>Our adjustable, 100% brushed cotton Cap is unstructured and an ideal way to beat the heat.</div>    ',
+            $product->getExtendedDescription());
+        $this->assertEquals('My;Key;words', $product->getKeywords());
+        $this->assertEquals('0.00', $product->getShipCost());
+        $this->assertEquals('Title Of MetaTags', $product->getTitle());
+        $this->assertEquals('<META NAME="DESCRIPTION" CONTENT="gffghnhg"><META NAME="ABSTRACT" CONTENT="mbjmhj"><META NAME="KEYWORDS" CONTENT="bmvghjhjm">',
+            $product->getMetaTags());
+        $this->assertEquals('DIsplayTesxt', $product->getDisplayText());
+        $this->assertEquals('1', $product->isHomeSpecial());
+        $this->assertEquals('0', $product->isCategorySpecial());
+        $this->assertEquals('0', $product->isHide());
+        $this->assertEquals('1', $product->isFreeShipping());
+        $this->assertEquals('0', $product->isNonTax());
+        $this->assertEquals('0', $product->isNotForsale());
+        $this->assertEquals('0', $product->isGiftCertificate());
+        $this->assertEquals('Administrator', $product->getUserId());
+        $this->assertEquals('10/16/2016 9:50:30 AM', $product->getLastUpdate());
+        $this->assertEquals(null, $product->getWarehouseLocation());
+        $this->assertEquals(null, $product->getWarehouseBin());
+        $this->assertEquals(null, $product->getWarehouseAisle());
+        $this->assertEquals(null, $product->getWarehouseCustom());
+        $this->assertEquals('0', $product->isUseCatoptions());
+        $this->assertEquals(null, $product->getQuantityOptions());
+        $this->assertEquals('0', $product->getMinOrder());
+        $this->assertEquals('-1', $product->getListingDisplayType());
+        $this->assertEquals('-1', $product->getShowOutStock());
+        $this->assertEquals('0', $product->getPricingGroupOpt());
+        $this->assertEquals('0', $product->getQuantityDiscountOpt());
+        $this->assertEquals('-1', $product->getLoginLevel());
+        $this->assertEquals(null, $product->getRedirectTo());
+        $this->assertEquals(null, $product->getAccessGroup());
+        $this->assertEquals('1', $product->isSelfShip());
+        $this->assertEquals('MyT', $product->getTaxCode());
+        $this->assertEquals('0', $product->isNonSearchable());
+        $this->assertEquals('InStock message', $product->getInstockMessage());
+        $this->assertEquals('Out Stock Message', $product->getOutOfStockMessage());
+        $this->assertEquals('Back order Message', $product->getBackOrderMessage());
+        $this->assertEquals('MyCustomFileName', $product->getFileName());
+        $this->assertEquals('3', $product->getReviewAverage());
+        $this->assertEquals('1', $product->getReviewCount());
     }
     
     public function testVisitorProductCategory()
@@ -262,6 +324,16 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
         $this->assertEquals('1', $orderStatus->getId());
         $this->assertEquals('AB-1347', $orderStatus->getInvoiceNum());
         $this->assertEquals('New', $orderStatus->getStatusText());
+    }
+    
+    public function testVisitorProductOptionInvalidData()
+    {
+        $option                = new Option();
+        $resourceParserVisitor = new ResourceParserVisitor(['Values' => ['Wrong index' => []]]);
+        $resourceParserVisitor->visitProductOption($option);
+        
+        $this->assertEquals(true, is_array($option->getValues()));
+        $this->assertEquals(true, empty($option->getValues()));
     }
     
     /**

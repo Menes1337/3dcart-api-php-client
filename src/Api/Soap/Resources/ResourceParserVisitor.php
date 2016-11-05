@@ -41,7 +41,7 @@ class ResourceParserVisitor implements VisitorInterface
     private function assignSimpleProperties(SoapResource $resource, array $data)
     {
         foreach ($data as $key => $value) {
-            if (method_exists($resource, 'get' . $key) && call_user_func(array($resource, 'get' . $key))) {
+            if (method_exists($resource, 'get' . $key) && call_user_func(array($resource, 'get' . $key)) !== null) {
                 continue;
             }
             if (!method_exists($resource, 'set' . $key)) {

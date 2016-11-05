@@ -33,23 +33,51 @@ class ResourceParserTest extends ThreeDCartTestCase
         $this->resourceParser = new ResourceParser();
     }
     
-    public function testDataEmpty()
+    public function testGetResourceDataEmpty()
     {
         $this->expectException(ParseException::class);
         $this->resourceParser->getResource(Product::class, []);
     }
     
-    public function testDataNull()
+    public function testGetResourcesDataEmpty()
+    {
+        $this->expectException(ParseException::class);
+        $this->resourceParser->getResources(Product::class, []);
+    }
+    
+    public function testGetResourcesDataHalfEmpty()
+    {
+        $this->expectException(ParseException::class);
+        $this->resourceParser->getResources(Product::class, ['something' => []]);
+    }
+    
+    public function testGetResourceDataNull()
     {
         $this->expectException(ParseException::class);
         $this->resourceParser->getResource(Product::class, [null]);
     }
     
-    public function testDataInvalid()
+    public function testgetResourcesDataNull()
+    {
+        $this->expectException(ParseException::class);
+        $this->resourceParser->getResources(Product::class, [null]);
+    }
+    
+    public function testGetResourceDataInvalid()
     {
         $this->expectException(ParseException::class);
         $this->resourceParser->getResource(Product::class, [
             'some_not_available_field' => 'not available value'
+        ]);
+    }
+    
+    public function testGetResourcesDataInvalid()
+    {
+        $this->expectException(ParseException::class);
+        $this->resourceParser->getResources(Product::class, [
+            [
+                'some_not_available_field' => 'not available value'
+            ]
         ]);
     }
     

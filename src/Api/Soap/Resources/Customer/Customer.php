@@ -8,35 +8,35 @@ use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 class Customer extends SoapResource
 {
     /** @var int */
-    private $CustomerID = '';
+    private $CustomerID;
     /** @var string */
-    private $UserID = '';
+    private $UserID;
     /** @var Address */
-    private $BillingAddress = '';
+    private $BillingAddress;
     /** @var Address */
-    private $ShippingAddress = '';
+    private $ShippingAddress;
     /** @var string */
-    private $Comments = '';
+    private $Comments;
     /** @var string */
-    private $LastLoginDate = '';
+    private $LastLoginDate;
     /** @var string */
-    private $WebSite = '';
+    private $WebSite;
     /** @var int */
-    private $DiscountGroup = '';
+    private $DiscountGroup;
     /** @var string */
-    private $AccountNumber = '';
+    private $AccountNumber;
     /** @var bool */
-    private $MailList = '';
+    private $MailList;
     /** @var bool */
-    private $CustomerType = '';
+    private $CustomerType;
     /** @var string */
-    private $LastUpdate = '';
+    private $LastUpdate;
     /** @var bool */
-    private $CustEnabled = '';
+    private $CustEnabled;
     /** @var AdditionalFields The variable name is a typo in the ThreeDCart api object */
-    private $AditionalFields = '';
+    private $AditionalFields;
     /** @var string */
-    private $AdditionalField4 = '';
+    private $AdditionalField4;
     
     /**
      * @return int

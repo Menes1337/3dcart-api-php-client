@@ -8,11 +8,11 @@ use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 class AdditionalFields extends SoapResource
 {
     /** @var string */
-    private $AdditionalField1 = '';
+    private $AdditionalField1;
     /** @var string */
-    private $AdditionalField2 = '';
+    private $AdditionalField2;
     /** @var string */
-    private $AdditionalField3 = '';
+    private $AdditionalField3;
     
     /**
      * @return string

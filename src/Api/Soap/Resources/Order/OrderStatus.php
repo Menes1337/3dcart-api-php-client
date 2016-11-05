@@ -8,11 +8,11 @@ use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 class OrderStatus extends SoapResource
 {
     /** @var int */
-    private $id = '';
+    private $id;
     /** @var string */
-    private $InvoiceNum = '';
+    private $InvoiceNum;
     /** @var string */
-    private $StatusText = '';
+    private $StatusText;
     
     /**
      * @return int

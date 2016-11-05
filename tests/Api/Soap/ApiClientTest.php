@@ -7,6 +7,7 @@ use ThreeDCart\Api\Soap\ApiClient;
 use ThreeDCart\Api\Soap\Resources\Customer\Customer;
 use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
+use ThreeDCart\Api\Soap\ResponseHandlerInterface;
 
 class ApiClientTest extends ThreeDCartTestCase
 {
@@ -82,6 +83,21 @@ class ApiClientTest extends ThreeDCartTestCase
         $orderCount = $this->sut->getOrderCount();
         
         $this->assertEquals(311, $orderCount);
+    }
+    
+    public function testSetResponseHandler()
+    {
+        $responseHandlerMock = $this->getMockBuilder(ResponseHandlerInterface::class)->getMock();
+        
+        $parameter =
+            json_decode('{"getCustomerCountResult":{"any":"<CustomerCountResponse xmlns=\"\"><CustomerCount>38<\/CustomerCount><\/CustomerCountResponse>\r\n"}}');
+        
+        $responseHandlerMock->expects($this->once())->method('processXMLToArray')
+                            ->with($parameter->getCustomerCountResult, 'CustomerCount')
+        ;
+        $this->sut->setSoapClient($this->getSoapClientMock('getCustomerCount', 'getCustomerCountResult'));
+        $this->sut->setResponseHandler($responseHandlerMock);
+        $this->sut->getCustomerCount();
     }
     
     /**

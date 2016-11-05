@@ -8,27 +8,27 @@ use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 class Address extends SoapResource
 {
     /** @var string */
-    private $FirstName = '';
+    private $FirstName;
     /** @var string */
-    private $LastName = '';
+    private $LastName;
     /** @var string */
-    private $Address = '';
+    private $Address;
     /** @var string */
-    private $Address2 = '';
+    private $Address2;
     /** @var string */
-    private $City = '';
+    private $City;
     /** @var string */
-    private $StateCode = '';
+    private $StateCode;
     /** @var string */
-    private $ZipCode = '';
+    private $ZipCode;
     /** @var string */
-    private $CountryCode = '';
+    private $CountryCode;
     /** @var string */
-    private $Company = '';
+    private $Company;
     /** @var string */
-    private $Phone = '';
+    private $Phone;
     /** @var string */
-    private $Email = '';
+    private $Email;
     
     /**
      * @return string

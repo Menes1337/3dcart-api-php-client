@@ -4,6 +4,7 @@ namespace tests\Api\Soap;
 
 use tests\ThreeDCartTestCase;
 use ThreeDCart\Api\Soap\Exceptions\ApiErrorException;
+use ThreeDCart\Api\Soap\Exceptions\Exception;
 use ThreeDCart\Api\Soap\Exceptions\MalFormedApiResponseException;
 use ThreeDCart\Api\Soap\Exceptions\ResponseBodyEmptyException;
 use ThreeDCart\Api\Soap\ResponseHandler;
@@ -71,6 +72,21 @@ class ResponseHandlerTest extends ThreeDCartTestCase
         $response = $this->responseHandler->processXMLToArray($mock, 'runQueryRecord');
         
         $this->assertEmpty($response);
+    }
+    
+    public function testProcessXMLToArrayInvalidXMLResponseXML()
+    {
+        $mock      = new \stdClass();
+        $mock->any = '<somexmls><id>4<test></id></somexmls>';
+        
+        try {
+            $this->responseHandler->processXMLToArray($mock, 'runQueryRecord');
+        } catch (Exception $ex) {
+            $this->assertInstanceOf(MalFormedApiResponseException::class, $ex);
+            if ($ex instanceof MalFormedApiResponseException) {
+                $this->assertEquals($mock->any, $ex->getXmlResponse());
+            }
+        }
     }
     
     public function testProcessXMLToArrayResponseXmlTagMissing()
