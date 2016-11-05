@@ -19,11 +19,6 @@ class ResponseHandlerTest extends ThreeDCartTestCase
         $this->responseHandler = new ResponseHandler();
     }
     
-    public function testInitialization()
-    {
-        $this->assertInstanceOf(ResponseHandlerInterface::class, $this->responseHandler);
-    }
-    
     public function testProcessXMLToArray()
     {
         $mock      = new \stdClass();

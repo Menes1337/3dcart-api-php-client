@@ -3,9 +3,13 @@
 namespace ThreeDCart\Api\Soap\Resources;
 
 use ThreeDCart\Api\Soap\Exceptions\ParseException;
+use ThreeDCart\Api\Soap\Resources\Customer\AdditionalFields;
+use ThreeDCart\Api\Soap\Resources\Customer\Customer;
+use ThreeDCart\Api\Soap\Resources\Customer\Address;
+use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
 use ThreeDCart\Api\Soap\Resources\Product\Category;
 use ThreeDCart\Api\Soap\Resources\Product\EProduct;
-use ThreeDCart\Api\Soap\Resources\Product\ExtraField;
+use ThreeDCart\Api\Soap\Resources\Product\ExtraFields;
 use ThreeDCart\Api\Soap\Resources\Product\Image;
 use ThreeDCart\Api\Soap\Resources\Product\Images;
 use ThreeDCart\Api\Soap\Resources\Product\Option;
@@ -52,9 +56,9 @@ class ResourceParserVisitor implements VisitorInterface
      * @param string      $objectIndex
      * @param string|null $objectIndexChild
      *
-     * @return array|mixed
+     * @return array
      */
-    private function reduceData(array $data, $objectIndex, $objectIndexChild = null)
+    private function reduceHierarchy(array $data, $objectIndex, $objectIndexChild = null)
     {
         if (!isset($data[$objectIndex])
             || !is_array($data[$objectIndex])
@@ -87,7 +91,7 @@ class ResourceParserVisitor implements VisitorInterface
      */
     private function createObjects($className, array $data, $objectIndex, $objectIndexChild = null)
     {
-        if (!$data = $this->reduceData($data, $objectIndex, $objectIndexChild)) {
+        if (!$data = $this->reduceHierarchy($data, $objectIndex, $objectIndexChild)) {
             return $data;
         }
         
@@ -141,7 +145,7 @@ class ResourceParserVisitor implements VisitorInterface
             'Product'));
         $product->setOptions($this->createObjects(Option::class, $this->data, 'Options', 'Option'));
         
-        $product->setExtraFields($this->createObject(ExtraField::class, $this->data, 'ExtraFields'));
+        $product->setExtraFields($this->createObject(ExtraFields::class, $this->data, 'ExtraFields'));
         $product->setPriceLevel($this->createObject(PriceLevel::class, $this->data, 'PriceLevel'));
         $product->setEProduct($this->createObject(EProduct::class, $this->data, 'eProduct'));
         $product->setRewards($this->createObject(Reward::class, $this->data, 'Rewards'));
@@ -163,9 +167,9 @@ class ResourceParserVisitor implements VisitorInterface
         $this->assignSimpleProperties($eProduct, $this->data);
     }
     
-    public function visitProductExtraField(ExtraField $extraField)
+    public function visitProductExtraFields(ExtraFields $extraFields)
     {
-        $this->assignSimpleProperties($extraField, $this->data);
+        $this->assignSimpleProperties($extraFields, $this->data);
     }
     
     public function visitProductImages(Images $images)
@@ -207,5 +211,29 @@ class ResourceParserVisitor implements VisitorInterface
     public function visitProductReward(Reward $reward)
     {
         $this->assignSimpleProperties($reward, $this->data);
+    }
+    
+    public function visitCustomer(Customer $customer)
+    {
+        $customer->setAditionalFields($this->createObject(AdditionalFields::class, $this->data, 'AditionalFields'));
+        $customer->setBillingAddress($this->createObject(Address::class, $this->data, 'BillingAddress'));
+        $customer->setShippingAddress($this->createObject(Address::class, $this->data, 'ShippingAddress'));
+        
+        $this->assignSimpleProperties($customer, $this->data);
+    }
+    
+    public function visitCustomerAddress(Address $address)
+    {
+        $this->assignSimpleProperties($address, $this->data);
+    }
+    
+    public function visitCustomerAdditionalFields(AdditionalFields $additionalFields)
+    {
+        $this->assignSimpleProperties($additionalFields, $this->data);
+    }
+    
+    public function visitOrderStatus(OrderStatus $orderStatus)
+    {
+        $this->assignSimpleProperties($orderStatus, $this->data);
     }
 }

@@ -10,8 +10,8 @@ use ThreeDCart\Api\Soap\Xml\SimpleXmlExceptionRenderer;
 class ResponseHandler implements ResponseHandlerInterface
 {
     /**
-     * @param \stdClass $response
-     * @param string    $responseXmlTag
+     * @param \stdClass   $response
+     * @param string|null $responseXmlTag
      *
      * @throws ResponseBodyEmptyException
      * @throws ApiErrorException
@@ -19,7 +19,7 @@ class ResponseHandler implements ResponseHandlerInterface
      *
      * @return array
      */
-    public function processXMLToArray(\stdClass $response, $responseXmlTag)
+    public function processXMLToArray(\stdClass $response, $responseXmlTag = null)
     {
         if (empty($response) || empty($response->any)) {
             throw new ResponseBodyEmptyException('response body is empty', '');
@@ -36,11 +36,14 @@ class ResponseHandler implements ResponseHandlerInterface
             throw new ApiErrorException($result['Error']['Description'], $result['Error']['Id'], $response->any);
         }
         
-        if (!isset($result[$responseXmlTag])) {
-            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag . ' is missing');
+        if ($responseXmlTag !== null) {
+            if (!isset($result[$responseXmlTag])) {
+                throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag . ' is missing');
+            }
+            $result = $result[$responseXmlTag];
         }
         
-        return $result[$responseXmlTag];
+        return $result;
     }
     
     /**

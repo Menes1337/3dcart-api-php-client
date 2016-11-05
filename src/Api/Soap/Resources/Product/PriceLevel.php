@@ -5,7 +5,7 @@ namespace ThreeDCart\Api\Soap\Resources\Product;
 use ThreeDCart\Api\Soap\Resources\SoapResource;
 use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
-class PriceLevel extends SoapResource 
+class PriceLevel extends SoapResource
 {
     /** @var float */
     private $Price_1;

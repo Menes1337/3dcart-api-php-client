@@ -3,9 +3,13 @@
 namespace tests\Api\Soap\Resources;
 
 use tests\ThreeDCartTestCase;
+use ThreeDCart\Api\Soap\Resources\Customer\AdditionalFields;
+use ThreeDCart\Api\Soap\Resources\Customer\Address;
+use ThreeDCart\Api\Soap\Resources\Customer\Customer;
+use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
 use ThreeDCart\Api\Soap\Resources\Product\Category;
 use ThreeDCart\Api\Soap\Resources\Product\EProduct;
-use ThreeDCart\Api\Soap\Resources\Product\ExtraField;
+use ThreeDCart\Api\Soap\Resources\Product\ExtraFields;
 use ThreeDCart\Api\Soap\Resources\Product\Image;
 use ThreeDCart\Api\Soap\Resources\Product\Images;
 use ThreeDCart\Api\Soap\Resources\Product\Option;
@@ -18,6 +22,61 @@ use ThreeDCart\Api\Soap\Resources\ResourceParserVisitor;
 
 class ResourceParserVisitorTest extends ThreeDCartTestCase
 {
+    
+    public function testVisitorCustomer()
+    {
+        $customer              = new Customer();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('Customer', 'Customer.json');
+        $resourceParserVisitor->visitCustomer($customer);
+        
+        $this->assertInstanceOf(Address::class, $customer->getBillingAddress());
+        $this->assertInstanceOf(Address::class, $customer->getShippingAddress());
+        $this->assertInstanceOf(AdditionalFields::class, $customer->getAditionalFields());
+        
+        $this->assertEquals('1', $customer->getCustomerID());
+        $this->assertEquals('Administrator', $customer->getUserID());
+        $this->assertEquals('Sample Customer from 3dcart', $customer->getComments());
+        $this->assertEquals('5/6/2014', $customer->getLastLoginDate());
+        $this->assertEquals(null, $customer->getWebSite());
+        $this->assertEquals(null, $customer->getDiscountGroup());
+        $this->assertEquals(null, $customer->getAccountNumber());
+        $this->assertEquals('1', $customer->isMailList());
+        $this->assertEquals('0', $customer->isCustomerType());
+        $this->assertEquals('6/22/2009', $customer->getLastUpdate());
+        $this->assertEquals('1', $customer->isCustEnabled());
+        $this->assertEquals(null, $customer->getAdditionalField4());
+    }
+    
+    public function testVisitorAddress()
+    {
+        $address               = new Address();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('CustomerAddress', 'Address.json');
+        $resourceParserVisitor->visitCustomerAddress($address);
+        
+        $this->assertEquals('John', $address->getFirstName());
+        $this->assertEquals('Doe', $address->getLastName());
+        $this->assertEquals('123 Street', $address->getAddress());
+        $this->assertEquals(null, $address->getAddress2());
+        $this->assertEquals('Coral Springs', $address->getCity());
+        $this->assertEquals('FL', $address->getStateCode());
+        $this->assertEquals('33065', $address->getZipCode());
+        $this->assertEquals('US', $address->getCountryCode());
+        $this->assertEquals('3DCart', $address->getCompany());
+        $this->assertEquals('800-828-6650', $address->getPhone());
+        $this->assertEquals('test@3dcart.com', $address->getEmail());
+    }
+    
+    public function testVisitorAdditionalFields()
+    {
+        $additionalFields      = new AdditionalFields();
+        $resourceParserVisitor =
+            $this->instantiateResourceParserVisitor('CustomerAdditionalFields', 'AdditionalFields.json');
+        $resourceParserVisitor->visitCustomerAdditionalFields($additionalFields);
+        
+        $this->assertEquals('some information', $additionalFields->getAdditionalField1());
+        $this->assertEquals('another information', $additionalFields->getAdditionalField2());
+        $this->assertEquals(null, $additionalFields->getAdditionalField3());
+    }
     
     public function testVisitorProduct()
     {
@@ -43,7 +102,7 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
             $this->assertInstanceOf(Option::class, $option);
         }
         
-        $this->assertInstanceOf(ExtraField::class, $product->getExtraFields());
+        $this->assertInstanceOf(ExtraFields::class, $product->getExtraFields());
         $this->assertInstanceOf(EProduct::class, $product->getEProduct());
         $this->assertInstanceOf(Reward::class, $product->getRewards());
         $this->assertInstanceOf(Images::class, $product->getImages());
@@ -82,23 +141,23 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
     
     public function testVisitorProductExtraFields()
     {
-        $extraField            = new ExtraField();
+        $extraFields           = new ExtraFields();
         $resourceParserVisitor = $this->instantiateResourceParserVisitor('ProductExtraField', 'ExtraField.json');
-        $resourceParserVisitor->visitProductExtraField($extraField);
+        $resourceParserVisitor->visitProductExtraFields($extraFields);
         
-        $this->assertEquals('123456789', $extraField->getExtraField1());
-        $this->assertEquals('more custom 2', $extraField->getExtraField2());
-        $this->assertEquals('and one more 3', $extraField->getExtraField3());
-        $this->assertEquals(null, $extraField->getExtraField4());
-        $this->assertEquals(null, $extraField->getExtraField5());
-        $this->assertEquals('Extra Field 6    ', $extraField->getExtraField6());
-        $this->assertEquals('xtr4 f13ld 7    ', $extraField->getExtraField7());
-        $this->assertEquals(null, $extraField->getExtraField8());
-        $this->assertEquals(null, $extraField->getExtraField9());
-        $this->assertEquals(null, $extraField->getExtraField10());
-        $this->assertEquals(null, $extraField->getExtraField11());
-        $this->assertEquals(null, $extraField->getExtraField12());
-        $this->assertEquals('extreFIeld13', $extraField->getExtraField13());
+        $this->assertEquals('123456789', $extraFields->getExtraField1());
+        $this->assertEquals('more custom 2', $extraFields->getExtraField2());
+        $this->assertEquals('and one more 3', $extraFields->getExtraField3());
+        $this->assertEquals(null, $extraFields->getExtraField4());
+        $this->assertEquals(null, $extraFields->getExtraField5());
+        $this->assertEquals('Extra Field 6    ', $extraFields->getExtraField6());
+        $this->assertEquals('xtr4 f13ld 7    ', $extraFields->getExtraField7());
+        $this->assertEquals(null, $extraFields->getExtraField8());
+        $this->assertEquals(null, $extraFields->getExtraField9());
+        $this->assertEquals(null, $extraFields->getExtraField10());
+        $this->assertEquals(null, $extraFields->getExtraField11());
+        $this->assertEquals(null, $extraFields->getExtraField12());
+        $this->assertEquals('extreFIeld13', $extraFields->getExtraField13());
     }
     
     public function testVisitorProductImage()
@@ -192,6 +251,17 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
         $this->assertEquals('123', $reward->getRewardPoints());
         $this->assertEquals('321', $reward->getRewardRedeem());
         $this->assertEquals('0', $reward->isRewardDisable());
+    }
+    
+    public function testVisitorOrderStatus()
+    {
+        $orderStatus           = new OrderStatus();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('OrderStatus', 'OrderStatus.json');
+        $resourceParserVisitor->visitOrderStatus($orderStatus);
+        
+        $this->assertEquals('1', $orderStatus->getId());
+        $this->assertEquals('AB-1347', $orderStatus->getInvoiceNum());
+        $this->assertEquals('New', $orderStatus->getStatusText());
     }
     
     /**

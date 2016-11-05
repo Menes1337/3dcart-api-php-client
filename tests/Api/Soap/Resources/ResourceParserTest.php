@@ -4,9 +4,13 @@ namespace tests\Api\Soap\Resources;
 
 use tests\ThreeDCartTestCase;
 use ThreeDCart\Api\Soap\Exceptions\ParseException;
+use ThreeDCart\Api\Soap\Resources\Customer\AdditionalFields;
+use ThreeDCart\Api\Soap\Resources\Customer\Customer;
+use ThreeDCart\Api\Soap\Resources\Customer\Address;
+use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
 use ThreeDCart\Api\Soap\Resources\Product\Category;
 use ThreeDCart\Api\Soap\Resources\Product\EProduct;
-use ThreeDCart\Api\Soap\Resources\Product\ExtraField;
+use ThreeDCart\Api\Soap\Resources\Product\ExtraFields;
 use ThreeDCart\Api\Soap\Resources\Product\Image;
 use ThreeDCart\Api\Soap\Resources\Product\Images;
 use ThreeDCart\Api\Soap\Resources\Product\Option;
@@ -27,11 +31,6 @@ class ResourceParserTest extends ThreeDCartTestCase
     public function setup()
     {
         $this->resourceParser = new ResourceParser();
-    }
-    
-    public function testInitialization()
-    {
-        $this->assertInstanceOf(ResourceParserInterface::class, $this->resourceParser);
     }
     
     public function testDataEmpty()
@@ -97,60 +96,80 @@ class ResourceParserTest extends ThreeDCartTestCase
     public function getResourceFromArrayProvider()
     {
         return [
-            'Product'                  => [
+            'Product'                     => [
                 Product::class,
                 'Product',
                 'Product.json'
             ],
-            'Product - Category'       => [
+            'Customer'                    => [
+                Customer::class,
+                'Customer',
+                'Customer.json'
+            ],
+            'Customer - Address'          => [
+                Address::class,
+                'CustomerAddress',
+                'Address.json'
+            ],
+            'Customer - AdditionalFields' => [
+                AdditionalFields::class,
+                'CustomerAdditionalFields',
+                'AdditionalFields.json'
+            ],
+            'Product - Category'          => [
                 Category::class,
                 'ProductCategory',
                 'Category.json'
             ],
-            'Product - EProduct'       => [
+            'Product - EProduct'          => [
                 EProduct::class,
                 'ProductEProduct',
                 'EProduct.json'
             ],
-            'Product - ExtraField'     => [
-                ExtraField::class,
-                'ProductExtraField',
-                'ExtraField.json'
+            'Product - ExtraFields'       => [
+                ExtraFields::class,
+                'ProductExtraFields',
+                'ExtraFields.json'
             ],
-            'Product - Image'          => [
+            'Product - Image'             => [
                 Image::class,
                 'ProductImage',
                 'Image.json'
             ],
-            'Product - Images'         => [
+            'Product - Images'            => [
                 Images::class,
                 'ProductImages',
                 'Images.json'
             ],
-            'Product - OptionValue'    => [
+            'Product - OptionValue'       => [
                 OptionValue::class,
                 'ProductOptionValue',
                 'OptionValue.json'
             ],
-            'Product - Option'         => [
+            'Product - Option'            => [
                 Option::class,
                 'ProductOption',
                 'Option.json'
             ],
-            'Product - PriceLevel'     => [
+            'Product - PriceLevel'        => [
                 PriceLevel::class,
                 'ProductPriceLevel',
                 'PriceLevel.json'
             ],
-            'Product - RelatedProduct' => [
+            'Product - RelatedProduct'    => [
                 RelatedProduct::class,
                 'ProductRelatedProduct',
                 'RelatedProduct.json'
             ],
-            'Product - Reward'         => [
+            'Product - Reward'            => [
                 Reward::class,
                 'ProductReward',
                 'Reward.json'
+            ],
+            'Order - OrderStatus'         => [
+                OrderStatus::class,
+                'OrderStatus',
+                'OrderStatus.json'
             ],
         ];
     }

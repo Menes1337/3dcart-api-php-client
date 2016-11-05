@@ -2,9 +2,13 @@
 
 namespace ThreeDCart\Api\Soap\Resources;
 
+use ThreeDCart\Api\Soap\Resources\Customer\AdditionalFields;
+use ThreeDCart\Api\Soap\Resources\Customer\Customer;
+use ThreeDCart\Api\Soap\Resources\Customer\Address;
+use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
 use ThreeDCart\Api\Soap\Resources\Product\Category;
 use ThreeDCart\Api\Soap\Resources\Product\EProduct;
-use ThreeDCart\Api\Soap\Resources\Product\ExtraField;
+use ThreeDCart\Api\Soap\Resources\Product\ExtraFields;
 use ThreeDCart\Api\Soap\Resources\Product\Image;
 use ThreeDCart\Api\Soap\Resources\Product\Images;
 use ThreeDCart\Api\Soap\Resources\Product\Option;
@@ -16,13 +20,19 @@ use ThreeDCart\Api\Soap\Resources\Product\Reward;
 
 interface VisitorInterface
 {
+    public function visitCustomer(Customer $customer);
+    
+    public function visitCustomerAddress(Address $address);
+    
+    public function visitCustomerAdditionalFields(AdditionalFields $additionalFields);
+    
     public function visitProduct(Product $product);
     
     public function visitProductCategory(Category $category);
     
     public function visitProductEProduct(EProduct $eProduct);
     
-    public function visitProductExtraField(ExtraField $extraField);
+    public function visitProductExtraFields(ExtraFields $extraFields);
     
     public function visitProductImages(Images $images);
     
@@ -37,4 +47,6 @@ interface VisitorInterface
     public function visitProductRelatedProduct(RelatedProduct $relatedProduct);
     
     public function visitProductReward(Reward $reward);
+    
+    public function visitOrderStatus(OrderStatus $orderStatus);
 }

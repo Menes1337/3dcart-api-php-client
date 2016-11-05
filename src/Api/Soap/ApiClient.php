@@ -2,6 +2,8 @@
 
 namespace ThreeDCart\Api\Soap;
 
+use ThreeDCart\Api\Soap\Resources\Customer\Customer;
+use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
 use ThreeDCart\Api\Soap\Resources\ResourceParser;
 
@@ -64,6 +66,54 @@ class ApiClient
         return $this->resourceParser->getResources(
             Product::class,
             $this->responseHandler->processXMLToArray($response->getProductResult, 'Product')
+        );
+    }
+    
+    /**
+     * @param int    $batchSize
+     * @param int    $startNum
+     * @param string $customersFilter
+     * @param string $callBackUrl
+     *
+     * @return array
+     */
+    public function getCustomer($batchSize = 100, $startNum = 1, $customersFilter = '', $callBackUrl = '')
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->getCustomer(array(
+            'storeUrl'        => $this->threeDCartStoreUrl,
+            'userKey'         => $this->threeDCartApiKey,
+            'batchSize'       => $batchSize,
+            'startNum'        => $startNum,
+            'customersFilter' => $customersFilter,
+            'callBackURL'     => $callBackUrl
+        ));
+        
+        return $this->resourceParser->getResources(
+            Customer::class,
+            $this->responseHandler->processXMLToArray($response->getCustomerResult, 'Customer')
+        );
+    }
+    
+    /**
+     * @param int    $invoiceNum
+     * @param string $callBackUrl
+     *
+     * @return OrderStatus
+     */
+    public function getOrderStatus($invoiceNum, $callBackUrl = '')
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->getOrderStatus(array(
+            'storeUrl'    => $this->threeDCartStoreUrl,
+            'userKey'     => $this->threeDCartApiKey,
+            'invoiceNum'  => $invoiceNum,
+            'callBackURL' => $callBackUrl
+        ));
+        
+        return $this->resourceParser->getResource(
+            OrderStatus::class,
+            $this->responseHandler->processXMLToArray($response->getOrderStatusResult, null)
         );
     }
     
@@ -142,5 +192,11 @@ class ApiClient
         $this->responseHandler = $responseHandler;
     }
     
-    
+    /**
+     * @param \SoapClient $soapClient
+     */
+    public function setSoapClient($soapClient)
+    {
+        $this->soapClient = $soapClient;
+    }
 }

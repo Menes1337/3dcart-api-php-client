@@ -83,7 +83,7 @@ class Product extends SoapResource
     public $UserId;
     /** @var string format MM/DD/YYYY */
     public $LastUpdate;
-    /** @var ExtraField */
+    /** @var ExtraFields */
     public $ExtraFields;
     /** @var string */
     public $WarehouseLocation;
@@ -751,7 +751,7 @@ class Product extends SoapResource
     }
     
     /**
-     * @return ExtraField
+     * @return ExtraFields
      */
     public function getExtraFields()
     {
@@ -759,7 +759,7 @@ class Product extends SoapResource
     }
     
     /**
-     * @param ExtraField $ExtraFields
+     * @param ExtraFields $ExtraFields
      */
     public function setExtraFields($ExtraFields)
     {
