@@ -15,6 +15,7 @@ use ThreeDCart\Api\Soap\Resources\Product\Option;
 use ThreeDCart\Api\Soap\Resources\Product\OptionValue;
 use ThreeDCart\Api\Soap\Resources\Product\PriceLevel;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
+use ThreeDCart\Api\Soap\Resources\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resources\Product\RelatedProduct;
 use ThreeDCart\Api\Soap\Resources\Product\Reward;
 
@@ -47,6 +48,8 @@ interface VisitorInterface
     public function visitProductRelatedProduct(RelatedProduct $relatedProduct);
     
     public function visitProductReward(Reward $reward);
+    
+    public function visitProductInventory(ProductInventory $productInventory);
     
     public function visitOrderStatus(OrderStatus $orderStatus);
 }

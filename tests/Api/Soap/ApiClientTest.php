@@ -85,6 +85,15 @@ class ApiClientTest extends ThreeDCartTestCase
         $this->assertEquals(311, $orderCount);
     }
     
+    public function testGetProductInventory()
+    {
+        $this->sut->setSoapClient($this->getSoapClientMock('getProductInventory', 'getProductInventoryResult'));
+        $productInventory = $this->sut->getProductInventory('Custom Cap');
+        
+        $this->assertEquals('Custom Cap', $productInventory->getProductID());
+        $this->assertEquals('0', $productInventory->getInventory());
+    }
+    
     public function testSetResponseHandler()
     {
         $responseHandlerMock = $this->getMockBuilder(ResponseHandlerInterface::class)->getMock();

@@ -5,6 +5,7 @@ namespace ThreeDCart\Api\Soap;
 use ThreeDCart\Api\Soap\Resources\Customer\Customer;
 use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
+use ThreeDCart\Api\Soap\Resources\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resources\ResourceParser;
 
 class ApiClient
@@ -132,6 +133,27 @@ class ApiClient
         ));
         
         return $this->responseHandler->processXMLToArray($response->getProductCountResult, 'ProductQuantity');
+    }
+    
+    /**
+     * @param string $callBackUrl
+     *
+     * @return ProductInventory
+     */
+    public function getProductInventory($productId, $callBackUrl = '')
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->getProductInventory(array(
+            'storeUrl'    => $this->threeDCartStoreUrl,
+            'userKey'     => $this->threeDCartApiKey,
+            'productId'   => $productId,
+            'callBackURL' => $callBackUrl
+        ));
+        
+        return $this->resourceParser->getResource(
+            ProductInventory::class,
+            $this->responseHandler->processXMLToArray($response->getProductInventoryResult, null)
+        );
     }
     
     /**

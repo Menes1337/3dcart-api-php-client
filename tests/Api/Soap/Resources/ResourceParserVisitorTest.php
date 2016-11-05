@@ -16,6 +16,7 @@ use ThreeDCart\Api\Soap\Resources\Product\Option;
 use ThreeDCart\Api\Soap\Resources\Product\OptionValue;
 use ThreeDCart\Api\Soap\Resources\Product\PriceLevel;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
+use ThreeDCart\Api\Soap\Resources\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resources\Product\RelatedProduct;
 use ThreeDCart\Api\Soap\Resources\Product\Reward;
 use ThreeDCart\Api\Soap\Resources\ResourceParserVisitor;
@@ -313,6 +314,16 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
         $this->assertEquals('123', $reward->getRewardPoints());
         $this->assertEquals('321', $reward->getRewardRedeem());
         $this->assertEquals('0', $reward->isRewardDisable());
+    }
+    
+    public function testVisitorProductInventory()
+    {
+        $productInventory      = new ProductInventory();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('ProductInventory', 'Inventory.json');
+        $resourceParserVisitor->visitProductInventory($productInventory);
+        
+        $this->assertEquals('Custom Cap', $productInventory->getProductID());
+        $this->assertEquals('0', $productInventory->getInventory());
     }
     
     public function testVisitorOrderStatus()

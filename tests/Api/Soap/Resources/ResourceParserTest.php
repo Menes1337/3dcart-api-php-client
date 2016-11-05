@@ -17,6 +17,7 @@ use ThreeDCart\Api\Soap\Resources\Product\Option;
 use ThreeDCart\Api\Soap\Resources\Product\OptionValue;
 use ThreeDCart\Api\Soap\Resources\Product\PriceLevel;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
+use ThreeDCart\Api\Soap\Resources\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resources\Product\RelatedProduct;
 use ThreeDCart\Api\Soap\Resources\Product\Reward;
 use ThreeDCart\Api\Soap\Resources\ResourceParser;
@@ -193,6 +194,11 @@ class ResourceParserTest extends ThreeDCartTestCase
                 Reward::class,
                 'ProductReward',
                 'Reward.json'
+            ],
+            'Product - Inventory'         => [
+                ProductInventory::class,
+                'ProductInventory',
+                'Inventory.json'
             ],
             'Order - OrderStatus'         => [
                 OrderStatus::class,

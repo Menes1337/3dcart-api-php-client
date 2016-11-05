@@ -1,0 +1,4 @@
+<GetInventoryResponse xmlns="">
+    <ProductID>Custom Cap</ProductID>
+    <Inventory>0</Inventory>
+</GetInventoryResponse>
