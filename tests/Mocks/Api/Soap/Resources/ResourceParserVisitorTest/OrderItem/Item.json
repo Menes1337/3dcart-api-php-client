@@ -1,0 +1,22 @@
+{
+  "ShipmentID": "0",
+  "ProductID": null,
+  "ProductName": null,
+  "Quantity": "1",
+  "UnitPrice": "1.00",
+  "UnitCost": "0.00",
+  "OptionPrice": "0.00",
+  "Weight": "3.00",
+  "Dimension": null,
+  "WarehouseID": "0",
+  "DateAdded": "6/22/2009 12:05:07 PM",
+  "PageAdded": "Tote-Bag_p_3.html",
+  "ProdType": "Tangible",
+  "Taxable": "0",
+  "ItemPrice": "1.00",
+  "Total": "1.00",
+  "WarehouseLocation": null,
+  "WarehouseBin": null,
+  "WarehouseAisle": null,
+  "WarehouseCustom": null
+}

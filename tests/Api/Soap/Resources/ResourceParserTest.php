@@ -7,7 +7,19 @@ use ThreeDCart\Api\Soap\Exceptions\ParseException;
 use ThreeDCart\Api\Soap\Resources\Customer\AdditionalFields;
 use ThreeDCart\Api\Soap\Resources\Customer\Customer;
 use ThreeDCart\Api\Soap\Resources\Customer\Address;
-use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
+use ThreeDCart\Api\Soap\Resources\Customer\LoginToken;
+use ThreeDCart\Api\Soap\Resources\Order\AffiliateInformation;
+use ThreeDCart\Api\Soap\Resources\Order\CheckoutQuestion;
+use ThreeDCart\Api\Soap\Resources\Order\Comments;
+use ThreeDCart\Api\Soap\Resources\Order\GiftCertificatePurchased;
+use ThreeDCart\Api\Soap\Resources\Order\GiftCertificateUsed;
+use ThreeDCart\Api\Soap\Resources\Order\Item;
+use ThreeDCart\Api\Soap\Resources\Order\Order;
+use ThreeDCart\Api\Soap\Resources\Order\Promotion;
+use ThreeDCart\Api\Soap\Resources\Order\Shipment;
+use ThreeDCart\Api\Soap\Resources\Order\ShippingInformation;
+use ThreeDCart\Api\Soap\Resources\Order\Status;
+use ThreeDCart\Api\Soap\Resources\Order\Transaction;
 use ThreeDCart\Api\Soap\Resources\Product\Category;
 use ThreeDCart\Api\Soap\Resources\Product\EProduct;
 use ThreeDCart\Api\Soap\Resources\Product\ExtraFields;
@@ -125,85 +137,145 @@ class ResourceParserTest extends ThreeDCartTestCase
     public function getResourceFromArrayProvider()
     {
         return [
-            'Product'                     => [
+            'Product'                          => [
                 Product::class,
                 'Product',
                 'Product.json'
             ],
-            'Customer'                    => [
+            'Customer'                         => [
                 Customer::class,
                 'Customer',
                 'Customer.json'
             ],
-            'Customer - Address'          => [
+            'Customer - LoginToken'            => [
+                LoginToken::class,
+                'CustomerLoginToken',
+                'LoginToken.json'
+            ],
+            'Customer - Address'               => [
                 Address::class,
                 'CustomerAddress',
                 'Address.json'
             ],
-            'Customer - AdditionalFields' => [
+            'Customer - AdditionalFields'      => [
                 AdditionalFields::class,
                 'CustomerAdditionalFields',
                 'AdditionalFields.json'
             ],
-            'Product - Category'          => [
+            'Product - Category'               => [
                 Category::class,
                 'ProductCategory',
                 'Category.json'
             ],
-            'Product - EProduct'          => [
+            'Product - EProduct'               => [
                 EProduct::class,
                 'ProductEProduct',
                 'EProduct.json'
             ],
-            'Product - ExtraFields'       => [
+            'Product - ExtraFields'            => [
                 ExtraFields::class,
                 'ProductExtraFields',
                 'ExtraFields.json'
             ],
-            'Product - Image'             => [
+            'Product - Image'                  => [
                 Image::class,
                 'ProductImage',
                 'Image.json'
             ],
-            'Product - Images'            => [
+            'Product - Images'                 => [
                 Images::class,
                 'ProductImages',
                 'Images.json'
             ],
-            'Product - OptionValue'       => [
+            'Product - OptionValue'            => [
                 OptionValue::class,
                 'ProductOptionValue',
                 'OptionValue.json'
             ],
-            'Product - Option'            => [
+            'Product - Option'                 => [
                 Option::class,
                 'ProductOption',
                 'Option.json'
             ],
-            'Product - PriceLevel'        => [
+            'Product - PriceLevel'             => [
                 PriceLevel::class,
                 'ProductPriceLevel',
                 'PriceLevel.json'
             ],
-            'Product - RelatedProduct'    => [
+            'Product - RelatedProduct'         => [
                 RelatedProduct::class,
                 'ProductRelatedProduct',
                 'RelatedProduct.json'
             ],
-            'Product - Reward'            => [
+            'Product - Reward'                 => [
                 Reward::class,
                 'ProductReward',
                 'Reward.json'
             ],
-            'Product - Inventory'         => [
+            'Product - Inventory'              => [
                 ProductInventory::class,
                 'ProductInventory',
                 'Inventory.json'
             ],
-            'Order - OrderStatus'         => [
-                OrderStatus::class,
+            'Order'                            => [
+                Order::class,
+                'Order',
+                'Order.json'
+            ],
+            'Order - Comments'                 => [
+                Comments::class,
+                'OrderComments',
+                'Comments.json'
+            ],
+            'Order - AffiliateInformation'     => [
+                AffiliateInformation::class,
+                'OrderAffiliateInformation',
+                'AffiliateInformation.json'
+            ],
+            'Order - GiftCertificatePurchased' => [
+                GiftCertificatePurchased::class,
+                'OrderGiftCertificatePurchased',
+                'GiftCertificatePurchased.json'
+            ],
+            'Order - GiftCertificateUsed'      => [
+                GiftCertificateUsed::class,
+                'OrderGiftCertificateUsed',
+                'GiftCertificateUsed.json'
+            ],
+            'Order - Item'                     => [
+                Item::class,
+                'OrderItem',
+                'Item.json'
+            ],
+            'Order - Promotion'                => [
+                Promotion::class,
+                'OrderPromotion',
+                'Promotion.json'
+            ],
+            'Order - Shipment'                 => [
+                Shipment::class,
+                'OrderShipment',
+                'Shipment.json'
+            ],
+            'Order - ShippingInformation'      => [
+                ShippingInformation::class,
+                'OrderShippingInformation',
+                'ShippingInformation.json'
+            ],
+            'Order - Transaction'              => [
+                Transaction::class,
+                'OrderTransaction',
+                'Transaction.json'
+            ],
+            'Order - OrderStatus'              => [
+                Status::class,
                 'OrderStatus',
-                'OrderStatus.json'
+                'Status.json'
+            ],
+            'Order - CheckoutQuestion'         => [
+                CheckoutQuestion::class,
+                'OrderCheckoutQuestion',
+                'CheckoutQuestion.json'
             ],
         ];
     }

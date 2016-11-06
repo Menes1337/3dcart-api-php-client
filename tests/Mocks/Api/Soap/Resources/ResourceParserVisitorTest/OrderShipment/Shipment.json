@@ -1,0 +1,20 @@
+{
+  "ShipmentID": "0",
+  "ShipmentDate": null,
+  "Shipping": "0",
+  "Method": null,
+  "FirstName": "Test",
+  "LastName": "Test",
+  "Company": null,
+  "Address": "123 Street",
+  "Address2": null,
+  "City": "Coral Springs",
+  "ZipCode": "33065",
+  "StateCode": "FL",
+  "CountryCode": "US",
+  "Phone": "800-828-6650",
+  "Weight": "1.00",
+  "Status": "New",
+  "InternalComment": null,
+  "TrackingCode": null
+}

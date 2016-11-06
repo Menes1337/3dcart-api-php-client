@@ -1,0 +1,125 @@
+{
+  "OrderID": "1",
+  "InvoiceNumber": "AB-1000",
+  "CustomerID": "1",
+  "Date": "6/22/2009",
+  "Total": "1",
+  "Tax": "0.00",
+  "Tax2": "0.00",
+  "Tax3": "0.00",
+  "Shipping": "0",
+  "BillingAddress": {
+    "FirstName": "Test",
+    "LastName": "Test",
+    "Email": "test@3dcart.com",
+    "Address": "123 Street",
+    "Address2": null,
+    "City": "Coral Springs",
+    "ZipCode": "33065",
+    "StateCode": "FL",
+    "CountryCode": "US",
+    "Phone": "800-828-6650",
+    "Company": null
+  },
+  "Comments": {
+    "OrderComment": null,
+    "OrderInternalComment": null,
+    "OrderExternalComment": null
+  },
+  "PaymentMethod": "Online Credit Card",
+  "CardType": null,
+  "Time": "12:44:37 PM",
+  "Transaction": {
+    "CVV2": "123",
+    "ResponseText": "",
+    "AVS": null,
+    "TransactionId": null,
+    "ApprovalCode": null,
+    "TransactionType": "Sale",
+    "Amount": "11.23"
+  },
+  "Discount": "0.00",
+  "Promotions": {
+    "Promotion": {
+      "Code": "1% Shop renegrade Promo",
+      "Amount": "0.30"
+    }
+  },
+  "GiftCertificatePurchased": {
+    "Gift": {
+      "Code": "GC0518136",
+      "Amount": "1350.99",
+      "ToName": "You",
+      "ToEmail": "test@3dcart.com",
+      "ToMessage": "This is a gift message",
+      "FromName": "Me"
+    }
+  },
+  "GiftCertificateUsed": {
+    "Gift": {
+      "Code": "GC0518136",
+      "Amount": "1350.99"
+    }
+  },
+  "OrderStatus": "New",
+  "Referer": "http://www.google.com",
+  "SalesPerson": "Me",
+  "IP": "203.0.113.195",
+  "DateStarted": "6/22/2009 10:23:09 AM",
+  "UserID": "API",
+  "LastUpdate": "6/22/2009",
+  "Weight": "1.00",
+  "AffiliateInformation": {
+    "AffiliateID": "0",
+    "AffiliateCommission": "0",
+    "AffiliateApproved": null,
+    "AffiliateApprovedreason": null
+  },
+  "ShippingInformation": {
+    "Shipment": {
+      "ShipmentID": "0",
+      "ShipmentDate": null,
+      "Shipping": "0",
+      "Method": null,
+      "FirstName": "Test",
+      "LastName": "Test",
+      "Company": null,
+      "Address": "123 Street",
+      "Address2": null,
+      "City": "Coral Springs",
+      "ZipCode": "33065",
+      "StateCode": "FL",
+      "CountryCode": "US",
+      "Phone": "800-828-6650",
+      "Weight": "1.00",
+      "Status": "New",
+      "InternalComment": null,
+      "TrackingCode": null
+    },
+    "OrderItems": {
+      "Item": {
+        "ShipmentID": "0",
+        "ProductID": null,
+        "ProductName": null,
+        "Quantity": "1",
+        "UnitPrice": "1.00",
+        "UnitCost": "0.00",
+        "OptionPrice": "0.00",
+        "Weight": "3.00",
+        "Dimension": null,
+        "WarehouseID": "0",
+        "DateAdded": "6/22/2009 12:05:07 PM",
+        "PageAdded": "Tote-Bag_p_3.html",
+        "ProdType": "Tangible",
+        "Taxable": "0",
+        "ItemPrice": "1.00",
+        "Total": "1.00",
+        "WarehouseLocation": null,
+        "WarehouseBin": null,
+        "WarehouseAisle": null,
+        "WarehouseCustom": null
+      }
+    }
+  },
+  "CheckoutQuestions": null
+}

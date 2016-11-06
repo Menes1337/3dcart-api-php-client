@@ -5,7 +5,7 @@ namespace ThreeDCart\Api\Soap\Resources\Order;
 use ThreeDCart\Api\Soap\Resources\SoapResource;
 use ThreeDCart\Api\Soap\Resources\VisitorInterface;
 
-class OrderStatus extends SoapResource
+class Status extends SoapResource
 {
     /** @var int */
     private $id;

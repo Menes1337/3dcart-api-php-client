@@ -3,7 +3,9 @@
 namespace ThreeDCart\Api\Soap;
 
 use ThreeDCart\Api\Soap\Resources\Customer\Customer;
-use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
+use ThreeDCart\Api\Soap\Resources\Customer\LoginToken;
+use ThreeDCart\Api\Soap\Resources\Order\Order;
+use ThreeDCart\Api\Soap\Resources\Order\Status;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
 use ThreeDCart\Api\Soap\Resources\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resources\ResourceParser;
@@ -52,7 +54,7 @@ class ApiClient
      *
      * @return array
      */
-    public function getProduct($batchSize = 100, $startNum = 1, $productId = '', $callBackUrl = '')
+    public function getProducts($batchSize = 100, $startNum = 1, $productId = '', $callBackUrl = '')
     {
         /** @noinspection PhpUndefinedMethodInspection */
         $response = $this->soapClient->getProduct(array(
@@ -78,7 +80,7 @@ class ApiClient
      *
      * @return array
      */
-    public function getCustomer($batchSize = 100, $startNum = 1, $customersFilter = '', $callBackUrl = '')
+    public function getCustomers($batchSize = 100, $startNum = 1, $customersFilter = '', $callBackUrl = '')
     {
         /** @noinspection PhpUndefinedMethodInspection */
         $response = $this->soapClient->getCustomer(array(
@@ -100,7 +102,7 @@ class ApiClient
      * @param int    $invoiceNum
      * @param string $callBackUrl
      *
-     * @return OrderStatus
+     * @return Status
      */
     public function getOrderStatus($invoiceNum, $callBackUrl = '')
     {
@@ -113,7 +115,7 @@ class ApiClient
         ));
         
         return $this->resourceParser->getResource(
-            OrderStatus::class,
+            Status::class,
             $this->responseHandler->processXMLToArray($response->getOrderStatusResult, null)
         );
     }
@@ -157,6 +159,30 @@ class ApiClient
     }
     
     /**
+     * @param string $customerEmail
+     * @param int    $timeToLive
+     * @param string $callBackUrl
+     *
+     * @return LoginToken
+     */
+    public function getCustomerLoginToken($customerEmail, $timeToLive, $callBackUrl = '')
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->getCustomerLoginToken(array(
+            'storeUrl'      => $this->threeDCartStoreUrl,
+            'userKey'       => $this->threeDCartApiKey,
+            'customerEmail' => $customerEmail,
+            'timeToLive'    => $timeToLive,
+            'callBackURL'   => $callBackUrl
+        ));
+        
+        return $this->resourceParser->getResource(
+            LoginToken::class,
+            $this->responseHandler->processXMLToArray($response->getCustomerLoginTokenResult, null)
+        );
+    }
+    
+    /**
      * @param string $callBackUrl
      *
      * @return int
@@ -184,12 +210,12 @@ class ApiClient
      * @return array
      */
     public function getOrderCount(
-        $callBackUrl = '',
         $startFrom = true,
         $invoiceNum = '',
         $status = '',
         $dateFrom = '',
-        $dateTo = ''
+        $dateTo = '',
+        $callBackUrl = ''
     ) {
         /** @noinspection PhpUndefinedMethodInspection */
         $response = $this->soapClient->getOrderCount(array(
@@ -204,6 +230,48 @@ class ApiClient
         ));
         
         return $this->responseHandler->processXMLToArray($response->getOrderCountResult, 'Quantity');
+    }
+    
+    /**
+     * @param string $callBackUrl
+     * @param int    $batchSize
+     * @param int    $startNum
+     * @param bool   $startFrom
+     * @param string $invoiceNum
+     * @param string $status
+     * @param string $dateFrom
+     * @param string $dateTo
+     *
+     * @return array
+     */
+    public function getOrders(
+        $batchSize = 200,
+        $startNum = 100,
+        $startFrom = true,
+        $invoiceNum = '',
+        $status = '',
+        $dateFrom = '',
+        $dateTo = '',
+        $callBackUrl = ''
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->getOrder(array(
+            'storeUrl'    => $this->threeDCartStoreUrl,
+            'userKey'     => $this->threeDCartApiKey,
+            'batchSize'   => $batchSize,
+            'startNum'    => $startNum,
+            'startFrom'   => $startFrom,
+            'invoiceNum'  => $invoiceNum,
+            'status'      => $status,
+            'dateFrom'    => $dateFrom,
+            'dateTo'      => $dateTo,
+            'callBackURL' => $callBackUrl
+        ));
+        
+        return $this->resourceParser->getResources(
+            Order::class,
+            $this->responseHandler->processXMLToArray($response->getOrderResult, 'Order')
+        );
     }
     
     /**

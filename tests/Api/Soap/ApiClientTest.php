@@ -5,7 +5,8 @@ namespace tests\Api\Soap;
 use tests\ThreeDCartTestCase;
 use ThreeDCart\Api\Soap\ApiClient;
 use ThreeDCart\Api\Soap\Resources\Customer\Customer;
-use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
+use ThreeDCart\Api\Soap\Resources\Order\Order;
+use ThreeDCart\Api\Soap\Resources\Order\Status;
 use ThreeDCart\Api\Soap\Resources\Product\Product;
 use ThreeDCart\Api\Soap\ResponseHandlerInterface;
 
@@ -26,7 +27,7 @@ class ApiClientTest extends ThreeDCartTestCase
     public function testGetProducts()
     {
         $this->sut->setSoapClient($this->getSoapClientMock('getProduct', 'getProductResult'));
-        $products = $this->sut->getProduct();
+        $products = $this->sut->getProducts();
         
         $this->assertEquals(true, is_array($products));
         $this->assertCount(20, $products);
@@ -39,7 +40,7 @@ class ApiClientTest extends ThreeDCartTestCase
     public function testGetCustomers()
     {
         $this->sut->setSoapClient($this->getSoapClientMock('getCustomer', 'getCustomerResult'));
-        $customers = $this->sut->getCustomer();
+        $customers = $this->sut->getCustomers();
         
         $this->assertEquals(true, is_array($customers));
         $this->assertCount(2, $customers);
@@ -54,7 +55,7 @@ class ApiClientTest extends ThreeDCartTestCase
         $this->sut->setSoapClient($this->getSoapClientMock('getOrderStatus', 'getOrderStatusResult'));
         $orderStatus = $this->sut->getOrderStatus('AB-1347');
         
-        $this->assertInstanceOf(OrderStatus::class, $orderStatus);
+        $this->assertInstanceOf(Status::class, $orderStatus);
         $this->assertEquals('New', $orderStatus->getStatusText());
         $this->assertEquals('1', $orderStatus->getId());
         $this->assertEquals('AB-1347', $orderStatus->getInvoiceNum());
@@ -92,6 +93,28 @@ class ApiClientTest extends ThreeDCartTestCase
         
         $this->assertEquals('Custom Cap', $productInventory->getProductID());
         $this->assertEquals('0', $productInventory->getInventory());
+    }
+    
+    public function testGetCustomerLoginToken()
+    {
+        $this->sut->setSoapClient($this->getSoapClientMock('GetCustomerLoginToken', 'getCustomerLoginTokenResult'));
+        $customerLoginToken = $this->sut->getCustomerLoginToken('test@3dcart.com', 1800);
+        
+        $this->assertEquals('fhWZ2A1EX49XV9Z7dwqUbZsMn/uDrQeEgKZ4ubaHMdwcp2IyRISw789d0beK7+f3',
+            $customerLoginToken->getToken());
+    }
+    
+    public function testGetOrders()
+    {
+        $this->sut->setSoapClient($this->getSoapClientMock('getOrder', 'getOrderResult'));
+        $orders = $this->sut->getOrders();
+        
+        $this->assertEquals(true, is_array($orders));
+        $this->assertCount(2, $orders);
+        
+        foreach ($orders as $order) {
+            $this->assertInstanceOf(Order::class, $order);
+        }
     }
     
     public function testSetResponseHandler()

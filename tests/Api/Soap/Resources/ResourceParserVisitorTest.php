@@ -6,7 +6,19 @@ use tests\ThreeDCartTestCase;
 use ThreeDCart\Api\Soap\Resources\Customer\AdditionalFields;
 use ThreeDCart\Api\Soap\Resources\Customer\Address;
 use ThreeDCart\Api\Soap\Resources\Customer\Customer;
-use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
+use ThreeDCart\Api\Soap\Resources\Customer\LoginToken;
+use ThreeDCart\Api\Soap\Resources\Order\AffiliateInformation;
+use ThreeDCart\Api\Soap\Resources\Order\CheckoutQuestion;
+use ThreeDCart\Api\Soap\Resources\Order\Comments;
+use ThreeDCart\Api\Soap\Resources\Order\GiftCertificatePurchased;
+use ThreeDCart\Api\Soap\Resources\Order\GiftCertificateUsed;
+use ThreeDCart\Api\Soap\Resources\Order\Item;
+use ThreeDCart\Api\Soap\Resources\Order\Order;
+use ThreeDCart\Api\Soap\Resources\Order\Promotion;
+use ThreeDCart\Api\Soap\Resources\Order\Shipment;
+use ThreeDCart\Api\Soap\Resources\Order\ShippingInformation;
+use ThreeDCart\Api\Soap\Resources\Order\Status;
+use ThreeDCart\Api\Soap\Resources\Order\Transaction;
 use ThreeDCart\Api\Soap\Resources\Product\Category;
 use ThreeDCart\Api\Soap\Resources\Product\EProduct;
 use ThreeDCart\Api\Soap\Resources\Product\ExtraFields;
@@ -46,6 +58,16 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
         $this->assertEquals('6/22/2009', $customer->getLastUpdate());
         $this->assertEquals('1', $customer->isCustEnabled());
         $this->assertEquals(null, $customer->getAdditionalField4());
+    }
+    
+    public function testVisitorCustomerLoginToken()
+    {
+        $loginToken            = new LoginToken();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('CustomerLoginToken', 'LoginToken.json');
+        $resourceParserVisitor->visitCustomerLoginToken($loginToken);
+        
+        $this->assertEquals('fhWZ2A1EX49XV9Z7dwqUbZsMn/uDrQeEgKZ4ubaHMdwcp2IyRISw789d0beK7+f3',
+            $loginToken->getToken());
     }
     
     public function testVisitorAddress()
@@ -326,15 +348,222 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
         $this->assertEquals('0', $productInventory->getInventory());
     }
     
+    public function testVisitorOrderAffiliateInformation()
+    {
+        $affiliateInformation  = new AffiliateInformation();
+        $resourceParserVisitor =
+            $this->instantiateResourceParserVisitor('OrderAffiliateInformation', 'AffiliateInformation.json');
+        $resourceParserVisitor->visitOrderAffiliateInformation($affiliateInformation);
+        
+        $this->assertEquals('0', $affiliateInformation->getAffiliateID());
+        $this->assertEquals('0', $affiliateInformation->getAffiliateCommission());
+        $this->assertEquals(null, $affiliateInformation->isAffiliateApproved());
+        $this->assertEquals(null, $affiliateInformation->isAffiliateApproved());
+    }
+    
+    public function testVisitorOrderComments()
+    {
+        $comments              = new Comments();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('OrderComments', 'Comments.json');
+        $resourceParserVisitor->visitOrderComments($comments);
+        
+        $this->assertEquals('Test comment 1', $comments->getOrderComment());
+        $this->assertEquals('Test comment 2', $comments->getOrderInternalComment());
+        $this->assertEquals('Test comment 3', $comments->getOrderExternalComment());
+    }
+    
+    public function testVisitorOrderGiftCertificatePurchased()
+    {
+        $giftCertificatePurchased = new GiftCertificatePurchased();
+        $resourceParserVisitor    =
+            $this->instantiateResourceParserVisitor('OrderGiftCertificatePurchased', 'GiftCertificatePurchased.json');
+        $resourceParserVisitor->visitOrderGiftCertificatePurchased($giftCertificatePurchased);
+        
+        $this->assertEquals('GC0518136', $giftCertificatePurchased->getCode());
+        $this->assertEquals('1350.99', $giftCertificatePurchased->getAmount());
+        $this->assertEquals('You', $giftCertificatePurchased->getToName());
+        $this->assertEquals('test@3dcart.com', $giftCertificatePurchased->getToEmail());
+        $this->assertEquals('This is a gift message', $giftCertificatePurchased->getToMessage());
+        $this->assertEquals('Me', $giftCertificatePurchased->getFromName());
+    }
+    
+    public function testVisitorOrderGiftCertificateUsed()
+    {
+        $giftCertificateUsed   = new GiftCertificateUsed();
+        $resourceParserVisitor =
+            $this->instantiateResourceParserVisitor('OrderGiftCertificateUsed', 'GiftCertificateUsed.json');
+        $resourceParserVisitor->visitOrderGiftCertificateUsed($giftCertificateUsed);
+        
+        $this->assertEquals('gc0518136', $giftCertificateUsed->getCode());
+        $this->assertEquals('44.03', $giftCertificateUsed->getAmount());
+    }
+    
+    public function testVisitorOrderItem()
+    {
+        $item                  = new Item();
+        $resourceParserVisitor =
+            $this->instantiateResourceParserVisitor('OrderItem', 'Item.json');
+        $resourceParserVisitor->visitOrderItem($item);
+        
+        $this->assertEquals('0', $item->getShipmentID());
+        $this->assertEquals(null, $item->getProductID());
+        $this->assertEquals(null, $item->getProductName());
+        $this->assertEquals('1', $item->getQuantity());
+        $this->assertEquals('1.00', $item->getUnitPrice());
+        $this->assertEquals('0.00', $item->getUnitCost());
+        $this->assertEquals('0.00', $item->getOptionPrice());
+        $this->assertEquals('3.00', $item->getWeight());
+        $this->assertEquals(null, $item->getDimension());
+        $this->assertEquals('0', $item->getWarehouseID());
+        $this->assertEquals('6/22/2009 12:05:07 PM', $item->getDateAdded());
+        $this->assertEquals('Tote-Bag_p_3.html', $item->getPageAdded());
+        $this->assertEquals('Tangible', $item->getProdType());
+        $this->assertEquals('0', $item->isTaxable());
+        $this->assertEquals('1.00', $item->getItemPrice());
+        $this->assertEquals('1.00', $item->getTotal());
+        $this->assertEquals(null, $item->getWarehouseLocation());
+        $this->assertEquals(null, $item->getWarehouseBin());
+        $this->assertEquals(null, $item->getWarehouseAisle());
+        $this->assertEquals(null, $item->getWarehouseCustom());
+        
+    }
+    
+    public function testVisitorOrder()
+    {
+        $order                 = new Order();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('Order', 'Order.json');
+        $resourceParserVisitor->visitOrder($order);
+        
+        $this->assertInstanceOf(Address::class, $order->getBillingAddress());
+        $this->assertInstanceOf(Comments::class, $order->getComments());
+        $this->assertInstanceOf(Transaction::class, $order->getTransaction());
+        $this->assertInstanceOf(GiftCertificatePurchased::class, $order->getGiftCertificatePurchased());
+        $this->assertInstanceOf(GiftCertificateUsed::class, $order->getGiftCertificateUsed());
+        $this->assertInstanceOf(AffiliateInformation::class, $order->getAffiliateInformation());
+        $this->assertInstanceOf(ShippingInformation::class, $order->getShippingInformation());
+        
+        $this->assertEquals(true, is_array($order->getPromotions()));
+        foreach ($order->getPromotions() as $promotion) {
+            $this->assertInstanceOf(Promotion::class, $promotion);
+        }
+        
+        $this->assertEquals(true, is_array($order->getCheckoutQuestions()));
+        foreach ($order->getCheckoutQuestions() as $checkoutQuestion) {
+            $this->assertInstanceOf(CheckoutQuestion::class, $checkoutQuestion);
+        }
+        
+        $this->assertEquals('1', $order->getOrderID());
+        $this->assertEquals('AB-1000', $order->getInvoiceNumber());
+        $this->assertEquals('1', $order->getCustomerID());
+        $this->assertEquals('6/22/2009', $order->getDate());
+        $this->assertEquals('1', $order->getTotal());
+        $this->assertEquals('0.00', $order->getTax());
+        $this->assertEquals('0.00', $order->getTax2());
+        $this->assertEquals('0.00', $order->getTax3());
+        $this->assertEquals('0', $order->getShipping());
+        $this->assertEquals('Online Credit Card', $order->getPaymentMethod());
+        $this->assertEquals(null, $order->getCardType());
+        $this->assertEquals('12:44:37 PM', $order->getTime());
+        $this->assertEquals('0.00', $order->getDiscount());
+        $this->assertEquals('New', $order->getOrderStatus());
+        $this->assertEquals('http://www.google.com', $order->getReferer());
+        $this->assertEquals('Me', $order->getSalesPerson());
+        $this->assertEquals('203.0.113.195', $order->getIP());
+        $this->assertEquals('6/22/2009 10:23:09 AM', $order->getDateStarted());
+        $this->assertEquals('API', $order->getUserID());
+        $this->assertEquals('6/22/2009', $order->getLastUpdate());
+        $this->assertEquals('1.00', $order->getWeight());
+        
+    }
+    
+    public function testVisitorOrderPromotion()
+    {
+        $promotion             = new Promotion();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('OrderPromotion', 'Promotion.json');
+        $resourceParserVisitor->visitOrderPromotion($promotion);
+        
+        $this->assertEquals('1% Shop renegrade Promo', $promotion->getCode());
+        $this->assertEquals('0.30', $promotion->getAmount());
+    }
+    
+    public function testVisitorOrderShipment()
+    {
+        $shipment              = new Shipment();
+        $resourceParserVisitor =
+            $this->instantiateResourceParserVisitor('OrderShipment', 'Shipment.json');
+        $resourceParserVisitor->visitOrderShipment($shipment);
+        
+        $this->assertEquals('0', $shipment->getShipmentID());
+        $this->assertEquals(null, $shipment->getShipmentDate());
+        $this->assertEquals('0', $shipment->getShipping());
+        $this->assertEquals(null, $shipment->getMethod());
+        $this->assertEquals('Test', $shipment->getFirstName());
+        $this->assertEquals('Test', $shipment->getLastName());
+        $this->assertEquals(null, $shipment->getCompany());
+        $this->assertEquals('123 Street', $shipment->getAddress());
+        $this->assertEquals(null, $shipment->getAddress2());
+        $this->assertEquals('Coral Springs', $shipment->getCity());
+        $this->assertEquals('33065', $shipment->getZipCode());
+        $this->assertEquals('FL', $shipment->getStateCode());
+        $this->assertEquals('US', $shipment->getCountryCode());
+        $this->assertEquals('800-828-6650', $shipment->getPhone());
+        $this->assertEquals('1.00', $shipment->getWeight());
+        $this->assertEquals('New', $shipment->getStatus());
+        $this->assertEquals(null, $shipment->getInternalComment());
+        $this->assertEquals(null, $shipment->getTrackingCode());
+    }
+    
+    public function testVisitorOrderShippingInformation()
+    {
+        $shippingInformation   = new ShippingInformation();
+        $resourceParserVisitor =
+            $this->instantiateResourceParserVisitor('OrderShippingInformation', 'ShippingInformation.json');
+        $resourceParserVisitor->visitOrderShippingInformation($shippingInformation);
+        
+        $this->assertInstanceOf(Shipment::class, $shippingInformation->getShipment());
+        $this->assertEquals(true, is_array($shippingInformation->getOrderItems()));
+        
+        foreach ($shippingInformation->getOrderItems() as $item) {
+            $this->assertInstanceOf(Item::class, $item);
+        }
+    }
+    
     public function testVisitorOrderStatus()
     {
-        $orderStatus           = new OrderStatus();
+        $orderStatus           = new Status();
         $resourceParserVisitor = $this->instantiateResourceParserVisitor('OrderStatus', 'OrderStatus.json');
         $resourceParserVisitor->visitOrderStatus($orderStatus);
         
         $this->assertEquals('1', $orderStatus->getId());
         $this->assertEquals('AB-1347', $orderStatus->getInvoiceNum());
         $this->assertEquals('New', $orderStatus->getStatusText());
+    }
+    
+    public function testVisitorOrderTransaction()
+    {
+        $transaction           = new Transaction();
+        $resourceParserVisitor = $this->instantiateResourceParserVisitor('OrderTransaction', 'Transaction.json');
+        $resourceParserVisitor->visitOrderTransaction($transaction);
+        
+        $this->assertEquals('123', $transaction->getCVV2());
+        $this->assertEquals(null, $transaction->getAVS());
+        $this->assertEquals('', $transaction->getResponseText());
+        $this->assertEquals(null, $transaction->getTransactionId());
+        $this->assertEquals(null, $transaction->getApprovalCode());
+        $this->assertEquals('Sale', $transaction->getTransactionType());
+        $this->assertEquals('11.23', $transaction->getAmount());
+    }
+    
+    public function testVisitorOrderCheckoutQuestion()
+    {
+        $checkoutQuestion      = new CheckoutQuestion();
+        $resourceParserVisitor =
+            $this->instantiateResourceParserVisitor('OrderCheckoutQuestion', 'CheckoutQuestion.json');
+        $resourceParserVisitor->visitOrderCheckoutQuestion($checkoutQuestion);
+        
+        $this->assertEquals('1', $checkoutQuestion->getId());
+        $this->assertEquals('What can c checkout question be?', $checkoutQuestion->getQuestion());
+        $this->assertEquals('Answer1', $checkoutQuestion->getAnswer());
     }
     
     public function testVisitorProductOptionInvalidData()

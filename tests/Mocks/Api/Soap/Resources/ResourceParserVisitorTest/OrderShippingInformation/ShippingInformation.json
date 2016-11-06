@@ -1,0 +1,46 @@
+{
+  "Shipment": {
+    "ShipmentID": "0",
+    "ShipmentDate": null,
+    "Shipping": "0",
+    "Method": null,
+    "FirstName": "Test",
+    "LastName": "Test",
+    "Company": null,
+    "Address": "123 Street",
+    "Address2": null,
+    "City": "Coral Springs",
+    "ZipCode": "33065",
+    "StateCode": "FL",
+    "CountryCode": "US",
+    "Phone": "800-828-6650",
+    "Weight": "1.00",
+    "Status": "New",
+    "InternalComment": null,
+    "TrackingCode": null
+  },
+  "OrderItems": {
+    "Item": {
+      "ShipmentID": "0",
+      "ProductID": null,
+      "ProductName": null,
+      "Quantity": "1",
+      "UnitPrice": "1.00",
+      "UnitCost": "0.00",
+      "OptionPrice": "0.00",
+      "Weight": "3.00",
+      "Dimension": null,
+      "WarehouseID": "0",
+      "DateAdded": "6/22/2009 12:05:07 PM",
+      "PageAdded": "Tote-Bag_p_3.html",
+      "ProdType": "Tangible",
+      "Taxable": "0",
+      "ItemPrice": "1.00",
+      "Total": "1.00",
+      "WarehouseLocation": null,
+      "WarehouseBin": null,
+      "WarehouseAisle": null,
+      "WarehouseCustom": null
+    }
+  }
+}

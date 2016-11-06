@@ -1,0 +1,9 @@
+{
+  "CVV2": null,
+  "ResponseText": "",
+  "AVS": null,
+  "TransactionId": null,
+  "ApprovalCode": null,
+  "TransactionType": "Sale",
+  "Amount": "11.23"
+}

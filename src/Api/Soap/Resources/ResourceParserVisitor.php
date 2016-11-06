@@ -6,7 +6,19 @@ use ThreeDCart\Api\Soap\Exceptions\ParseException;
 use ThreeDCart\Api\Soap\Resources\Customer\AdditionalFields;
 use ThreeDCart\Api\Soap\Resources\Customer\Customer;
 use ThreeDCart\Api\Soap\Resources\Customer\Address;
-use ThreeDCart\Api\Soap\Resources\Order\OrderStatus;
+use ThreeDCart\Api\Soap\Resources\Customer\LoginToken;
+use ThreeDCart\Api\Soap\Resources\Order\AffiliateInformation;
+use ThreeDCart\Api\Soap\Resources\Order\CheckoutQuestion;
+use ThreeDCart\Api\Soap\Resources\Order\Comments;
+use ThreeDCart\Api\Soap\Resources\Order\GiftCertificatePurchased;
+use ThreeDCart\Api\Soap\Resources\Order\GiftCertificateUsed;
+use ThreeDCart\Api\Soap\Resources\Order\Item;
+use ThreeDCart\Api\Soap\Resources\Order\Order;
+use ThreeDCart\Api\Soap\Resources\Order\Promotion;
+use ThreeDCart\Api\Soap\Resources\Order\Shipment;
+use ThreeDCart\Api\Soap\Resources\Order\ShippingInformation;
+use ThreeDCart\Api\Soap\Resources\Order\Status;
+use ThreeDCart\Api\Soap\Resources\Order\Transaction;
 use ThreeDCart\Api\Soap\Resources\Product\Category;
 use ThreeDCart\Api\Soap\Resources\Product\EProduct;
 use ThreeDCart\Api\Soap\Resources\Product\ExtraFields;
@@ -233,7 +245,7 @@ class ResourceParserVisitor implements VisitorInterface
         $this->assignSimpleProperties($additionalFields, $this->data);
     }
     
-    public function visitOrderStatus(OrderStatus $orderStatus)
+    public function visitOrderStatus(Status $orderStatus)
     {
         $this->assignSimpleProperties($orderStatus, $this->data);
     }
@@ -241,5 +253,86 @@ class ResourceParserVisitor implements VisitorInterface
     public function visitProductInventory(ProductInventory $productInventory)
     {
         $this->assignSimpleProperties($productInventory, $this->data);
+    }
+    
+    public function visitCustomerLoginToken(LoginToken $loginToken)
+    {
+        $this->assignSimpleProperties($loginToken, $this->data);
+    }
+    
+    public function visitOrder(Order $order)
+    {
+        $order->setPromotions($this->createObjects(Promotion::class, $this->data, 'Promotions', 'Promotion'));
+        
+        $order->setBillingAddress($this->createObject(Address::class, $this->data, 'BillingAddress'));
+        $order->setComments($this->createObject(Comments::class, $this->data, 'Comments'));
+        $order->setTransaction($this->createObject(Transaction::class, $this->data, 'Transaction'));
+        $order->setCheckoutQuestions($this->createObjects(CheckoutQuestion::class, $this->data, 'CheckoutQuestions',
+            'Question'));
+        $order->setAffiliateInformation($this->createObject(AffiliateInformation::class, $this->data,
+            'AffiliateInformation'));
+        $order->setShippingInformation($this->createObject(ShippingInformation::class, $this->data,
+            'ShippingInformation'));
+        
+        $giftCertificatePurchased = $this->createObjects(GiftCertificatePurchased::class, $this->data,
+            'GiftCertificatePurchased', 'Gift');
+        $order->setGiftCertificatePurchased(isset($giftCertificatePurchased[0]) ? $giftCertificatePurchased[0] : null);
+        
+        $giftCertificateUsed = $this->createObjects(GiftCertificateUsed::class, $this->data,
+            'GiftCertificateUsed', 'Gift');
+        $order->setGiftCertificateUsed(isset($giftCertificateUsed[0]) ? $giftCertificateUsed[0] : null);
+        
+        $this->assignSimpleProperties($order, $this->data);
+    }
+    
+    public function visitOrderComments(Comments $comments)
+    {
+        $this->assignSimpleProperties($comments, $this->data);
+    }
+    
+    public function visitOrderAffiliateInformation(AffiliateInformation $affiliateInformation)
+    {
+        $this->assignSimpleProperties($affiliateInformation, $this->data);
+    }
+    
+    public function visitOrderGiftCertificatePurchased(GiftCertificatePurchased $giftCertificatePurchased)
+    {
+        $this->assignSimpleProperties($giftCertificatePurchased, $this->data);
+    }
+    
+    public function visitOrderGiftCertificateUsed(GiftCertificateUsed $giftCertificateUsed)
+    {
+        $this->assignSimpleProperties($giftCertificateUsed, $this->data);
+    }
+    
+    public function visitOrderItem(Item $item)
+    {
+        $this->assignSimpleProperties($item, $this->data);
+    }
+    
+    public function visitOrderPromotion(Promotion $promotion)
+    {
+        $this->assignSimpleProperties($promotion, $this->data);
+    }
+    
+    public function visitOrderShipment(Shipment $shipment)
+    {
+        $this->assignSimpleProperties($shipment, $this->data);
+    }
+    
+    public function visitOrderShippingInformation(ShippingInformation $shippingInformation)
+    {
+        $shippingInformation->setShipment($this->createObject(Shipment::class, $this->data, 'Shipment'));
+        $shippingInformation->setOrderItems($this->createObjects(Item::class, $this->data, 'OrderItems', 'Item'));
+    }
+    
+    public function visitOrderTransaction(Transaction $transaction)
+    {
+        $this->assignSimpleProperties($transaction, $this->data);
+    }
+    
+    public function visitOrderCheckoutQuestion(CheckoutQuestion $checkoutQuestion)
+    {
+        $this->assignSimpleProperties($checkoutQuestion, $this->data);
     }
 }
