@@ -117,6 +117,30 @@ class ApiClientTest extends ThreeDCartTestCase
         }
     }
     
+    public function testUpdateProductInventory()
+    {
+        $this->sut->setSoapClient($this->getSoapClientMock('updateProductInventory', 'updateProductInventoryResult'));
+        $success = $this->sut->updateProductInventory(1005, 1000);
+        
+        $this->assertEquals(true, $success);
+    }
+    
+    public function testUpdateOrderStatus()
+    {
+        $this->sut->setSoapClient($this->getSoapClientMock('updateOrderStatus', 'updateOrderStatusResult'));
+        $success = $this->sut->updateOrderStatus('AB-1000', 'Processing');
+        
+        $this->assertEquals(true, $success);
+    }
+    
+    public function testUpdateOrderShipment()
+    {
+        $this->sut->setSoapClient($this->getSoapClientMock('updateOrderShipment', 'updateOrderShipmentResult'));
+        $success = $this->sut->updateOrderShipment('AB-1000', '0', '123456789', '2016-11-06');
+        
+        $this->assertEquals(true, $success);
+    }
+    
     public function testSetResponseHandler()
     {
         $responseHandlerMock = $this->getMockBuilder(ResponseHandlerInterface::class)->getMock();

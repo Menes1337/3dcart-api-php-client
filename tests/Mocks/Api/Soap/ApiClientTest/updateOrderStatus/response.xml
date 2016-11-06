@@ -1,0 +1,4 @@
+<UpdateOrderStatusResponse xmlns="">
+    <InvoiceNum>AB-1000</InvoiceNum>
+    <NewStatus>Processing</NewStatus>
+</UpdateOrderStatusResponse>

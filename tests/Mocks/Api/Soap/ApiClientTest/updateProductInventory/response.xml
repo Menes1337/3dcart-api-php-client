@@ -1,0 +1,4 @@
+<UpdateInventoryResponse xmlns="">
+    <ProductID>1005</ProductID>
+    <NewInventory>1000</NewInventory>
+</UpdateInventoryResponse>

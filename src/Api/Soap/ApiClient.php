@@ -275,6 +275,112 @@ class ApiClient
     }
     
     /**
+     * @param string $productId
+     * @param int    $quantity
+     * @param bool   $replaceStock
+     * @param string $callBackUrl
+     *
+     * @return bool
+     */
+    public function updateProductInventory(
+        $productId,
+        $quantity,
+        $replaceStock = true,
+        $callBackUrl = ''
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->updateProductInventory(array(
+            'storeUrl'     => $this->threeDCartStoreUrl,
+            'userKey'      => $this->threeDCartApiKey,
+            'productId'    => $productId,
+            'quantity'     => $quantity,
+            'replaceStock' => $replaceStock,
+            'callBackURL'  => $callBackUrl
+        ));
+        
+        $response = $this->responseHandler->processXMLToArray($response->updateProductInventoryResult, null);
+        
+        if (isset($response['ProductID']) && $response['ProductID'] == $productId
+            && isset($response['NewInventory'])
+            && $response['NewInventory'] == $quantity
+        ) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * @param string $invoiceNum
+     * @param string $newStatus
+     * @param string $callBackUrl
+     *
+     * @return bool
+     */
+    public function updateOrderStatus(
+        $invoiceNum,
+        $newStatus,
+        $callBackUrl = ''
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->updateOrderStatus(array(
+            'storeUrl'    => $this->threeDCartStoreUrl,
+            'userKey'     => $this->threeDCartApiKey,
+            'invoiceNum'  => $invoiceNum,
+            'newStatus'   => $newStatus,
+            'callBackURL' => $callBackUrl
+        ));
+        
+        $response = $this->responseHandler->processXMLToArray($response->updateOrderStatusResult, null);
+        
+        if (isset($response['InvoiceNum']) && $response['InvoiceNum'] == $invoiceNum
+            && isset($response['NewStatus'])
+            && $response['NewStatus'] == $newStatus
+        ) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    
+    /**
+     * @param string $invoiceNum
+     * @param string $shipmentID
+     * @param string $tracking
+     * @param string $shipmentDate
+     * @param string $callBackUrl
+     *
+     * @return bool
+     */
+    public function updateOrderShipment(
+        $invoiceNum,
+        $shipmentID,
+        $tracking,
+        $shipmentDate,
+        $callBackUrl = ''
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $response = $this->soapClient->updateOrderShipment(array(
+            'storeUrl'     => $this->threeDCartStoreUrl,
+            'userKey'      => $this->threeDCartApiKey,
+            'invoiceNum'   => $invoiceNum,
+            'shipmentID'   => $shipmentID,
+            'tracking'     => $tracking,
+            'shipmentDate' => $shipmentDate,
+            'callBackURL'  => $callBackUrl
+        ));
+        
+        $response = $this->responseHandler->processXMLToArray($response->updateOrderShipmentResult, null);
+        
+        if (isset($response['result']) && $response['result'] == 'OK') {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
      * @param ResponseHandlerInterface $responseHandler
      */
     public function setResponseHandler(ResponseHandlerInterface $responseHandler)
