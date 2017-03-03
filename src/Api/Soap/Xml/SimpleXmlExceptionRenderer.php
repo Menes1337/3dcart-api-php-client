@@ -4,24 +4,15 @@ namespace ThreeDCart\Api\Soap\Xml;
 
 class SimpleXmlExceptionRenderer
 {
-    /** @var array */
-    private $libXmlErrors;
-    
     /**
      * @param array $libXmlErrors
-     */
-    public function __construct(array $libXmlErrors = array())
-    {
-        $this->libXmlErrors = $libXmlErrors;
-    }
-    
-    /**
+     *
      * @return string
      */
-    public function getErrorMessage()
+    public function getErrorMessage(array $libXmlErrors)
     {
         $messages = array();
-        foreach ($this->libXmlErrors as $libXmlError) {
+        foreach ($libXmlErrors as $libXmlError) {
             $messages[] = $this->getErrorLevelName($libXmlError->level) . ' ' . $libXmlError->code . ': '
                 . str_replace("\n", '', $libXmlError->message) . ' on line ' . $libXmlError->line . ' in column '
                 . $libXmlError->column;

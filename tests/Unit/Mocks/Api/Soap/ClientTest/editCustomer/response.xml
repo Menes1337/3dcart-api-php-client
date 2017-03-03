@@ -1,0 +1,5 @@
+<EditCustomerResponse xmlns="">
+    <result>OK</result>
+    <contactid>1</contactid>
+    <alt_contactid></alt_contactid>
+</EditCustomerResponse>

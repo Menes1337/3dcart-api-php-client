@@ -1,0 +1,274 @@
+<GetOrdersResponse xmlns="">
+    <Order>
+        <OrderID>1</OrderID>
+        <InvoiceNumber>AB-1000</InvoiceNumber>
+        <CustomerID>1</CustomerID>
+        <Date>6/22/2009</Date>
+        <Total>1</Total>
+        <Tax>0.00</Tax>
+        <Tax2>1.00</Tax2>
+        <Tax3>2.00</Tax3>
+        <Shipping>5.99</Shipping>
+        <BillingAddress>
+            <FirstName>Max</FirstName>
+            <LastName>Mustermann</LastName>
+            <Email>test@3dcart.com</Email>
+            <Address>123 Street</Address>
+            <Address2/>
+            <City>Coral Springs</City>
+            <ZipCode>33065</ZipCode>
+            <StateCode>FL</StateCode>
+            <CountryCode>US</CountryCode>
+            <Phone>800-828-6650</Phone>
+            <Company/>
+        </BillingAddress>
+        <Comments>
+            <OrderComment><![CDATA[Sample Order from 3dcart]]></OrderComment>
+            <OrderInternalComment><![CDATA[]]></OrderInternalComment>
+            <OrderExternalComment><![CDATA[]]></OrderExternalComment>
+        </Comments>
+        <PaymentMethod>Online Credit Card</PaymentMethod>
+        <CardType/>
+        <Time>12: 44:37 PM</Time>
+        <Transaction>
+            <CVV2/>
+            <ResponseText/>
+            <AVS/>
+            <TransactionId/>
+            <ApprovalCode/>
+            <TransactionType>Sale</TransactionType>
+            <Amount>11.23</Amount>
+        </Transaction>
+        <Discount>3.33</Discount>
+        <Promotions>
+            <Promotion>
+                <Code>1% Shop renegrade Promo</Code>
+                <Amount>0.30</Amount>
+            </Promotion>
+        </Promotions>
+        <GiftCertificatePurchased>
+            <Gift>
+                <Code>GC0518136</Code>
+                <Amount>1350.99</Amount>
+                <ToName>You</ToName>
+                <ToEmail>test@3dcart.com</ToEmail>
+                <ToMessage>##test order message for gift</ToMessage>
+                <FromName>Me</FromName>
+            </Gift>
+        </GiftCertificatePurchased>
+        <GiftCertificateUsed>
+            <Gift>
+                <Code>gc0518136</Code>
+                <Amount>44.03</Amount>
+            </Gift>
+        </GiftCertificateUsed>
+        <OrderStatus>New</OrderStatus>
+        <Referer>http: //www.google.com</Referer>
+        <SalesPerson>Administrator</SalesPerson>
+        <IP>84.246.249.226</IP>
+        <DateStarted>6/22/2009 10:23:09 AM</DateStarted>
+        <UserID>API</UserID>
+        <LastUpdate>6/22/2009</LastUpdate>
+        <Weight>1.00</Weight>
+        <AffiliateInformation>
+            <AffiliateID>1234</AffiliateID>
+            <AffiliateCommission>2.54</AffiliateCommission>
+            <AffiliateApproved/>
+            <AffiliateApprovedreason/>
+        </AffiliateInformation>
+        <ShippingInformation>
+            <Shipment>
+                <ShipmentID>12</ShipmentID>
+                <ShipmentDate/>
+                <Shipping>3.56</Shipping>
+                <Method><![CDATA[Free Shipping]]></Method>
+                <FirstName>First Name</FirstName>
+                <LastName>Last Name</LastName>
+                <Company/>
+                <Address>123 Street</Address>
+                <Address2/>
+                <City>Coral Springs</City>
+                <ZipCode>33065</ZipCode>
+                <StateCode>FL</StateCode>
+                <CountryCode>US</CountryCode>
+                <Phone>800-828-6650</Phone>
+                <Weight>1.00</Weight>
+                <Status>New</Status>
+                <InternalComment><![CDATA[test comment]]></InternalComment>
+                <TrackingCode/>
+            </Shipment>
+            <OrderItems>
+                <Item>
+                    <ShipmentID>12</ShipmentID>
+                    <ProductID><![CDATA[1003K]]></ProductID>
+                    <ProductName><![CDATA[Tote Bag Color: Khaki]]></ProductName>
+                    <Quantity>1</Quantity>
+                    <UnitPrice>1.00</UnitPrice>
+                    <UnitCost>0.49</UnitCost>
+                    <OptionPrice>0.16</OptionPrice>
+                    <Weight>3.00</Weight>
+                    <Dimension/>
+                    <WarehouseID>0</WarehouseID>
+                    <DateAdded>6/22/2009 12: 05: 07 PM</DateAdded>
+                    <PageAdded>Tote-Bag_p_3.html</PageAdded>
+                    <ProdType>Tangible</ProdType>
+                    <Taxable>0</Taxable>
+                    <ItemPrice>1.01</ItemPrice>
+                    <Total>1.02</Total>
+                    <WarehouseLocation/>
+                    <WarehouseBin/>
+                    <WarehouseAisle/>
+                    <WarehouseCustom/>
+                </Item>
+            </OrderItems>
+        </ShippingInformation>
+        <CheckoutQuestions>
+            <Question>
+                <Id>1</Id>
+                <Question>What can a checkout question be?</Question>
+                <Answer>Answer1</Answer>
+            </Question>
+            <Question>
+                <Id>2</Id>
+                <Question>What happens if we add another one?</Question>
+                <Answer>I don't know</Answer>
+            </Question>
+        </CheckoutQuestions>
+    </Order>
+    <Order>
+        <OrderID>27</OrderID>
+        <InvoiceNumber>0</InvoiceNumber>
+        <CustomerID>0</CustomerID>
+        <Date>4/12/2014</Date>
+        <Total>54.05</Total>
+        <Tax>0.00</Tax>
+        <Tax2>0.00</Tax2>
+        <Tax3>0.00</Tax3>
+        <Shipping>0</Shipping>
+        <BillingAddress>
+            <FirstName>Max</FirstName>
+            <LastName>Mustermann</LastName>
+            <Email>max.mustermann@test.de</Email>
+            <Address>12344 E. Happy Road</Address>
+            <Address2>Suite 9</Address2>
+            <City>Palo Alto</City>
+            <ZipCode>94303</ZipCode>
+            <StateCode>US-CA</StateCode>
+            <CountryCode>US</CountryCode>
+            <Phone>060337470162</Phone>
+            <Company>Test Company Inc.</Company>
+        </BillingAddress>
+        <Comments>
+            <OrderComment><![CDATA[]]></OrderComment>
+            <OrderInternalComment><![CDATA[]]></OrderInternalComment>
+            <OrderExternalComment><![CDATA[]]></OrderExternalComment>
+        </Comments>
+        <PaymentMethod>N/A</PaymentMethod>
+        <CardType/>
+        <Time>12:08:56 AM</Time>
+        <Transaction/>
+        <Discount>0.00</Discount>
+        <Promotions/>
+        <GiftCertificatePurchased/>
+        <GiftCertificateUsed/>
+        <OrderStatus>Shipped</OrderStatus>
+        <Referer>Some referer</Referer>
+        <SalesPerson/>
+        <IP/>
+        <DateStarted>4/11/2014 6:44:30 PM</DateStarted>
+        <UserID>Administrator</UserID>
+        <LastUpdate>4/12/2014 5:06:55 AM</LastUpdate>
+        <Weight>1.00</Weight>
+        <AffiliateInformation>
+            <AffiliateID/>
+            <AffiliateCommission>0</AffiliateCommission>
+            <AffiliateApproved/>
+            <AffiliateApprovedreason/>
+        </AffiliateInformation>
+        <ShippingInformation>
+            <Shipment>
+                <ShipmentID>0</ShipmentID>
+                <ShipmentDate/>
+                <Shipping>0</Shipping>
+                <Method><![CDATA[2nd Day AirÂ®]]></Method>
+                <FirstName>Max</FirstName>
+                <LastName>Mustermann</LastName>
+                <Company>Test Company Inc.</Company>
+                <Address>12344 E. Happy Road</Address>
+                <Address2>Suite 9</Address2>
+                <City>Palo Alto</City>
+                <ZipCode>94303</ZipCode>
+                <StateCode>US-CA</StateCode>
+                <CountryCode>US</CountryCode>
+                <Phone/>
+                <Weight>1.00</Weight>
+                <Status>Shipped</Status>
+                <InternalComment><![CDATA[]]></InternalComment>
+                <TrackingCode/>
+            </Shipment>
+            <OrderItems>
+                <Item>
+                    <ShipmentID>0</ShipmentID>
+                    <ProductID><![CDATA[1001]]></ProductID>
+                    <ProductName><![CDATA[Custom Cap
+CheckBox(checkbox1 test): No - $0.00
+CheckBox(checkbox2 test): No - $0.00
+Textbox(testtextbox): No - $0.00
+Textarea(textareatest): No - $0.00]]></ProductName>
+                    <Quantity>1</Quantity>
+                    <UnitPrice>21.84</UnitPrice>
+                    <UnitCost>0.00</UnitCost>
+                    <OptionPrice>0.00</OptionPrice>
+                    <Weight>1.00</Weight>
+                    <Dimension/>
+                    <WarehouseID>0</WarehouseID>
+                    <DateAdded>4/12/2014 12:08:56 AM</DateAdded>
+                    <PageAdded/>
+                    <ProdType>Tangible</ProdType>
+                    <Taxable>0</Taxable>
+                    <ItemPrice>21.84</ItemPrice>
+                    <Total>21.84</Total>
+                    <WarehouseLocation/>
+                    <WarehouseBin/>
+                    <WarehouseAisle/>
+                    <WarehouseCustom/>
+                </Item>
+                <Item>
+                    <ShipmentID>0</ShipmentID>
+                    <ProductID><![CDATA[1003K]]></ProductID>
+                    <ProductName><![CDATA[Tote Bag]]></ProductName>
+                    <Quantity>1</Quantity>
+                    <UnitPrice>28.34</UnitPrice>
+                    <UnitCost>2.00</UnitCost>
+                    <OptionPrice>0.00</OptionPrice>
+                    <Weight>1.00</Weight>
+                    <Dimension/>
+                    <WarehouseID>0</WarehouseID>
+                    <DateAdded>4/12/2014 12:08:56 AM</DateAdded>
+                    <PageAdded/>
+                    <ProdType>Tangible</ProdType>
+                    <Taxable>0</Taxable>
+                    <ItemPrice>28.34</ItemPrice>
+                    <Total>28.34</Total>
+                    <WarehouseLocation/>
+                    <WarehouseBin/>
+                    <WarehouseAisle/>
+                    <WarehouseCustom/>
+                </Item>
+            </OrderItems>
+        </ShippingInformation>
+        <CheckoutQuestions>
+            <Question>
+                <Id>1</Id>
+                <Question>What can c checkout question be?</Question>
+                <Answer>Answer1</Answer>
+            </Question>
+            <Question>
+                <Id>2</Id>
+                <Question>What happens if we add another one?</Question>
+                <Answer>I don't know</Answer>
+            </Question>
+        </CheckoutQuestions>
+    </Order>
+
+</GetOrdersResponse>

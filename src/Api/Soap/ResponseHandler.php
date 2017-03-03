@@ -2,48 +2,49 @@
 
 namespace ThreeDCart\Api\Soap;
 
-use ThreeDCart\Api\Soap\Exceptions\MalFormedApiResponseException;
-use ThreeDCart\Api\Soap\Exceptions\ResponseBodyEmptyException;
-use ThreeDCart\Api\Soap\Exceptions\ApiErrorException;
+use ThreeDCart\Api\Soap\Exception\MalFormedApiResponseException;
+use ThreeDCart\Api\Soap\Exception\ResponseBodyEmptyException;
+use ThreeDCart\Api\Soap\Exception\ApiErrorException;
 use ThreeDCart\Api\Soap\Xml\SimpleXmlExceptionRenderer;
 
 class ResponseHandler implements ResponseHandlerInterface
 {
+    /** @var SimpleXmlExceptionRenderer */
+    private $simpleXmlExceptionRenderer;
+    
     /**
-     * @param \stdClass   $response
-     * @param string|null $responseXmlTag
+     * @param SimpleXmlExceptionRenderer $simpleXmlExceptionRenderer
+     */
+    public function __construct(SimpleXmlExceptionRenderer $simpleXmlExceptionRenderer)
+    {
+        $this->simpleXmlExceptionRenderer = $simpleXmlExceptionRenderer;
+    }
+    
+    /**
+     * @param \stdClass     $soapResponse
+     * @param string | null $responseXmlTag
      *
      * @throws ResponseBodyEmptyException
      * @throws ApiErrorException
      * @throws MalFormedApiResponseException
      *
-     * @return array
+     * @return array | string
      */
-    public function processXMLToArray(\stdClass $response, $responseXmlTag = null)
+    public function convertXML(\stdClass $soapResponse, $responseXmlTag = null)
     {
-        if (empty($response) || empty($response->any)) {
-            throw new ResponseBodyEmptyException('response body is empty', '');
-        }
+        $this->checkEmptyResponse($soapResponse);
         
-        $simpleXML = $this->handleErrorMessages($response);
-        $result    = $this->XMLToArray($simpleXML);
+        $simpleXML = $this->convertResponseIntoSimpleXMLElement($soapResponse);
         
-        if (isset($result['Id']) && isset($result['Description'])) {
-            throw new ApiErrorException($result['Description'], $result['Id'], $response->any);
-        }
+        $resultAsArray = $this->XMLToArray($simpleXML);
         
-        if (isset($result['Error']['Id']) && isset($result['Error']['Description'])) {
-            throw new ApiErrorException($result['Error']['Description'], $result['Error']['Id'], $response->any);
-        }
+        $this->handleApiErrors($soapResponse, $resultAsArray);
         
         if ($responseXmlTag !== null) {
-            if (!isset($result[$responseXmlTag])) {
-                throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag . ' is missing');
-            }
-            $result = $result[$responseXmlTag];
+            return $this->extractSpecificXmlTag($responseXmlTag, $resultAsArray);
         }
         
-        return $result;
+        return $resultAsArray;
     }
     
     /**
@@ -51,19 +52,19 @@ class ResponseHandler implements ResponseHandlerInterface
      *
      * @return array
      */
-    private function XMLToArray(\SimpleXMLElement $xml)
+    protected function XMLToArray(\SimpleXMLElement $xml)
     {
-        $stdClassResult = json_decode(json_encode((array)$xml));
+        $resultArray = json_decode(json_encode((array)$xml));
         
-        return (array)$this->convertEmptyStdClassToNull($stdClassResult);
+        return (array)$this->convertEmptyStdClassToNull($resultArray);
     }
     
     /**
-     * @param mixed $object
+     * @param array|\stdClass $object
      *
      * @return mixed
      */
-    private function convertEmptyStdClassToNull(&$object)
+    protected function convertEmptyStdClassToNull($object)
     {
         if ($object instanceof \stdClass && count((array)$object) == 0) {
             return null;
@@ -86,29 +87,82 @@ class ResponseHandler implements ResponseHandlerInterface
      * @return \SimpleXMLElement
      * @throws MalFormedApiResponseException
      */
-    protected function handleErrorMessages(\stdClass $response)
+    protected function convertResponseIntoSimpleXMLElement(\stdClass $response)
     {
         try {
             libxml_use_internal_errors(true);
             libxml_clear_errors();
-            $simpleXML = new \SimpleXMLElement($response->any);
+            $simpleXML = new \SimpleXMLElement($response->any, LIBXML_NOCDATA);
             
             return $simpleXML;
         } catch (\Exception $ex) {
-            $errors                     = $this->getLibXMLErrors();
-            $SimpleXmlExceptionRenderer = new SimpleXmlExceptionRenderer($errors);
-            throw new MalFormedApiResponseException($SimpleXmlExceptionRenderer->getErrorMessage(), $response->any);
+            throw new MalFormedApiResponseException(
+                $this->simpleXmlExceptionRenderer->getErrorMessage($this->getLibXMLErrors()),
+                $response->any
+            );
         }
     }
     
     /**
      * @return array
      */
-    private function getLibXMLErrors()
+    protected function getLibXMLErrors()
     {
         $libXMLErrors = libxml_get_errors();
         libxml_clear_errors();
         
         return $libXMLErrors;
+    }
+    
+    /**
+     * @param \stdClass $response
+     *
+     * @throws ResponseBodyEmptyException
+     */
+    protected function checkEmptyResponse(\stdClass $response)
+    {
+        if (empty($response) || empty($response->any)) {
+            throw new ResponseBodyEmptyException('response body is empty', '');
+        }
+    }
+    
+    /**
+     * @param \stdClass $soapResponse
+     * @param array     $resultAsArray
+     *
+     * @throws ApiErrorException
+     */
+    protected function handleApiErrors(\stdClass $soapResponse, array $resultAsArray)
+    {
+        if (isset($resultAsArray['Id']) && isset($resultAsArray['Description'])) {
+            throw new ApiErrorException($resultAsArray['Description'], $resultAsArray['Id'], $soapResponse->any);
+        }
+        
+        if (isset($resultAsArray['Error']['Id']) && isset($resultAsArray['Error']['Description'])) {
+            throw new ApiErrorException($resultAsArray['Error']['Description'], $resultAsArray['Error']['Id'],
+                $soapResponse->any);
+        }
+        
+        if (strpos($soapResponse->any, '<Error') === 0) {
+            throw new ApiErrorException(substr($soapResponse->any, 0, 500), null, $soapResponse->any);
+        }
+    }
+    
+    /**
+     * @param string $responseXmlTag
+     * @param array  $result
+     *
+     * @return string | array
+     *
+     * @throws MalFormedApiResponseException
+     */
+    protected function extractSpecificXmlTag($responseXmlTag, array $result)
+    {
+        if (!isset($result[$responseXmlTag])) {
+            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag . ' is missing');
+        }
+        $result = $result[$responseXmlTag];
+        
+        return $result;
     }
 }

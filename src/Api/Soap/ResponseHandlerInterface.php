@@ -2,16 +2,24 @@
 
 namespace ThreeDCart\Api\Soap;
 
+use ThreeDCart\Api\Soap\Exception\ApiErrorException;
+use ThreeDCart\Api\Soap\Exception\MalFormedApiResponseException;
+use ThreeDCart\Api\Soap\Exception\ResponseBodyEmptyException;
+
 interface ResponseHandlerInterface
 {
     /**
-     * This method gets a \stdClass object as a result of a SOAP operation and will return data or throw
-     * exceptions if it was not a valid response
+     * This method gets a \stdClass object as a result of a SOAP operation and
+     * will return the received data as an array or string
      *
-     * @param \stdClass $response
+     * @param \stdClass $soapResponse
      * @param string    $responseXmlTag
      *
-     * @return array
+     * @return array | string
+     *
+     * @throws MalFormedApiResponseException
+     * @throws ApiErrorException
+     * @throws ResponseBodyEmptyException
      */
-    public function processXMLToArray(\stdClass $response, $responseXmlTag);
+    public function convertXML(\stdClass $soapResponse, $responseXmlTag = null);
 }
