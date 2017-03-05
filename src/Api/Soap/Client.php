@@ -2,11 +2,10 @@
 
 namespace ThreeDCart\Api\Soap;
 
-use ThreeDCart\Api\Soap\Exception\ApiErrorException;
-use ThreeDCart\Api\Soap\Exception\MalFormedApiResponseException;
-use ThreeDCart\Api\Soap\Exception\ParseException;
-use ThreeDCart\Api\Soap\Exception\ResponseBodyEmptyException;
-use ThreeDCart\Api\Soap\Client\Request\MethodsInterface;
+use ThreeDCart\Api\Soap\Request\ClientInterface;
+use ThreeDCart\Api\Soap\Request\MalFormedApiResponseException;
+use ThreeDCart\Api\Soap\Request\ResponseHandlerInterface;
+use ThreeDCart\Api\Soap\Request\ResponseInvalidException;
 use ThreeDCart\Api\Soap\Resource\Customer\Address;
 use ThreeDCart\Api\Soap\Resource\Customer\Customer;
 use ThreeDCart\Api\Soap\Resource\Customer\LoginToken;
@@ -16,10 +15,35 @@ use ThreeDCart\Api\Soap\Resource\Product\Product;
 use ThreeDCart\Api\Soap\Resource\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resource\ResourceParserInterface;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
+use ThreeDCart\Primitive\ArrayValueObject;
+use ThreeDCart\Api\Soap\Response\Xml;
+use ThreeDCart\Primitive\IntegerValueObject;
+use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class Client
+ *
+ * @package ThreeDCart\Api\Soap
+ */
 class Client
 {
-    /** @var MethodsInterface */
+    const THREEDCART_SOAP_API_URL = 'http://api.3dcart.com/cart.asmx';
+    
+    CONST XML_TAG_PRODUCT             = 'Product';
+    CONST XML_TAG_CUSTOMER            = 'Customer';
+    CONST XML_TAG_PRODUCT_QUANTITY    = 'ProductQuantity';
+    CONST XML_TAG_CUSTOMER_COUNT      = 'CustomerCount';
+    CONST XML_TAG_ORDER_QUANTITY      = 'Quantity';
+    CONST XML_TAG_ORDER               = 'Order';
+    CONST XML_TAG_CUSTOMER_CONTACT_ID = 'contactid';
+    CONST XML_TAG_Product_ID          = 'ProductID';
+    CONST XML_TAG_NEW_INVENTORY       = 'NewInventory';
+    CONST XML_TAG_INVOICE_NUM         = 'InvoiceNum';
+    CONST XML_TAG_NEW_STATUS          = 'NewStatus';
+    CONST XML_TAG_RESULT              = 'result';
+    CONST XML_TAG_RESULT_OK           = 'OK';
+    
+    /** @var ClientInterface */
     private $soapClient;
     /** @var ResponseHandlerInterface */
     private $responseHandler;
@@ -27,12 +51,12 @@ class Client
     private $resourceParser;
     
     /**
-     * @param MethodsInterface         $soapClient
+     * @param ClientInterface          $soapClient
      * @param ResponseHandlerInterface $responseHandler
      * @param ResourceParserInterface  $resourceParser
      */
     public function __construct(
-        MethodsInterface $soapClient,
+        ClientInterface $soapClient,
         ResponseHandlerInterface $responseHandler,
         ResourceParserInterface $resourceParser
     ) {
@@ -49,19 +73,17 @@ class Client
      *
      * @return Product[]
      *
-     * @throws MalFormedApiResponseException
-     * @throws ApiErrorException
-     * @throws ResponseBodyEmptyException
-     * @throws ParseException
+     * @throws ResponseInvalidException
      */
     public function getProducts($batchSize = 100, $startNum = 1, $productId = '', $callBackUrl = '')
     {
-        $soapResponse = $this->soapClient->getProduct($batchSize, $startNum, $productId, $callBackUrl);
+        $xmlResponse = $this->soapClient->getProduct($batchSize, $startNum, $productId, $callBackUrl);
         
         /** @var Product[] $products */
         $products = $this->getResources(
-            Product::class,
-            $this->responseHandler->convertXML($soapResponse->getProductResult, 'Product')
+            $xmlResponse,
+            new StringValueObject(Product::class),
+            new StringValueObject(self::XML_TAG_PRODUCT)
         );
         
         return $products;
@@ -74,15 +96,18 @@ class Client
      * @param string $callBackUrl
      *
      * @return Customer[]
+     *
+     * @throws ResponseInvalidException
      */
     public function getCustomers($batchSize = 100, $startNum = 1, $customersFilter = '', $callBackUrl = '')
     {
-        $soapResponse = $this->soapClient->getCustomers($batchSize, $startNum, $customersFilter, $callBackUrl);
+        $xmlResponse = $this->soapClient->getCustomers($batchSize, $startNum, $customersFilter, $callBackUrl);
         
         /** @var Customer[] $customers */
         $customers = $this->getResources(
-            Customer::class,
-            $this->responseHandler->convertXML($soapResponse->getCustomerResult, 'Customer')
+            $xmlResponse,
+            new StringValueObject(Customer::class),
+            new StringValueObject(self::XML_TAG_CUSTOMER)
         );
         
         return $customers;
@@ -93,16 +118,15 @@ class Client
      * @param string $callBackUrl
      *
      * @return Status
+     *
+     * @throws ResponseInvalidException
      */
     public function getOrderStatus($invoiceNum, $callBackUrl = '')
     {
-        $soapResponse = $this->soapClient->getOrderStatus($invoiceNum, $callBackUrl);
+        $xmlResponse = $this->soapClient->getOrderStatus($invoiceNum, $callBackUrl);
         
         /** @var Status $orderStatus */
-        $orderStatus = $this->resourceParser->getResource(
-            Status::class,
-            $this->responseHandler->convertXML($soapResponse->getOrderStatusResult)
-        );
+        $orderStatus = $this->getResource($xmlResponse, new StringValueObject(Status::class));
         
         return $orderStatus;
     }
@@ -110,13 +134,15 @@ class Client
     /**
      * @param string $callBackUrl
      *
-     * @return int
+     * @return IntegerValueObject
+     *
+     * @throws ResponseInvalidException
      */
     public function getProductCount($callBackUrl = '')
     {
-        $soapResponse = $this->soapClient->getProductCount($callBackUrl);
+        $xmlResponse = $this->soapClient->getProductCount($callBackUrl);
         
-        return (int)$this->responseHandler->convertXML($soapResponse->getProductCountResult, 'ProductQuantity');
+        return $this->getIntegerValueObject($xmlResponse, new StringValueObject(self::XML_TAG_PRODUCT_QUANTITY));
     }
     
     /**
@@ -124,16 +150,15 @@ class Client
      * @param string $callBackUrl
      *
      * @return ProductInventory
+     *
+     * @throws ResponseInvalidException
      */
     public function getProductInventory($productId, $callBackUrl = '')
     {
-        $soapResponse = $this->soapClient->getProductInventory($productId, $callBackUrl);
+        $xmlResponse = $this->soapClient->getProductInventory($productId, $callBackUrl);
         
         /** @var ProductInventory $productInventory */
-        $productInventory = $this->resourceParser->getResource(
-            ProductInventory::class,
-            $this->responseHandler->convertXML($soapResponse->getProductInventoryResult)
-        );
+        $productInventory = $this->getResource($xmlResponse, new StringValueObject(ProductInventory::class));
         
         return $productInventory;
     }
@@ -144,16 +169,15 @@ class Client
      * @param string $callBackUrl
      *
      * @return LoginToken
+     *
+     * @throws ResponseInvalidException
      */
     public function getCustomerLoginToken($customerEmail, $timeToLive, $callBackUrl = '')
     {
-        $response = $this->soapClient->getCustomerLoginToken($customerEmail, $timeToLive, $callBackUrl);
+        $xmlResponse = $this->soapClient->getCustomerLoginToken($customerEmail, $timeToLive, $callBackUrl);
         
         /** @var LoginToken $loginToken */
-        $loginToken = $this->resourceParser->getResource(
-            LoginToken::class,
-            $this->responseHandler->convertXML($response->getCustomerLoginTokenResult)
-        );
+        $loginToken = $this->getResource($xmlResponse, new StringValueObject(LoginToken::class));
         
         return $loginToken;
     }
@@ -161,13 +185,15 @@ class Client
     /**
      * @param string $callBackUrl
      *
-     * @return int
+     * @return IntegerValueObject
+     *
+     * @throws ResponseInvalidException
      */
     public function getCustomerCount($callBackUrl = '')
     {
-        $response = $this->soapClient->getCustomerCount($callBackUrl);
+        $xmlResponse = $this->soapClient->getCustomerCount($callBackUrl);
         
-        return (int)$this->responseHandler->convertXML($response->getCustomerCountResult, 'CustomerCount');
+        return $this->getIntegerValueObject($xmlResponse, new StringValueObject(self::XML_TAG_CUSTOMER_COUNT));
     }
     
     /**
@@ -178,7 +204,9 @@ class Client
      * @param string $dateTo
      * @param string $callBackUrl
      *
-     * @return int
+     * @return IntegerValueObject
+     *
+     * @throws ResponseInvalidException
      */
     public function getOrderCount(
         $startFrom = true,
@@ -188,10 +216,10 @@ class Client
         $dateTo = '',
         $callBackUrl = ''
     ) {
-        $response =
+        $xmlResponse =
             $this->soapClient->getOrderCount($startFrom, $invoiceNum, $status, $dateFrom, $dateTo, $callBackUrl);
         
-        return (int)$this->responseHandler->convertXML($response->getOrderCountResult, 'Quantity');
+        return $this->getIntegerValueObject($xmlResponse, new StringValueObject(self::XML_TAG_ORDER_QUANTITY));
     }
     
     /**
@@ -205,6 +233,8 @@ class Client
      * @param string $callBackUrl
      *
      * @return Order[]
+     *
+     * @throws ResponseInvalidException
      */
     public function getOrders(
         $batchSize = 200,
@@ -216,14 +246,22 @@ class Client
         $dateTo = '',
         $callBackUrl = ''
     ) {
-        $soapResponse =
-            $this->soapClient->getOrders($batchSize, $startNum, $startFrom, $invoiceNum, $status, $dateFrom, $dateTo,
-                $callBackUrl);
+        $xmlResponse = $this->soapClient->getOrders(
+            $batchSize,
+            $startNum,
+            $startFrom,
+            $invoiceNum,
+            $status,
+            $dateFrom,
+            $dateTo,
+            $callBackUrl
+        );
         
         /** @var Order[] $orders */
         $orders = $this->getResources(
-            Order::class,
-            $this->responseHandler->convertXML($soapResponse->getOrderResult, 'Order')
+            $xmlResponse,
+            new StringValueObject(Order::class),
+            new StringValueObject(self::XML_TAG_ORDER)
         );
         
         return $orders;
@@ -236,6 +274,8 @@ class Client
      * @param string $callBackUrl
      *
      * @return bool
+     *
+     * @throws ResponseInvalidException
      */
     public function updateProductInventory(
         $productId,
@@ -243,12 +283,13 @@ class Client
         $replaceStock = true,
         $callBackUrl = ''
     ) {
-        $soapResponse = $this->soapClient->updateProductInventory($productId, $quantity, $replaceStock, $callBackUrl);
+        $xmlResponse = $this->soapClient->updateProductInventory($productId, $quantity, $replaceStock, $callBackUrl);
         
-        /** @var array $convertedResponse */
-        $convertedResponse = $this->responseHandler->convertXML($soapResponse->updateProductInventoryResult);
-        
-        return $this->checkProductIdsQuantity($productId, $quantity, $convertedResponse);
+        return $this->checkProductIdsQuantity(
+            new IntegerValueObject($productId),
+            new IntegerValueObject($quantity),
+            $this->getArrayValueObject($xmlResponse)
+        );
     }
     
     /**
@@ -257,18 +298,21 @@ class Client
      * @param string $callBackUrl
      *
      * @return bool
+     *
+     * @throws ResponseInvalidException
      */
     public function updateOrderStatus(
         $invoiceNum,
         $newStatus,
         $callBackUrl = ''
     ) {
-        $soapResponse = $this->soapClient->updateOrderStatus($invoiceNum, $newStatus, $callBackUrl);
+        $xmlResponse = $this->soapClient->updateOrderStatus($invoiceNum, $newStatus, $callBackUrl);
         
-        /** @var array $convertedResponse */
-        $convertedResponse = $this->responseHandler->convertXML($soapResponse->updateOrderStatusResult);
-        
-        return $this->checkInvoiceNumsNewStatus($invoiceNum, $newStatus, $convertedResponse);
+        return $this->checkInvoiceNumsNewStatus(
+            new StringValueObject($invoiceNum),
+            new StringValueObject($newStatus),
+            $this->getArrayValueObject($xmlResponse)
+        );
     }
     
     /**
@@ -279,6 +323,8 @@ class Client
      * @param string $callBackUrl
      *
      * @return bool
+     *
+     * @throws ResponseInvalidException
      */
     public function updateOrderShipment(
         $invoiceNum,
@@ -287,13 +333,10 @@ class Client
         $shipmentDate,
         $callBackUrl = ''
     ) {
-        $soapResponse =
+        $xmlResponse =
             $this->soapClient->updateOrderShipment($invoiceNum, $shipmentID, $tracking, $shipmentDate, $callBackUrl);
         
-        /** @var array $convertedResponse */
-        $convertedResponse = $this->responseHandler->convertXML($soapResponse->updateOrderShipmentResult);
-        
-        return $this->isResultOk($convertedResponse);
+        return $this->isResultOk($this->getArrayValueObject($xmlResponse));
     }
     
     /**
@@ -303,6 +346,8 @@ class Client
      * @param string   $callBackUrl
      *
      * @return bool
+     *
+     * @throws ResponseInvalidException
      */
     public function updateCustomer(Customer $customer, array $customerDataFieldList, $callBackUrl = '')
     {
@@ -312,12 +357,9 @@ class Client
             $customerDataFieldList[] = Customer::EDIT_CUSTOMER_CONTACTID;
         }
         
-        $soapResponse = $this->editCustomer($customer, $customerDataFieldList, Customer::UPDATE, $callBackUrl);
+        $xmlResponse = $this->editCustomer($customer, $customerDataFieldList, Customer::UPDATE, $callBackUrl);
         
-        /** @var array $convertedResponse */
-        $convertedResponse = $this->responseHandler->convertXML($soapResponse->editCustomerResult);
-        
-        return $this->isResultOk($convertedResponse);
+        return $this->isResultOk($this->getArrayValueObject($xmlResponse));
     }
     
     /**
@@ -325,6 +367,8 @@ class Client
      * @param string   $callBackUrl
      *
      * @return bool
+     *
+     * @throws ResponseInvalidException
      */
     public function insertCustomer(Customer $customer, $callBackUrl = '')
     {
@@ -340,18 +384,17 @@ class Client
         
         $this->insertCustomerCheckRequiredFields($generatedCustomerData);
         
-        $soapResponse = $this->soapClient->editCustomer(
+        $xmlResponse = $this->soapClient->editCustomer(
             $this->convertCustomerData($generatedCustomerData),
             Customer::INSERT,
             $callBackUrl);
         
-        /** @var array $convertedResponse */
-        $convertedResponse = $this->responseHandler->convertXML($soapResponse->editCustomerResult);
+        $arrayResponse = $this->getArrayValueObject($xmlResponse);
+        $isResultOk    = $this->isResultOk($arrayResponse);
         
-        $isResultOk = $this->isResultOk($convertedResponse);
-        
-        if ($isResultOk && isset($convertedResponse['contactid'])) {
-            $customer->setCustomerID($convertedResponse['contactid']);
+        if ($isResultOk && $arrayResponse->issetKey(new StringValueObject(self::XML_TAG_CUSTOMER_CONTACT_ID))) {
+            $customer->setCustomerID($arrayResponse->getIntegerValueObject(new StringValueObject(self::XML_TAG_CUSTOMER_CONTACT_ID))
+                                                   ->getValue());
         }
         
         return $isResultOk;
@@ -362,15 +405,14 @@ class Client
      * @param string   $callBackUrl
      *
      * @return bool
+     *
+     * @throws ResponseInvalidException
      */
     public function deleteCustomer(Customer $customer, $callBackUrl = '')
     {
-        $soapResponse = $this->editCustomer($customer, array(), Customer::DELETE, $callBackUrl);
+        $xmlResponse = $this->editCustomer($customer, array(), Customer::DELETE, $callBackUrl);
         
-        /** @var array $convertedResponse */
-        $convertedResponse = $this->responseHandler->convertXML($soapResponse->editCustomerResult);
-        
-        return $this->isResultOk($convertedResponse);
+        return $this->isResultOk($this->getArrayValueObject($xmlResponse));
     }
     
     /**
@@ -380,7 +422,9 @@ class Client
      * @param string   $action
      * @param string   $callBackUrl
      *
-     * @return \stdClass
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     private function editCustomer(Customer $customer, array $customerDataFieldList, $action, $callBackUrl = '')
     {
@@ -405,14 +449,22 @@ class Client
     }
     
     /**
-     * @param string $className
-     * @param array  $objectData
+     * @param Xml               $xml
+     * @param StringValueObject $className
+     * @param StringValueObject $tagName
      *
      * @return SoapResource[]
+     *
+     * @throws ResponseInvalidException
      */
-    protected function getResources($className, array $objectData)
+    protected function getResources(Xml $xml, StringValueObject $className, StringValueObject $tagName)
     {
-        if (isset($objectData[0])) {
+        $objectData = $this->responseHandler->convertToArray($xml);
+        $this->responseHandler->handleApiErrors($xml, $objectData);
+        
+        $objectData = $this->extractSpecificXmlTagAsArray($tagName, $objectData);
+        
+        if ($objectData->issetIndex(new IntegerValueObject(0))) {
             return $this->resourceParser->getResources($className, $objectData);
         }
         
@@ -420,41 +472,100 @@ class Client
     }
     
     /**
-     * @param int   $productId
-     * @param int   $quantity
-     * @param array $response
+     * @param Xml $xml
      *
-     * @return bool
+     * @return ArrayValueObject
      */
-    protected function checkProductIdsQuantity($productId, $quantity, array $response)
+    protected function getArrayValueObject(Xml $xml)
     {
-        return isset($response['ProductID']) && $response['ProductID'] == $productId
-            && isset($response['NewInventory'])
-            && $response['NewInventory'] == $quantity;
+        $objectData = $this->responseHandler->convertToArray($xml);
+        $this->responseHandler->handleApiErrors($xml, $objectData);
+        
+        return $objectData;
     }
     
     /**
-     * @param string $invoiceNum
-     * @param string $newStatus
-     * @param array  $response
+     * @param Xml               $xml
+     * @param StringValueObject $className
      *
-     * @return bool
+     * @return SoapResource
      */
-    protected function checkInvoiceNumsNewStatus($invoiceNum, $newStatus, array $response)
+    protected function getResource(Xml $xml, StringValueObject $className)
     {
-        return isset($response['InvoiceNum']) && $response['InvoiceNum'] == $invoiceNum
-            && isset($response['NewStatus'])
-            && $response['NewStatus'] == $newStatus;
+        $objectData = $this->responseHandler->convertToArray($xml);
+        $this->responseHandler->handleApiErrors($xml, $objectData);
+        
+        return $this->resourceParser->getResource($className, $objectData);
     }
     
     /**
-     * @param array $response
+     * @param Xml               $xml
+     * @param StringValueObject $tagName
+     *
+     * @return IntegerValueObject
+     */
+    protected function getIntegerValueObject(Xml $xml, StringValueObject $tagName)
+    {
+        $objectData = $this->responseHandler->convertToArray($xml);
+        $this->responseHandler->handleApiErrors($xml, $objectData);
+        
+        return new IntegerValueObject((int)$this->extractSpecificXmlTagAsString(
+            $tagName,
+            $objectData
+        )->getValue());
+    }
+    
+    /**
+     * @param IntegerValueObject $productId
+     * @param IntegerValueObject $quantity
+     * @param ArrayValueObject   $response
      *
      * @return bool
      */
-    protected function isResultOk(array $response)
+    protected function checkProductIdsQuantity(
+        IntegerValueObject $productId,
+        IntegerValueObject $quantity,
+        ArrayValueObject $response
+    ) {
+        return
+            $response->issetKey(new StringValueObject(self::XML_TAG_Product_ID))
+            && $response->getIntegerValueObject(new StringValueObject(self::XML_TAG_Product_ID))->getValue()
+            === $productId->getValue()
+            && $response->issetKey(new StringValueObject(self::XML_TAG_NEW_INVENTORY))
+            && $response->getIntegerValueObject(new StringValueObject(self::XML_TAG_NEW_INVENTORY))->getValue()
+            === $quantity->getValue();
+    }
+    
+    /**
+     * @param StringValueObject $invoiceNum
+     * @param StringValueObject $newStatus
+     * @param ArrayValueObject  $response
+     *
+     * @return bool
+     */
+    protected function checkInvoiceNumsNewStatus(
+        StringValueObject $invoiceNum,
+        StringValueObject $newStatus,
+        ArrayValueObject $response
+    ) {
+        return $response->issetKey(new StringValueObject(self::XML_TAG_INVOICE_NUM))
+            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_INVOICE_NUM))->getValue()
+            === $invoiceNum->getValue()
+            && $response->issetKey(new StringValueObject(self::XML_TAG_NEW_STATUS))
+            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_NEW_STATUS))->getValue()
+            === $newStatus->getValue();
+    }
+    
+    /**
+     * @param ArrayValueObject $response
+     *
+     * @return bool
+     */
+    protected function isResultOk(ArrayValueObject $response)
     {
-        return isset($response['result']) && $response['result'] == 'OK';
+        return $response->issetKey(new StringValueObject(self::XML_TAG_RESULT))
+            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_RESULT))->getValue()
+            == self::XML_TAG_RESULT_OK;
     }
     
     /**
@@ -523,10 +634,46 @@ class Client
     }
     
     /**
-     * @param MethodsInterface $soapClient
+     * @param ClientInterface $soapClient
      */
-    public function setSoapClient(MethodsInterface $soapClient)
+    public function setSoapClient(ClientInterface $soapClient)
     {
         $this->soapClient = $soapClient;
+    }
+    
+    /**
+     * @param StringValueObject $responseXmlTag
+     * @param ArrayValueObject  $apiResponse
+     *
+     * @return ArrayValueObject
+     *
+     * @throws MalFormedApiResponseException
+     */
+    protected function extractSpecificXmlTagAsArray(StringValueObject $responseXmlTag, ArrayValueObject $apiResponse)
+    {
+        $arrResponse = $apiResponse->getValue();
+        if (!isset($arrResponse[$responseXmlTag->getValue()])) {
+            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getValue() . ' is missing');
+        }
+        
+        return new ArrayValueObject($arrResponse[$responseXmlTag->getValue()]);
+    }
+    
+    /**
+     * @param StringValueObject $responseXmlTag
+     * @param ArrayValueObject  $apiResponse
+     *
+     * @return StringValueObject
+     *
+     * @throws MalFormedApiResponseException
+     */
+    protected function extractSpecificXmlTagAsString(StringValueObject $responseXmlTag, ArrayValueObject $apiResponse)
+    {
+        $arrResponse = $apiResponse->getValue();
+        if (!isset($arrResponse[$responseXmlTag->getValue()])) {
+            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getValue() . ' is missing');
+        }
+        
+        return new StringValueObject($arrResponse[$responseXmlTag->getValue()]);
     }
 }

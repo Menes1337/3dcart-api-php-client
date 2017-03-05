@@ -3,7 +3,7 @@
 namespace tests\Unit\Api\Soap\Xml;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Soap\Xml\SimpleXmlExceptionRenderer;
+use ThreeDCart\Api\Soap\Request\Xml\SimpleXmlExceptionRenderer;
 
 class SimpleXmlExceptionRendererTest extends ThreeDCartTestCase
 {

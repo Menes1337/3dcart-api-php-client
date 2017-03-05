@@ -1,6 +1,6 @@
 <?php
 
-namespace ThreeDCart\Api\Soap\Xml;
+namespace ThreeDCart\Api\Soap\Request\Xml;
 
 class SimpleXmlExceptionRenderer
 {

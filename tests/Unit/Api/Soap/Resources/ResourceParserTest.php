@@ -3,7 +3,7 @@
 namespace tests\Unit\Api\Soap\Resources;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Soap\Exception\ParseException;
+use ThreeDCart\Api\Soap\Resource\ParseException;
 use ThreeDCart\Api\Soap\Resource\Customer\AdditionalFields;
 use ThreeDCart\Api\Soap\Resource\Customer\Customer;
 use ThreeDCart\Api\Soap\Resource\Customer\Address;
@@ -35,6 +35,8 @@ use ThreeDCart\Api\Soap\Resource\Product\Reward;
 use ThreeDCart\Api\Soap\Resource\ResourceParser;
 use ThreeDCart\Api\Soap\Resource\ResourceParserInterface;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
+use ThreeDCart\Primitive\ArrayValueObject;
+use ThreeDCart\Primitive\StringValueObject;
 
 class ResourceParserTest extends ThreeDCartTestCase
 {
@@ -85,49 +87,50 @@ class ResourceParserTest extends ThreeDCartTestCase
     public function testGetResourceDataEmpty()
     {
         $this->expectException(ParseException::class);
-        $this->resourceParser->getResource(Product::class, []);
+        $this->resourceParser->getResource(new StringValueObject(Product::class), new ArrayValueObject([]));
     }
     
     public function testGetResourcesDataEmpty()
     {
         $this->expectException(ParseException::class);
-        $this->resourceParser->getResources(Product::class, []);
+        $this->resourceParser->getResources(new StringValueObject(Product::class), new ArrayValueObject([]));
     }
     
     public function testGetResourcesDataHalfEmpty()
     {
         $this->expectException(ParseException::class);
-        $this->resourceParser->getResources(Product::class, ['something' => []]);
+        $this->resourceParser->getResources(new StringValueObject(Product::class),
+            new ArrayValueObject(['something' => []]));
     }
     
     public function testGetResourceDataNull()
     {
         $this->expectException(ParseException::class);
-        $this->resourceParser->getResource(Product::class, [null]);
+        $this->resourceParser->getResource(new StringValueObject(Product::class), new ArrayValueObject([null]));
     }
     
     public function testgetResourcesDataNull()
     {
         $this->expectException(ParseException::class);
-        $this->resourceParser->getResources(Product::class, [null]);
+        $this->resourceParser->getResources(new StringValueObject(Product::class), new ArrayValueObject([null]));
     }
     
     public function testGetResourceDataInvalid()
     {
         $this->expectException(ParseException::class);
-        $this->resourceParser->getResource(Product::class, [
+        $this->resourceParser->getResource(new StringValueObject(Product::class), new ArrayValueObject([
             'some_not_available_field' => 'not available value'
-        ]);
+        ]));
     }
     
     public function testGetResourcesDataInvalid()
     {
         $this->expectException(ParseException::class);
-        $this->resourceParser->getResources(Product::class, [
+        $this->resourceParser->getResources(new StringValueObject(Product::class), new ArrayValueObject([
             [
                 'some_not_available_field' => 'not available value'
             ]
-        ]);
+        ]));
     }
     
     /**
@@ -140,7 +143,8 @@ class ResourceParserTest extends ThreeDCartTestCase
     public function testCreateResource($expectedClass, $mock, $mockPart)
     {
         $data     = json_decode($this->loadMock($mock, $mockPart), true);
-        $resource = $this->resourceParser->getResource($expectedClass, $data);
+        $resource =
+            $this->resourceParser->getResource(new StringValueObject($expectedClass), new ArrayValueObject($data));
         
         $this->assertInstanceOf($expectedClass, $resource);
     }
@@ -161,7 +165,8 @@ class ResourceParserTest extends ThreeDCartTestCase
             $data
         );
         
-        $resources = $this->resourceParser->getResources($expectedClass, $multipleData);
+        $resources = $this->resourceParser->getResources(new StringValueObject($expectedClass),
+            new ArrayValueObject($multipleData));
         
         $this->assertEquals(2, count($resources));
         

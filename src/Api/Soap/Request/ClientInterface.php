@@ -1,22 +1,20 @@
 <?php
 
-namespace ThreeDCart\Api\Soap\Client\Request;
+namespace ThreeDCart\Api\Soap\Request;
 
-interface MethodsInterface
+use ThreeDCart\Api\Soap\Response\Xml;
+
+interface ClientInterface
 {
-    /**
-     * @param string $threeDCartStoreUrl
-     * @param string $threeDCartApiKey
-     */
-    public function __construct($threeDCartStoreUrl, $threeDCartApiKey);
-    
     /**
      * @param int    $batchSize
      * @param int    $startNum
      * @param string $productId
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getProductResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getProduct($batchSize, $startNum, $productId, $callBackUrl);
     
@@ -26,7 +24,9 @@ interface MethodsInterface
      * @param string $customersFilter
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getCustomerResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getCustomers($batchSize = 100, $startNum = 1, $customersFilter = '', $callBackUrl = '');
     
@@ -34,14 +34,18 @@ interface MethodsInterface
      * @param int    $invoiceNum
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getOrderStatusResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getOrderStatus($invoiceNum, $callBackUrl = '');
     
     /**
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getProductCountResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getProductCount($callBackUrl = '');
     
@@ -49,7 +53,9 @@ interface MethodsInterface
      * @param int    $productId
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getProductInventory
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getProductInventory($productId, $callBackUrl = '');
     
@@ -58,14 +64,18 @@ interface MethodsInterface
      * @param int    $timeToLive
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getProductInventory
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getCustomerLoginToken($customerEmail, $timeToLive, $callBackUrl = '');
     
     /**
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getCustomerCountResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getCustomerCount($callBackUrl = '');
     
@@ -74,7 +84,9 @@ interface MethodsInterface
      * @param string $action
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property editCustomerResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function editCustomer($customerData, $action, $callBackUrl);
     
@@ -86,7 +98,9 @@ interface MethodsInterface
      * @param string $dateTo
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getOrderCountResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getOrderCount(
         $startFrom = true,
@@ -107,7 +121,9 @@ interface MethodsInterface
      * @param string $dateTo
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property getOrderResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function getOrders(
         $batchSize = 200,
@@ -126,7 +142,9 @@ interface MethodsInterface
      * @param bool   $replaceStock
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property updateProductInventoryResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function updateProductInventory($productId, $quantity, $replaceStock = true, $callBackUrl = '');
     
@@ -135,7 +153,7 @@ interface MethodsInterface
      * @param string $newStatus
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property updateOrderStatusResult
+     * @return Xml
      */
     public function updateOrderStatus($invoiceNum, $newStatus, $callBackUrl = '');
     
@@ -146,7 +164,9 @@ interface MethodsInterface
      * @param string $shipmentDate
      * @param string $callBackUrl
      *
-     * @return \stdClass $stdClass has property updateOrderShipmentResult
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
      */
     public function updateOrderShipment($invoiceNum, $shipmentID, $tracking, $shipmentDate, $callBackUrl = '');
 }

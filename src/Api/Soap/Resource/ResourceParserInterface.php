@@ -2,28 +2,29 @@
 
 namespace ThreeDCart\Api\Soap\Resource;
 
-use ThreeDCart\Api\Soap\Exception\ParseException;
+use ThreeDCart\Primitive\ArrayValueObject;
+use ThreeDCart\Primitive\StringValueObject;
 
 interface ResourceParserInterface
 {
     
     /**
-     * @param string $className
-     * @param array  $resourceObjectData
+     * @param StringValueObject $className
+     * @param ArrayValueObject  $resourceObjectData
      *
      * @return SoapResource
-     * 
+     *
      * @throws ParseException
      */
-    public function getResource($className, array $resourceObjectData);
+    public function getResource(StringValueObject $className, ArrayValueObject $resourceObjectData);
     
     /**
-     * @param string $className
-     * @param array  $resourcesData
+     * @param StringValueObject $className
+     * @param ArrayValueObject  $resourcesData
      *
      * @return SoapResource[]
      *
      * @throws ParseException
      */
-    public function getResources($className, array $resourcesData);
+    public function getResources(StringValueObject $className, ArrayValueObject $resourcesData);
 }

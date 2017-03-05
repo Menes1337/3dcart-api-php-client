@@ -2,26 +2,29 @@
 
 namespace ThreeDCart\Api\Soap\Resource;
 
-use ThreeDCart\Api\Soap\Exception\ParseException;
+use ThreeDCart\Primitive\ArrayValueObject;
+use ThreeDCart\Primitive\StringValueObject;
 
 class ResourceParser implements ResourceParserInterface
 {
     /**
-     * @param string $className
-     * @param array  $objectData
+     * @param StringValueObject $className
+     * @param ArrayValueObject  $objectData
      *
      * @return SoapResource
-     * 
+     *
      * @throws ParseException
      */
-    public function getResource($className, array $objectData)
+    public function getResource(StringValueObject $className, ArrayValueObject $objectData)
     {
-        if (empty($objectData)) {
+        if ($objectData->isEmpty()) {
             throw new ParseException('unable to create resource. data empty');
         }
         
+        $class = $className->getValue();
+        
         /** @var SoapResource $resource */
-        $resource = new $className();
+        $resource = new $class();
         $visitor  = new ResourceParserVisitor($objectData);
         $resource->accept($visitor);
         
@@ -29,25 +32,25 @@ class ResourceParser implements ResourceParserInterface
     }
     
     /**
-     * @param string $className
-     * @param array  $resourcesData
+     * @param StringValueObject $className
+     * @param ArrayValueObject  $resourcesData
      *
      * @return SoapResource[]
-     * 
+     *
      * @throws ParseException
      */
-    public function getResources($className, array $resourcesData)
+    public function getResources(StringValueObject $className, ArrayValueObject $resourcesData)
     {
-        if (empty($resourcesData)) {
+        if ($resourcesData->isEmpty()) {
             throw new ParseException('unable to create resource. data empty');
         }
         
         $resources = array();
-        foreach ($resourcesData as $resourceData) {
+        foreach ($resourcesData->getValue() as $resourceData) {
             if (empty($resourceData)) {
                 throw new ParseException('unable to create resource. data empty');
             }
-            $resources[] = $this->getResource($className, $resourceData);
+            $resources[] = $this->getResource($className, new ArrayValueObject($resourceData));
         }
         
         return $resources;

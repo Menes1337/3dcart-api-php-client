@@ -4,7 +4,7 @@ namespace tests\Unit\Api\Soap;
 
 use tests\Unit\ThreeDCartTestCase;
 use ThreeDCart\Api\Soap\Client;
-use ThreeDCart\Api\Soap\Client\Request\MethodsInterface;
+use ThreeDCart\Api\Soap\Request\ClientInterface;
 use ThreeDCart\Api\Soap\Resource\Customer\Address;
 use ThreeDCart\Api\Soap\Resource\Customer\Customer;
 use ThreeDCart\Api\Soap\Resource\Order\AffiliateInformation;
@@ -21,9 +21,10 @@ use ThreeDCart\Api\Soap\Resource\Order\Status;
 use ThreeDCart\Api\Soap\Resource\Order\Transaction;
 use ThreeDCart\Api\Soap\Resource\Product\Product;
 use ThreeDCart\Api\Soap\Resource\ResourceParser;
-use ThreeDCart\Api\Soap\ResponseHandler;
-use ThreeDCart\Api\Soap\ResponseHandlerInterface;
-use ThreeDCart\Api\Soap\Xml\SimpleXmlExceptionRenderer;
+use ThreeDCart\Api\Soap\Request\ResponseHandler;
+use ThreeDCart\Api\Soap\Request\Xml\SimpleXmlExceptionRenderer;
+use ThreeDCart\Api\Soap\Response\Xml;
+use ThreeDCart\Primitive\StringValueObject;
 
 class ClientTest extends ThreeDCartTestCase
 {
@@ -35,7 +36,7 @@ class ClientTest extends ThreeDCartTestCase
         $this->subjectUnderTest = $this->getMockBuilder(Client::class)
                                        ->setMethods(null)
                                        ->setConstructorArgs(array(
-                                           $this->getMockForAbstractClass(MethodsInterface::class),
+                                           $this->getMockForAbstractClass(ClientInterface::class),
                                            new ResponseHandler(new SimpleXmlExceptionRenderer()),
                                            new ResourceParser()
                                        ))
@@ -45,7 +46,7 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testGetProducts()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getProduct', 'getProductResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getProduct'));
         $products = $this->subjectUnderTest->getProducts();
         
         $this->assertEquals(true, is_array($products));
@@ -58,7 +59,7 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testGetCustomers()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getCustomers', 'getCustomerResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getCustomers'));
         $customers = $this->subjectUnderTest->getCustomers();
         
         $this->assertEquals(true, is_array($customers));
@@ -71,7 +72,7 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testGetOrderStatus()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getOrderStatus', 'getOrderStatusResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getOrderStatus'));
         $orderStatus = $this->subjectUnderTest->getOrderStatus('AB-1347');
         
         $this->assertInstanceOf(Status::class, $orderStatus);
@@ -82,32 +83,31 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testGetProductCount()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getProductCount', 'getProductCountResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getProductCount'));
         $productsCount = $this->subjectUnderTest->getProductCount();
         
-        $this->assertEquals(20, $productsCount);
+        $this->assertEquals(20, $productsCount->getValue());
     }
     
     public function testGetCustomerCount()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getCustomerCount', 'getCustomerCountResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getCustomerCount'));
         $customerCount = $this->subjectUnderTest->getCustomerCount();
         
-        $this->assertEquals(38, $customerCount);
+        $this->assertEquals(38, $customerCount->getValue());
     }
     
     public function testGetOrderCount()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getOrderCount', 'getOrderCountResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getOrderCount'));
         $orderCount = $this->subjectUnderTest->getOrderCount();
         
-        $this->assertEquals(311, $orderCount);
+        $this->assertEquals(311, $orderCount->getValue());
     }
     
     public function testGetProductInventory()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getProductInventory',
-            'getProductInventoryResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getProductInventory'));
         $productInventory = $this->subjectUnderTest->getProductInventory('Custom Cap');
         
         $this->assertEquals('Custom Cap', $productInventory->getProductID());
@@ -116,8 +116,7 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testGetCustomerLoginToken()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('GetCustomerLoginToken',
-            'getCustomerLoginTokenResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('GetCustomerLoginToken'));
         $customerLoginToken = $this->subjectUnderTest->getCustomerLoginToken('test@3dcart.com', 1800);
         
         $this->assertEquals('fhWZ2A1EX49XV9Z7dwqUbZsMn/uDrQeEgKZ4ubaHMdwcp2IyRISw789d0beK7+f3',
@@ -126,7 +125,7 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testGetOrders()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getOrders', 'getOrderResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getOrders'));
         $orders = $this->subjectUnderTest->getOrders();
         
         $this->assertEquals(true, is_array($orders));
@@ -280,8 +279,7 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testUpdateProductInventory()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('updateProductInventory',
-            'updateProductInventoryResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('updateProductInventory'));
         $success = $this->subjectUnderTest->updateProductInventory(1005, 1000);
         
         $this->assertEquals(true, $success);
@@ -289,8 +287,7 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testUpdateOrderStatus()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('updateOrderStatus',
-            'updateOrderStatusResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('updateOrderStatus'));
         $success = $this->subjectUnderTest->updateOrderStatus('AB-1000', 'Processing');
         
         $this->assertEquals(true, $success);
@@ -298,36 +295,18 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testUpdateOrderShipment()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('updateOrderShipment',
-            'updateOrderShipmentResult'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('updateOrderShipment'));
         $success = $this->subjectUnderTest->updateOrderShipment('AB-1000', '0', '123456789', '2016-11-06');
         
         $this->assertEquals(true, $success);
     }
     
-    public function testSetResponseHandler()
-    {
-        /** @var \PHPUnit_Framework_MockObject_MockObject | ResponseHandlerInterface $responseHandlerMock */
-        $responseHandlerMock = $this->getMockBuilder(ResponseHandlerInterface::class)->getMock();
-        
-        $parameter =
-            json_decode('{"getCustomerCountResult":{"any":"<CustomerCountResponse xmlns=\"\"><CustomerCount>38<\/CustomerCount><\/CustomerCountResponse>\r\n"}}');
-        
-        $responseHandlerMock->expects($this->once())->method('convertXML')
-                            ->with($parameter->getCustomerCountResult, 'CustomerCount')
-        ;
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getCustomerCount', 'getCustomerCountResult'));
-        $this->subjectUnderTest->setResponseHandler($responseHandlerMock);
-        $this->subjectUnderTest->getCustomerCount();
-    }
-    
     /**
      * @param string $method
-     * @param string $responseField
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject | MethodsInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject | ClientInterface
      */
-    private function getSoapClientMock($method, $responseField)
+    private function getSoapClientMock($method)
     {
         $methods        = array(
             '__construct',
@@ -345,28 +324,23 @@ class ClientTest extends ThreeDCartTestCase
             'updateOrderShipment',
             'editCustomer'
         );
-        $soapClientMock = $this->getMockBuilder(MethodsInterface::class)
+        $soapClientMock = $this->getMockBuilder(ClientInterface::class)
                                ->setConstructorArgs(array('', ''))
                                ->setMethods($methods)
                                ->getMock()
         ;
-        $soapClientMock->method($method)->willReturn($this->getResponseMock($responseField, $method));
+        $soapClientMock->method($method)->willReturn($this->getResponseMock($method));
         
         return $soapClientMock;
     }
     
     /**
-     * @param string $responseField
      * @param string $method
      *
-     * @return \stdClass
+     * @return Xml
      */
-    private function getResponseMock($responseField, $method)
+    private function getResponseMock($method)
     {
-        $response                        = new \stdClass();
-        $response->{$responseField}      = new \stdClass();
-        $response->{$responseField}->any = $this->loadMock($method, 'response.xml');
-        
-        return $response;
+        return new Xml(new StringValueObject($this->loadMock($method, 'response.xml')));
     }
 }

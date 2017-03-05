@@ -2,7 +2,6 @@
 
 namespace ThreeDCart\Api\Soap\Resource;
 
-use ThreeDCart\Api\Soap\Exception\ParseException;
 use ThreeDCart\Api\Soap\Resource\Customer\AdditionalFields;
 use ThreeDCart\Api\Soap\Resource\Customer\Customer;
 use ThreeDCart\Api\Soap\Resource\Customer\Address;
@@ -31,18 +30,19 @@ use ThreeDCart\Api\Soap\Resource\Product\Product;
 use ThreeDCart\Api\Soap\Resource\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resource\Product\RelatedProduct;
 use ThreeDCart\Api\Soap\Resource\Product\Reward;
+use ThreeDCart\Primitive\ArrayValueObject;
 
 class ResourceParserVisitor implements VisitorInterface
 {
-    /** @var array */
+    /** @var ArrayValueObject */
     private $data;
     
     /**
-     * @param array $data
+     * @param ArrayValueObject $data
      */
-    public function __construct(array $data)
+    public function __construct(ArrayValueObject $data)
     {
-        $this->data = $data;
+        $this->data = $data->getValue();
     }
     
     /**
@@ -142,7 +142,7 @@ class ResourceParserVisitor implements VisitorInterface
             $objectData = $objectData[$objectIndex];
         }
         
-        $visitor = new ResourceParserVisitor($objectData);
+        $visitor = new ResourceParserVisitor(new ArrayValueObject($objectData));
         $resource->accept($visitor);
         
         return $resource;

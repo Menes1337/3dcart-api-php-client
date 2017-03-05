@@ -1,8 +1,8 @@
 <?php
 
-namespace ThreeDCart\Api\Soap\Exception;
+namespace ThreeDCart\Api\Soap\Request;
 
-class ApiErrorException extends Exception
+class ApiErrorException extends ResponseInvalidException
 {
     const ERROR_CODES = array(
         0  => 'XML FILE BAD FORMED',
@@ -37,18 +37,13 @@ class ApiErrorException extends Exception
         49 => 'Order Not Found'
     );
     
-    /** @var int|null */
-    private $threeDCartSoapErrorCode;
-    
     /**
-     * @param string    $message
-     * @param int|null  $threeDCartSoapErrorCode
-     * @param Exception $xmlResponse
+     * @param string $message
+     * @param int    $threeDCartSoapErrorCode
      */
-    public function __construct($message, $threeDCartSoapErrorCode, $xmlResponse)
+    public function __construct($message, $threeDCartSoapErrorCode)
     {
-        $this->threeDCartSoapErrorCode = $threeDCartSoapErrorCode;
-        parent::__construct($message, $xmlResponse);
+        parent::__construct($message, $threeDCartSoapErrorCode);
     }
     
 }

@@ -32,6 +32,7 @@ use ThreeDCart\Api\Soap\Resource\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resource\Product\RelatedProduct;
 use ThreeDCart\Api\Soap\Resource\Product\Reward;
 use ThreeDCart\Api\Soap\Resource\ResourceParserVisitor;
+use ThreeDCart\Primitive\ArrayValueObject;
 
 class ResourceParserVisitorTest extends ThreeDCartTestCase
 {
@@ -569,7 +570,7 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
     public function testVisitorProductOptionInvalidData()
     {
         $option                = new Option();
-        $resourceParserVisitor = new ResourceParserVisitor(['Values' => ['Wrong index' => []]]);
+        $resourceParserVisitor = new ResourceParserVisitor(new ArrayValueObject(['Values' => ['Wrong index' => []]]));
         $resourceParserVisitor->visitProductOption($option);
         
         $this->assertEquals(true, is_array($option->getValues()));
@@ -584,6 +585,6 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
      */
     private function instantiateResourceParserVisitor($mock, $mockPart)
     {
-        return new ResourceParserVisitor(json_decode($this->loadMock($mock, $mockPart), true));
+        return new ResourceParserVisitor(new ArrayValueObject(json_decode($this->loadMock($mock, $mockPart), true)));
     }
 }
