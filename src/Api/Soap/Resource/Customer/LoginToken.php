@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Resource\Customer;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Api\Soap\Resource\VisitorInterface;
 
+/**
+ * Class LoginToken
+ *
+ * @package ThreeDCart\Api\Soap\Resource\Customer
+ */
 class LoginToken extends SoapResource
 {
     /** @var int */

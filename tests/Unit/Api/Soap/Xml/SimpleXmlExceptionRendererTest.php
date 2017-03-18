@@ -5,6 +5,11 @@ namespace tests\Unit\Api\Soap\Xml;
 use tests\Unit\ThreeDCartTestCase;
 use ThreeDCart\Api\Soap\Request\Xml\SimpleXmlExceptionRenderer;
 
+/**
+ * Class SimpleXmlExceptionRendererTest
+ *
+ * @package tests\Unit\Api\Soap\Xml
+ */
 class SimpleXmlExceptionRendererTest extends ThreeDCartTestCase
 {
     /** @var SimpleXmlExceptionRenderer */

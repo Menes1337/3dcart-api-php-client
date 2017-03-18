@@ -5,12 +5,13 @@ namespace ThreeDCart\Api\Soap\Resource\Customer;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Api\Soap\Resource\VisitorInterface;
 
+/**
+ * Class Customer
+ *
+ * @package ThreeDCart\Api\Soap\Resource\Customer
+ */
 class Customer extends SoapResource
 {
-    const INSERT = 'insert';
-    const UPDATE = 'update';
-    const DELETE = 'delete';
-    
     const EDIT_CUSTOMER_CONTACTID     = 'contactid';
     const EDIT_CUSTOMER_COMMENTS      = 'comments';
     const EDIT_CUSTOMER_LASTLOGINDATE = 'lastlogindate';

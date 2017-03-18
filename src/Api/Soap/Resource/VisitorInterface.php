@@ -31,6 +31,11 @@ use ThreeDCart\Api\Soap\Resource\Product\ProductInventory;
 use ThreeDCart\Api\Soap\Resource\Product\RelatedProduct;
 use ThreeDCart\Api\Soap\Resource\Product\Reward;
 
+/**
+ * Interface VisitorInterface
+ *
+ * @package ThreeDCart\Api\Soap\Resource
+ */
 interface VisitorInterface
 {
     public function visitCustomer(Customer $customer);

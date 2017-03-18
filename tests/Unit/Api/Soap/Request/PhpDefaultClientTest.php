@@ -3,12 +3,23 @@
 namespace tests\Unit\Api\Soap;
 
 use tests\Unit\ThreeDCartTestCase;
+use ThreeDCart\Api\Soap\Parameter\BatchSize;
+use ThreeDCart\Api\Soap\Parameter\CallBackUrl;
+use ThreeDCart\Api\Soap\Parameter\CustomerAction;
+use ThreeDCart\Api\Soap\Parameter\StartNum;
 use ThreeDCart\Api\Soap\Request\PhpDefaultClient;
 use ThreeDCart\Api\Soap\Request\ResponseBodyEmptyException;
 use ThreeDCart\Api\Soap\Request\ResponseHandler;
 use ThreeDCart\Api\Soap\Request\Xml\SimpleXmlExceptionRenderer;
+use ThreeDCart\Primitive\BooleanValueObject;
+use ThreeDCart\Primitive\IntegerValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class PhpDefaultClientTest
+ *
+ * @package tests\Unit\Api\Soap
+ */
 class PhpDefaultClientTest extends ThreeDCartTestCase
 {
     /** @var PhpDefaultClient */
@@ -49,20 +60,133 @@ class PhpDefaultClientTest extends ThreeDCartTestCase
      */
     public function provideMethods()
     {
+        $emptyStringValueObject = new StringValueObject('');
+        
         return [
-            ['getProduct', 'getProduct', array(100, 1, '', '')],
-            ['getCustomers', 'getCustomer', array(100, 1, '', '')],
-            ['getOrderStatus', 'getOrderStatus', array(123, '')],
-            ['getProductCount', 'getProductCount', array('')],
-            ['getProductInventory', 'getProductInventory', array(123, '')],
-            ['getCustomerLoginToken', 'getCustomerLoginToken', array('test@test.com', 86400, '')],
-            ['getCustomerCount', 'getCustomerCount', array('')],
-            ['getOrderCount', 'getOrderCount', array(true, '', '', '', '', '')],
-            ['getOrders', 'getOrder', array(200, 100, true, '', '', '', '', '')],
-            ['updateProductInventory', 'updateProductInventory', array('1234', 3, true, '')],
-            ['updateOrderStatus', 'updateOrderStatus', array('123', 'new status', '')],
-            ['updateOrderShipment', 'updateOrderShipment', array('1234', 'shipmentid', 'tracking', 'shipmentdate', '')],
-            ['editCustomer', 'editCustomer', array('', '', '')],
+            [
+                'getProduct',
+                'getProduct',
+                array(
+                    new BatchSize(100),
+                    new StartNum(1),
+                    $emptyStringValueObject,
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'getCustomers',
+                'getCustomer',
+                array(
+                    new BatchSize(100),
+                    new StartNum(1),
+                    $emptyStringValueObject,
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'getOrderStatus',
+                'getOrderStatus',
+                array(
+                    new StringValueObject('123'),
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'getProductCount',
+                'getProductCount',
+                array(
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'getProductInventory',
+                'getProductInventory',
+                array(
+                    new StringValueObject('123'),
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'getCustomerLoginToken',
+                'getCustomerLoginToken',
+                array(
+                    new StringValueObject('test@test.com'),
+                    new IntegerValueObject(86400),
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'getCustomerCount',
+                'getCustomerCount',
+                array(
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'getOrderCount',
+                'getOrderCount',
+                array(
+                    new BooleanValueObject(true),
+                    $emptyStringValueObject,
+                    $emptyStringValueObject,
+                    null,
+                    null,
+                    null
+                )
+            ],
+            [
+                'getOrders',
+                'getOrder',
+                array(
+                    new BatchSize(100),
+                    new StartNum(100),
+                    new BooleanValueObject(true),
+                    $emptyStringValueObject,
+                    $emptyStringValueObject,
+                    null,
+                    null,
+                    null
+                )
+            ],
+            [
+                'updateProductInventory',
+                'updateProductInventory',
+                array(
+                    new StringValueObject('1234'),
+                    new IntegerValueObject(3),
+                    new BooleanValueObject(true),
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'updateOrderStatus',
+                'updateOrderStatus',
+                array(
+                    new StringValueObject('123'),
+                    new StringValueObject('new status'),
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'updateOrderShipment',
+                'updateOrderShipment',
+                array(
+                    new StringValueObject('1234'),
+                    new StringValueObject('shipmentid'),
+                    new StringValueObject('tracking'),
+                    new \DateTime('2017-03-10'),
+                    new CallBackUrl('')
+                )
+            ],
+            [
+                'editCustomer',
+                'editCustomer',
+                array(
+                    new StringValueObject(''),
+                    new CustomerAction(CustomerAction::INSERT),
+                    new CallBackUrl('')
+                )
+            ],
         ];
     }
     

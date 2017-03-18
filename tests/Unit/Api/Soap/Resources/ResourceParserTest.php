@@ -38,6 +38,11 @@ use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Primitive\ArrayValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class ResourceParserTest
+ *
+ * @package tests\Unit\Api\Soap\Resources
+ */
 class ResourceParserTest extends ThreeDCartTestCase
 {
     /** @var ResourceParserInterface */

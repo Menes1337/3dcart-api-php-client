@@ -4,6 +4,11 @@ namespace ThreeDCart\Api\Soap\Response;
 
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class Xml
+ *
+ * @package ThreeDCart\Api\Soap\Response
+ */
 class Xml
 {
     /** @var StringValueObject */
@@ -20,7 +25,7 @@ class Xml
     /**
      * @return StringValueObject
      */
-    public function getValue()
+    public function getXmlAsString()
     {
         return $this->xml;
     }

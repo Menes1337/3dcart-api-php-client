@@ -32,6 +32,11 @@ use ThreeDCart\Api\Soap\Resource\Product\RelatedProduct;
 use ThreeDCart\Api\Soap\Resource\Product\Reward;
 use ThreeDCart\Primitive\ArrayValueObject;
 
+/**
+ * Class ResourceParserVisitor
+ *
+ * @package ThreeDCart\Api\Soap\Resource
+ */
 class ResourceParserVisitor implements VisitorInterface
 {
     /** @var ArrayValueObject */

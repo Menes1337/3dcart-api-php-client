@@ -4,8 +4,14 @@ namespace ThreeDCart\Api\Soap\Request;
 
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class SqlField
+ *
+ * @package ThreeDCart\Api\Soap\Request
+ */
 class SqlField
 {
+    /** @var StringValueObject */
     private $name;
     
     /**

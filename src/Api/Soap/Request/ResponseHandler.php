@@ -7,6 +7,11 @@ use ThreeDCart\Primitive\ArrayValueObject;
 use ThreeDCart\Api\Soap\Response\Xml;
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class ResponseHandler
+ *
+ * @package ThreeDCart\Api\Soap\Request
+ */
 class ResponseHandler implements ResponseHandlerInterface
 {
     const XML_RESPONSE_ERROR       = 'Error';
@@ -80,7 +85,7 @@ class ResponseHandler implements ResponseHandlerInterface
         try {
             libxml_use_internal_errors(true);
             libxml_clear_errors();
-            $simpleXML = new \SimpleXMLElement($xml->getValue()->getValue(), LIBXML_NOCDATA);
+            $simpleXML = new \SimpleXMLElement($xml->getXmlAsString()->getValue(), LIBXML_NOCDATA);
             
             return $simpleXML;
         } catch (\Exception $ex) {
@@ -136,8 +141,8 @@ class ResponseHandler implements ResponseHandlerInterface
             }
         }
         
-        if (strpos($xmlResponse->getValue()->getValue(), '<' . self::XML_RESPONSE_ERROR) === 0) {
-            throw new ApiErrorException(substr($xmlResponse->getValue()->getValue(), 0, 500), null);
+        if (strpos($xmlResponse->getXmlAsString()->getValue(), '<' . self::XML_RESPONSE_ERROR) === 0) {
+            throw new ApiErrorException(substr($xmlResponse->getXmlAsString()->getValue(), 0, 500), null);
         }
     }
 }

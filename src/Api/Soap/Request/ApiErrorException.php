@@ -2,6 +2,11 @@
 
 namespace ThreeDCart\Api\Soap\Request;
 
+/**
+ * Class ApiErrorException
+ *
+ * @package ThreeDCart\Api\Soap\Request
+ */
 class ApiErrorException extends ResponseInvalidException
 {
     const ERROR_CODES = array(

@@ -11,6 +11,11 @@ use ThreeDCart\Api\Soap\Request\Xml\SimpleXmlExceptionRenderer;
 use ThreeDCart\Api\Soap\Response\Xml;
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class ResponseHandlerTest
+ *
+ * @package tests\Unit\Api\Soap
+ */
 class ResponseHandlerTest extends ThreeDCartTestCase
 {
     /** @var ResponseHandlerInterface */

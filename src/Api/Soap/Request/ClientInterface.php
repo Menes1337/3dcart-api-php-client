@@ -2,171 +2,222 @@
 
 namespace ThreeDCart\Api\Soap\Request;
 
+use ThreeDCart\Api\Soap\Parameter\BatchSize;
+use ThreeDCart\Api\Soap\Parameter\CallBackUrl;
+use ThreeDCart\Api\Soap\Parameter\CustomerAction;
+use ThreeDCart\Api\Soap\Parameter\StartNum;
 use ThreeDCart\Api\Soap\Response\Xml;
+use ThreeDCart\Primitive\BooleanValueObject;
+use ThreeDCart\Primitive\IntegerValueObject;
+use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Interface ClientInterface
+ *
+ * @package ThreeDCart\Api\Soap\Request
+ */
 interface ClientInterface
 {
     /**
-     * @param int    $batchSize
-     * @param int    $startNum
-     * @param string $productId
-     * @param string $callBackUrl
+     * @param BatchSize         $batchSize
+     * @param StartNum          $startNum
+     * @param StringValueObject $productId
+     * @param CallBackUrl       $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseBodyEmptyException
+     */
+    public function getProduct(
+        BatchSize $batchSize,
+        StartNum $startNum,
+        StringValueObject $productId,
+        CallBackUrl $callBackUrl
+    );
+    
+    /**
+     * @param BatchSize         $batchSize
+     * @param StartNum          $startNum
+     * @param StringValueObject $customersFilter
+     * @param CallBackUrl       $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseBodyEmptyException
+     */
+    public function getCustomers(
+        BatchSize $batchSize,
+        StartNum $startNum,
+        StringValueObject $customersFilter,
+        CallBackUrl $callBackUrl
+    );
+    
+    /**
+     * @param StringValueObject $invoiceNum
+     * @param CallBackUrl       $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
-    public function getProduct($batchSize, $startNum, $productId, $callBackUrl);
+    public function getOrderStatus(StringValueObject $invoiceNum, CallBackUrl $callBackUrl);
     
     /**
-     * @param int    $batchSize
-     * @param int    $startNum
-     * @param string $customersFilter
-     * @param string $callBackUrl
+     * @param CallBackUrl $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
-    public function getCustomers($batchSize = 100, $startNum = 1, $customersFilter = '', $callBackUrl = '');
+    public function getProductCount(CallBackUrl $callBackUrl);
     
     /**
-     * @param int    $invoiceNum
-     * @param string $callBackUrl
+     * @param StringValueObject $productId
+     * @param CallBackUrl       $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
-    public function getOrderStatus($invoiceNum, $callBackUrl = '');
+    public function getProductInventory(StringValueObject $productId, CallBackUrl $callBackUrl);
     
     /**
-     * @param string $callBackUrl
+     * @param StringValueObject  $customerEmail
+     * @param IntegerValueObject $timeToLive
+     * @param CallBackUrl        $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
-    public function getProductCount($callBackUrl = '');
+    public function getCustomerLoginToken(
+        StringValueObject $customerEmail,
+        IntegerValueObject $timeToLive,
+        CallBackUrl $callBackUrl
+    );
     
     /**
-     * @param int    $productId
-     * @param string $callBackUrl
+     * @param CallBackUrl $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
-    public function getProductInventory($productId, $callBackUrl = '');
+    public function getCustomerCount(CallBackUrl $callBackUrl);
     
     /**
-     * @param string $customerEmail
-     * @param int    $timeToLive
-     * @param string $callBackUrl
+     * @param StringValueObject $customerData
+     * @param CustomerAction    $action
+     * @param CallBackUrl       $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
-    public function getCustomerLoginToken($customerEmail, $timeToLive, $callBackUrl = '');
+    public function editCustomer(
+        StringValueObject $customerData,
+        CustomerAction $action,
+        CallBackUrl $callBackUrl
+    );
     
     /**
-     * @param string $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
-    public function getCustomerCount($callBackUrl = '');
-    
-    /**
-     * @param string $customerData
-     * @param string $action
-     * @param string $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
-    public function editCustomer($customerData, $action, $callBackUrl);
-    
-    /**
-     * @param bool   $startFrom
-     * @param string $invoiceNum
-     * @param string $status
-     * @param string $dateFrom
-     * @param string $dateTo
-     * @param string $callBackUrl
+     * @param BooleanValueObject $startFrom
+     * @param StringValueObject  $invoiceNum
+     * @param StringValueObject  $status
+     * @param \DateTime |null    $dateFrom
+     * @param \DateTime |null    $dateTo
+     * @param CallBackUrl |null  $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
     public function getOrderCount(
-        $startFrom = true,
-        $invoiceNum = '',
-        $status = '',
-        $dateFrom = '',
-        $dateTo = '',
-        $callBackUrl = ''
+        BooleanValueObject $startFrom,
+        StringValueObject $invoiceNum,
+        StringValueObject $status,
+        \DateTime $dateFrom = null,
+        \DateTime $dateTo = null,
+        CallBackUrl $callBackUrl = null
     );
     
     /**
-     * @param int    $batchSize
-     * @param int    $startNum
-     * @param bool   $startFrom
-     * @param string $invoiceNum
-     * @param string $status
-     * @param string $dateFrom
-     * @param string $dateTo
-     * @param string $callBackUrl
+     * @param BatchSize          $batchSize
+     * @param StartNum           $startNum
+     * @param BooleanValueObject $startFrom If startFrom is true and invoiceNum is specified,
+     *                                      the web service will return orders >= invoiceNum.
+     *                                      If startFrom is false and invoiceNum is specified,
+     *                                      the web service will return just the specified order.
+     *                                      If invoiceNum is not specified, this parameter will be ignored.
+     * @param StringValueObject  $invoiceNum
+     * @param StringValueObject  $status
+     * @param \DateTime |null    $dateFrom
+     * @param \DateTime |null    $dateTo
+     * @param CallBackUrl |null  $callBackUrl
      *
      * @return Xml
      *
-     * @throws ResponseInvalidException
+     * @throws ResponseBodyEmptyException
      */
     public function getOrders(
-        $batchSize = 200,
-        $startNum = 100,
-        $startFrom = true,
-        $invoiceNum = '',
-        $status = '',
-        $dateFrom = '',
-        $dateTo = '',
-        $callBackUrl = ''
+        BatchSize $batchSize,
+        StartNum $startNum,
+        BooleanValueObject $startFrom,
+        StringValueObject $invoiceNum,
+        StringValueObject $status,
+        \DateTime $dateFrom = null,
+        \DateTime $dateTo = null,
+        CallBackUrl $callBackUrl = null
     );
     
     /**
-     * @param string $productId
-     * @param int    $quantity
-     * @param bool   $replaceStock
-     * @param string $callBackUrl
+     * @param StringValueObject  $productId
+     * @param IntegerValueObject $quantity
+     * @param BooleanValueObject $replaceStock
+     * @param CallBackUrl        $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
-    public function updateProductInventory($productId, $quantity, $replaceStock = true, $callBackUrl = '');
+    public function updateProductInventory(
+        StringValueObject $productId,
+        IntegerValueObject $quantity,
+        BooleanValueObject $replaceStock,
+        CallBackUrl $callBackUrl
+    );
     
     /**
-     * @param string $invoiceNum
-     * @param string $newStatus
-     * @param string $callBackUrl
+     * @param StringValueObject $invoiceNum
+     * @param StringValueObject $newStatus
+     * @param CallBackUrl       $callBackUrl
      *
      * @return Xml
+     *
+     * @throws ResponseBodyEmptyException
      */
-    public function updateOrderStatus($invoiceNum, $newStatus, $callBackUrl = '');
+    public function updateOrderStatus(
+        StringValueObject $invoiceNum,
+        StringValueObject $newStatus,
+        CallBackUrl $callBackUrl
+    );
     
     /**
-     * @param string $invoiceNum
-     * @param string $shipmentID
-     * @param string $tracking
-     * @param string $shipmentDate
-     * @param string $callBackUrl
+     * @param StringValueObject $invoiceNum
+     * @param StringValueObject $shipmentID
+     * @param StringValueObject $tracking
+     * @param \DateTime         $shipmentDate
+     * @param CallBackUrl       $callBackUrl
      *
      * @return Xml
      *
      * @throws ResponseInvalidException
      */
-    public function updateOrderShipment($invoiceNum, $shipmentID, $tracking, $shipmentDate, $callBackUrl = '');
+    public function updateOrderShipment(
+        StringValueObject $invoiceNum,
+        StringValueObject $shipmentID,
+        StringValueObject $tracking,
+        \DateTime $shipmentDate,
+        CallBackUrl $callBackUrl
+    );
 }

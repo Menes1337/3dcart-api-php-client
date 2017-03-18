@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Resource\Customer;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Api\Soap\Resource\VisitorInterface;
 
+/**
+ * Class Address
+ *
+ * @package ThreeDCart\Api\Soap\Resource\Customer
+ */
 class Address extends SoapResource
 {
     const TYPE_BILLING  = 'Billing';

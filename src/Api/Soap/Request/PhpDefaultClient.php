@@ -2,9 +2,21 @@
 
 namespace ThreeDCart\Api\Soap\Request;
 
+use ThreeDCart\Api\Soap\Parameter\BatchSize;
+use ThreeDCart\Api\Soap\Parameter\CallBackUrl;
+use ThreeDCart\Api\Soap\Parameter\CustomerAction;
+use ThreeDCart\Api\Soap\Parameter\StartNum;
 use ThreeDCart\Api\Soap\Response\Xml;
+use ThreeDCart\Primitive\BooleanValueObject;
+use ThreeDCart\Primitive\DateFormat;
+use ThreeDCart\Primitive\IntegerValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class PhpDefaultClient
+ *
+ * @package ThreeDCart\Api\Soap\Request
+ */
 class PhpDefaultClient implements ClientInterface
 {
     const THREEDCART_GET_PRODUCT_RESULT_FIELD              = 'getProductResult';
@@ -48,263 +60,25 @@ class PhpDefaultClient implements ClientInterface
         $this->soapClient         = $soapClient;
     }
     
-    public function getProduct($batchSize, $startNum, $productId, $callBackUrl)
-    {
+    public function getProduct(
+        BatchSize $batchSize,
+        StartNum $startNum,
+        StringValueObject $productId,
+        CallBackUrl $callBackUrl
+    ) {
         /** @noinspection PhpUndefinedMethodInspection */
         $soapResponse = $this->soapClient->getProduct(array(
             'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
             'userKey'     => $this->threeDCartApiKey->getValue(),
-            'batchSize'   => $batchSize,
-            'startNum'    => $startNum,
-            'productId'   => $productId,
-            'callBackURL' => $callBackUrl
+            'batchSize'   => $batchSize->getValue(),
+            'startNum'    => $startNum->getValue(),
+            'productId'   => $productId->getValue(),
+            'callBackURL' => $callBackUrl->getValue()
         ));
         
         $this->checkEmptyResponse($soapResponse, new StringValueObject(self::THREEDCART_GET_PRODUCT_RESULT_FIELD));
         
         return new Xml(new StringValueObject($soapResponse->getProductResult->any));
-    }
-    
-    public function getCustomers($batchSize = 100, $startNum = 1, $customersFilter = '', $callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->getCustomer(array(
-            'storeUrl'        => $this->threeDCartStoreUrl->getValue(),
-            'userKey'         => $this->threeDCartApiKey->getValue(),
-            'batchSize'       => $batchSize,
-            'startNum'        => $startNum,
-            'customersFilter' => $customersFilter,
-            'callBackURL'     => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse($soapResponse, new StringValueObject(self::THREEDCART_GET_CUSTOMER_RESULT_FIELD));
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_RESULT_FIELD}->any));
-    }
-    
-    public function getOrderStatus($invoiceNum, $callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->getOrderStatus(array(
-            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
-            'userKey'     => $this->threeDCartApiKey->getValue(),
-            'invoiceNum'  => $invoiceNum,
-            'callBackURL' => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse($soapResponse, new StringValueObject(self::THREEDCART_GET_ORDER_RESULT_FIELD));
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_RESULT_FIELD}->any));
-    }
-    
-    public function getProductCount($callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->getProductCount(array(
-            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
-            'userKey'     => $this->threeDCartApiKey->getValue(),
-            'callBackURL' => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_GET_PRODUCT_COUNT_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_PRODUCT_COUNT_RESULT_FIELD}->any));
-    }
-    
-    public function getProductInventory($productId, $callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->getProductInventory(array(
-            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
-            'userKey'     => $this->threeDCartApiKey->getValue(),
-            'productId'   => $productId,
-            'callBackURL' => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_GET_PRODUCT_INVENTORY_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_PRODUCT_INVENTORY_RESULT_FIELD}->any));
-    }
-    
-    public function getCustomerLoginToken($customerEmail, $timeToLive, $callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->getCustomerLoginToken(array(
-            'storeUrl'      => $this->threeDCartStoreUrl->getValue(),
-            'userKey'       => $this->threeDCartApiKey->getValue(),
-            'customerEmail' => $customerEmail,
-            'timeToLive'    => $timeToLive,
-            'callBackURL'   => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_GET_CUSTOMER_LOGIN_TOKEN_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_LOGIN_TOKEN_RESULT_FIELD}->any));
-    }
-    
-    public function getCustomerCount($callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->getCustomerCount(array(
-            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
-            'userKey'     => $this->threeDCartApiKey->getValue(),
-            'callBackURL' => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_GET_CUSTOMER_COUNT_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_COUNT_RESULT_FIELD}->any));
-    }
-    
-    public function getOrderCount(
-        $startFrom = true,
-        $invoiceNum = '',
-        $status = '',
-        $dateFrom = '',
-        $dateTo = '',
-        $callBackUrl = ''
-    ) {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->getOrderCount(array(
-            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
-            'userKey'     => $this->threeDCartApiKey->getValue(),
-            'startFrom'   => $startFrom,
-            'invoiceNum'  => $invoiceNum,
-            'status'      => $status,
-            'dateFrom'    => $dateFrom,
-            'dateTo'      => $dateTo,
-            'callBackURL' => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_GET_ORDER_COUNT_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_COUNT_RESULT_FIELD}->any));
-    }
-    
-    public function getOrders(
-        $batchSize = 200,
-        $startNum = 100,
-        $startFrom = true,
-        $invoiceNum = '',
-        $status = '',
-        $dateFrom = '',
-        $dateTo = '',
-        $callBackUrl = ''
-    ) {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->getOrder(array(
-            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
-            'userKey'     => $this->threeDCartApiKey->getValue(),
-            'batchSize'   => $batchSize,
-            'startNum'    => $startNum,
-            'startFrom'   => $startFrom,
-            'invoiceNum'  => $invoiceNum,
-            'status'      => $status,
-            'dateFrom'    => $dateFrom,
-            'dateTo'      => $dateTo,
-            'callBackURL' => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_GET_ORDER_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_RESULT_FIELD}->any));
-    }
-    
-    public function updateProductInventory($productId, $quantity, $replaceStock = true, $callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->updateProductInventory(array(
-            'storeUrl'     => $this->threeDCartStoreUrl->getValue(),
-            'userKey'      => $this->threeDCartApiKey->getValue(),
-            'productId'    => $productId,
-            'quantity'     => $quantity,
-            'replaceStock' => $replaceStock,
-            'callBackURL'  => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_UPDATE_PRODUCT_INVENTORY_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_UPDATE_PRODUCT_INVENTORY_RESULT_FIELD}->any));
-    }
-    
-    public function updateOrderStatus($invoiceNum, $newStatus, $callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->updateOrderStatus(array(
-            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
-            'userKey'     => $this->threeDCartApiKey->getValue(),
-            'invoiceNum'  => $invoiceNum,
-            'newStatus'   => $newStatus,
-            'callBackURL' => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_UPDATE_ORDER_STATUS_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_UPDATE_ORDER_STATUS_RESULT_FIELD}->any));
-    }
-    
-    public function updateOrderShipment($invoiceNum, $shipmentID, $tracking, $shipmentDate, $callBackUrl = '')
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->updateOrderShipment(array(
-            'storeUrl'     => $this->threeDCartStoreUrl->getValue(),
-            'userKey'      => $this->threeDCartApiKey->getValue(),
-            'invoiceNum'   => $invoiceNum,
-            'shipmentID'   => $shipmentID,
-            'tracking'     => $tracking,
-            'shipmentDate' => $shipmentDate,
-            'callBackURL'  => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_UPDATE_ORDER_SHIPMENT_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_UPDATE_ORDER_SHIPMENT_RESULT_FIELD}->any));
-    }
-    
-    public function editCustomer($customerData, $action, $callBackUrl)
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $soapResponse = $this->soapClient->editCustomer(array(
-            'storeUrl'     => $this->threeDCartStoreUrl->getValue(),
-            'userKey'      => $this->threeDCartApiKey->getValue(),
-            'customerData' => $customerData,
-            'action'       => $action,
-            'callBackURL'  => $callBackUrl
-        ));
-        
-        $this->checkEmptyResponse(
-            $soapResponse,
-            new StringValueObject(self::THREEDCART_EDIT_CUSTOMER_RESULT_FIELD)
-        );
-        
-        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_EDIT_CUSTOMER_RESULT_FIELD}->any));
     }
     
     /**
@@ -326,5 +100,379 @@ class PhpDefaultClient implements ClientInterface
     public function setSoapClient(\SoapClient $soapClient)
     {
         $this->soapClient = $soapClient;
+    }
+    
+    /**
+     * @param BatchSize|IntegerValueObject $batchSize
+     * @param StartNum|IntegerValueObject  $startNum
+     * @param StringValueObject            $customersFilter
+     * @param CallBackUrl                  $callBackUrl
+     *
+     * @return Xml
+     */
+    public function getCustomers(
+        BatchSize $batchSize,
+        StartNum $startNum,
+        StringValueObject $customersFilter,
+        CallBackUrl $callBackUrl
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->getCustomer(array(
+            'storeUrl'        => $this->threeDCartStoreUrl->getValue(),
+            'userKey'         => $this->threeDCartApiKey->getValue(),
+            'batchSize'       => $batchSize->getValue(),
+            'startNum'        => $startNum->getValue(),
+            'customersFilter' => $customersFilter->getValue(),
+            'callBackURL'     => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse($soapResponse, new StringValueObject(self::THREEDCART_GET_CUSTOMER_RESULT_FIELD));
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param StringValueObject $invoiceNum
+     * @param CallBackUrl       $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function getOrderStatus(StringValueObject $invoiceNum, CallBackUrl $callBackUrl)
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->getOrderStatus(array(
+            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
+            'userKey'     => $this->threeDCartApiKey->getValue(),
+            'invoiceNum'  => $invoiceNum->getValue(),
+            'callBackURL' => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse($soapResponse, new StringValueObject(self::THREEDCART_GET_ORDER_RESULT_FIELD));
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param CallBackUrl $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function getProductCount(CallBackUrl $callBackUrl)
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->getProductCount(array(
+            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
+            'userKey'     => $this->threeDCartApiKey->getValue(),
+            'callBackURL' => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_GET_PRODUCT_COUNT_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_PRODUCT_COUNT_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param StringValueObject $productId
+     * @param CallBackUrl       $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function getProductInventory(StringValueObject $productId, CallBackUrl $callBackUrl)
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->getProductInventory(array(
+            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
+            'userKey'     => $this->threeDCartApiKey->getValue(),
+            'productId'   => $productId->getValue(),
+            'callBackURL' => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_GET_PRODUCT_INVENTORY_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_PRODUCT_INVENTORY_RESULT_FIELD}->any));
+        
+    }
+    
+    /**
+     * @param StringValueObject  $customerEmail
+     * @param IntegerValueObject $timeToLive
+     * @param CallBackUrl        $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function getCustomerLoginToken(
+        StringValueObject $customerEmail,
+        IntegerValueObject $timeToLive,
+        CallBackUrl $callBackUrl
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->getCustomerLoginToken(array(
+            'storeUrl'      => $this->threeDCartStoreUrl->getValue(),
+            'userKey'       => $this->threeDCartApiKey->getValue(),
+            'customerEmail' => $customerEmail->getValue(),
+            'timeToLive'    => $timeToLive->getValue(),
+            'callBackURL'   => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_GET_CUSTOMER_LOGIN_TOKEN_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_LOGIN_TOKEN_RESULT_FIELD}->any));
+        
+    }
+    
+    /**
+     * @param CallBackUrl $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function getCustomerCount(CallBackUrl $callBackUrl)
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->getCustomerCount(array(
+            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
+            'userKey'     => $this->threeDCartApiKey->getValue(),
+            'callBackURL' => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_GET_CUSTOMER_COUNT_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_COUNT_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param StringValueObject $customerData
+     * @param CustomerAction    $action
+     * @param CallBackUrl       $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function editCustomer(
+        StringValueObject $customerData,
+        CustomerAction $action,
+        CallBackUrl $callBackUrl
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->editCustomer(array(
+            'storeUrl'     => $this->threeDCartStoreUrl->getValue(),
+            'userKey'      => $this->threeDCartApiKey->getValue(),
+            'customerData' => $customerData->getValue(),
+            'action'       => $action->getValue(),
+            'callBackURL'  => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_EDIT_CUSTOMER_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_EDIT_CUSTOMER_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param BooleanValueObject $startFrom
+     * @param StringValueObject  $invoiceNum
+     * @param StringValueObject  $status
+     * @param \DateTime | null   $dateFrom
+     * @param \DateTime | null   $dateTo
+     * @param CallBackUrl | null $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function getOrderCount(
+        BooleanValueObject $startFrom,
+        StringValueObject $invoiceNum,
+        StringValueObject $status,
+        \DateTime $dateFrom = null,
+        \DateTime $dateTo = null,
+        CallBackUrl $callBackUrl = null
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->getOrderCount(array(
+            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
+            'userKey'     => $this->threeDCartApiKey->getValue(),
+            'startFrom'   => $startFrom->getValue(),
+            'invoiceNum'  => $invoiceNum->getValue(),
+            'status'      => $status->getValue(),
+            'dateFrom'    => !empty($dateFrom) ? $dateFrom->format(DateFormat::THREE_D_CART_API_DATE_FORMAT) : '',
+            'dateTo'      => !empty($dateTo) ? $dateTo->format(DateFormat::THREE_D_CART_API_DATE_FORMAT) : '',
+            'callBackURL' => !empty($callBackUrl) ? $callBackUrl->getValue() : ''
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_GET_ORDER_COUNT_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_COUNT_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param BatchSize          $batchSize
+     * @param StartNum           $startNum
+     * @param BooleanValueObject $startFrom
+     * @param StringValueObject  $invoiceNum
+     * @param StringValueObject  $status
+     * @param \DateTime | null   $dateFrom
+     * @param \DateTime | null   $dateTo
+     * @param CallBackUrl | null $callBackUrl
+     *
+     * @return Xml
+     */
+    public function getOrders(
+        BatchSize $batchSize,
+        StartNum $startNum,
+        BooleanValueObject $startFrom,
+        StringValueObject $invoiceNum,
+        StringValueObject $status,
+        \DateTime $dateFrom = null,
+        \DateTime $dateTo = null,
+        CallBackUrl $callBackUrl = null
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->getOrder(array(
+            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
+            'userKey'     => $this->threeDCartApiKey->getValue(),
+            'batchSize'   => $batchSize->getValue(),
+            'startNum'    => $startNum->getValue(),
+            'startFrom'   => $startFrom->getValue(),
+            'invoiceNum'  => $invoiceNum->getValue(),
+            'status'      => $status->getValue(),
+            'dateFrom'    => !empty($dateFrom) ? $dateFrom->format(DateFormat::THREE_D_CART_API_DATE_FORMAT) : '',
+            'dateTo'      => !empty($dateTo) ? $dateTo->format(DateFormat::THREE_D_CART_API_DATE_FORMAT) : '',
+            'callBackURL' => !empty($callBackUrl) ? $callBackUrl->getValue() : ''
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_GET_ORDER_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param StringValueObject  $productId
+     * @param IntegerValueObject $quantity
+     * @param BooleanValueObject $replaceStock
+     * @param CallBackUrl        $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function updateProductInventory(
+        StringValueObject $productId,
+        IntegerValueObject $quantity,
+        BooleanValueObject $replaceStock,
+        CallBackUrl $callBackUrl
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->updateProductInventory(array(
+            'storeUrl'     => $this->threeDCartStoreUrl->getValue(),
+            'userKey'      => $this->threeDCartApiKey->getValue(),
+            'productId'    => $productId->getValue(),
+            'quantity'     => $quantity->getValue(),
+            'replaceStock' => $replaceStock->getValue(),
+            'callBackURL'  => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_UPDATE_PRODUCT_INVENTORY_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_UPDATE_PRODUCT_INVENTORY_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param StringValueObject $invoiceNum
+     * @param StringValueObject $newStatus
+     * @param CallBackUrl       $callBackUrl
+     *
+     * @return Xml
+     */
+    public function updateOrderStatus(
+        StringValueObject $invoiceNum,
+        StringValueObject $newStatus,
+        CallBackUrl $callBackUrl
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->updateOrderStatus(array(
+            'storeUrl'    => $this->threeDCartStoreUrl->getValue(),
+            'userKey'     => $this->threeDCartApiKey->getValue(),
+            'invoiceNum'  => $invoiceNum->getValue(),
+            'newStatus'   => $newStatus->getValue(),
+            'callBackURL' => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_UPDATE_ORDER_STATUS_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_UPDATE_ORDER_STATUS_RESULT_FIELD}->any));
+    }
+    
+    /**
+     * @param StringValueObject $invoiceNum
+     * @param StringValueObject $shipmentID
+     * @param StringValueObject $tracking
+     * @param \DateTime         $shipmentDate
+     * @param CallBackUrl       $callBackUrl
+     *
+     * @return Xml
+     *
+     * @throws ResponseInvalidException
+     */
+    public function updateOrderShipment(
+        StringValueObject $invoiceNum,
+        StringValueObject $shipmentID,
+        StringValueObject $tracking,
+        \DateTime $shipmentDate,
+        CallBackUrl $callBackUrl
+    ) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $soapResponse = $this->soapClient->updateOrderShipment(array(
+            'storeUrl'     => $this->threeDCartStoreUrl->getValue(),
+            'userKey'      => $this->threeDCartApiKey->getValue(),
+            'invoiceNum'   => $invoiceNum->getValue(),
+            'shipmentID'   => $shipmentID->getValue(),
+            'tracking'     => $tracking->getValue(),
+            'shipmentDate' => $shipmentDate->format(DateFormat::THREE_D_CART_API_DATE_FORMAT),
+            'callBackURL'  => $callBackUrl->getValue()
+        ));
+        
+        $this->checkEmptyResponse(
+            $soapResponse,
+            new StringValueObject(self::THREEDCART_UPDATE_ORDER_SHIPMENT_RESULT_FIELD)
+        );
+        
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_UPDATE_ORDER_SHIPMENT_RESULT_FIELD}->any));
     }
 }

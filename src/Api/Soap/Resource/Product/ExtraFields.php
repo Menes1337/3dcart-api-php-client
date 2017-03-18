@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Resource\Product;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Api\Soap\Resource\VisitorInterface;
 
+/**
+ * Class ExtraFields
+ *
+ * @package ThreeDCart\Api\Soap\Resource\Product
+ */
 class ExtraFields extends SoapResource
 {
     /** @var string */

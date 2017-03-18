@@ -3,32 +3,32 @@
 namespace ThreeDCart\Primitive;
 
 /**
- * Class StringValueObject
+ * Class BooleanValueObject
  *
  * @package ThreeDCart\Primitive
  */
-class StringValueObject
+class BooleanValueObject
 {
-    /** @var string */
+    /** @var bool */
     private $value;
     
     /**
-     * @param string $value
-     *
+     * @param bool $value
+     * 
      * @throws \InvalidArgumentException
      */
     public function __construct($value)
     {
-        if (!is_string($value)) {
+        if (!is_bool($value)) {
             throw new \InvalidArgumentException(
-                'parameter $value is not of type string. type is ' . gettype($value)
+                'parameter $value is not of type bool. type is ' . gettype($value)
             );
         }
         $this->value = $value;
     }
     
     /**
-     * @return string
+     * @return bool
      */
     public function getValue()
     {

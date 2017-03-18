@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Resource;
 use ThreeDCart\Primitive\ArrayValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class ResourceParser
+ *
+ * @package ThreeDCart\Api\Soap\Resource
+ */
 class ResourceParser implements ResourceParserInterface
 {
     /**

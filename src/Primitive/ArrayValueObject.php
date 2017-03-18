@@ -2,6 +2,11 @@
 
 namespace ThreeDCart\Primitive;
 
+/**
+ * Class ArrayValueObject
+ *
+ * @package ThreeDCart\Primitive
+ */
 class ArrayValueObject
 {
     /** @var array */

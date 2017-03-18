@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Request;
 use ThreeDCart\Api\Soap\Response\Xml;
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Class PhpDefaultAdvancedClient
+ *
+ * @package ThreeDCart\Api\Soap\Request
+ */
 class PhpDefaultAdvancedClient implements AdvancedClientInterface
 {
     /** @var StringValueObject */

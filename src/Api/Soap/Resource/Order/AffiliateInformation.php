@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Resource\Order;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Api\Soap\Resource\VisitorInterface;
 
+/**
+ * Class AffiliateInformation
+ *
+ * @package ThreeDCart\Api\Soap\Resource\Order
+ */
 class AffiliateInformation extends SoapResource
 {
     /** @var string */

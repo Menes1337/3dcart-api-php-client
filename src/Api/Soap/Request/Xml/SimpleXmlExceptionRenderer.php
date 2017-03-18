@@ -2,6 +2,11 @@
 
 namespace ThreeDCart\Api\Soap\Request\Xml;
 
+/**
+ * Class SimpleXmlExceptionRenderer
+ *
+ * @package ThreeDCart\Api\Soap\Request\Xml
+ */
 class SimpleXmlExceptionRenderer
 {
     /**

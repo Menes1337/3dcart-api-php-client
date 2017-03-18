@@ -8,6 +8,11 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Class ThreeDCartTestCase
+ *
+ * @package tests\Unit
+ */
 class ThreeDCartTestCase extends \PHPUnit_Framework_TestCase
 {
     /**

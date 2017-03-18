@@ -38,8 +38,8 @@ class AdvancedClient
     }
     
     /**
-     * @param StringValueObject $sql
-     * @param StringValueObject $callBackUrl
+     * @param StringValueObject      $sql
+     * @param StringValueObject|null $callBackUrl
      *
      * @return ArrayValueObject
      *
@@ -49,16 +49,18 @@ class AdvancedClient
     {
         $responseXml = $this->soapAdvancedClient->runQuery($sql, $callBackUrl);
         
-        $objectData = $this->responseHandler->convertToArray($responseXml);
-        $this->responseHandler->handleApiErrors($responseXml, $objectData);
+        $responseData = $this->responseHandler->convertToArray($responseXml);
+        $this->responseHandler->handleApiErrors($responseXml, $responseData);
         
-        return $this->extractSpecificXmlTagAsArray(new StringValueObject(self::RUN_QUERY_RECORD), $objectData);
+        return $this->extractSpecificXmlTagAsArray(new StringValueObject(self::RUN_QUERY_RECORD), $responseData);
     }
     
     /**
      * @param SqlFieldList $sqlFieldList
      *
      * @return string
+     *
+     * @throws ResponseInvalidException
      */
     public function getCategories(SqlFieldList $sqlFieldList)
     {
@@ -71,19 +73,18 @@ class AdvancedClient
     
     /**
      * @param StringValueObject $responseXmlTag
-     * @param ArrayValueObject  $apiResponse
+     * @param ArrayValueObject  $responseData
      *
      * @return ArrayValueObject
      *
      * @throws MalFormedApiResponseException
      */
-    protected function extractSpecificXmlTagAsArray(StringValueObject $responseXmlTag, ArrayValueObject $apiResponse)
+    protected function extractSpecificXmlTagAsArray(StringValueObject $responseXmlTag, ArrayValueObject $responseData)
     {
-        $arrResponse = $apiResponse->getValue();
-        if (!isset($arrResponse[$responseXmlTag->getValue()])) {
+        if (!$responseData->issetKey($responseXmlTag)) {
             throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getValue() . ' is missing');
         }
         
-        return new ArrayValueObject($arrResponse[$responseXmlTag->getValue()]);
+        return $responseData->getArrayValueObject($responseXmlTag);
     }
 }

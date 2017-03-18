@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Request;
 use ThreeDCart\Api\Soap\Response\Xml;
 use ThreeDCart\Primitive\StringValueObject;
 
+/**
+ * Interface AdvancedClientInterface
+ *
+ * @package ThreeDCart\Api\Soap\Request
+ */
 interface AdvancedClientInterface
 {
     /**

@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Resource\Product;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Api\Soap\Resource\VisitorInterface;
 
+/**
+ * Class ProductInventory
+ *
+ * @package ThreeDCart\Api\Soap\Resource\Product
+ */
 class ProductInventory extends SoapResource
 {
     /** @var string */

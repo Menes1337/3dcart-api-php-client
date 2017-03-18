@@ -34,6 +34,11 @@ use ThreeDCart\Api\Soap\Resource\Product\Reward;
 use ThreeDCart\Api\Soap\Resource\ResourceParserVisitor;
 use ThreeDCart\Primitive\ArrayValueObject;
 
+/**
+ * Class ResourceParserVisitorTest
+ *
+ * @package tests\Unit\Api\Soap\Resources
+ */
 class ResourceParserVisitorTest extends ThreeDCartTestCase
 {
     

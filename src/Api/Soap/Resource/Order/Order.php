@@ -6,6 +6,11 @@ use ThreeDCart\Api\Soap\Resource\Customer\Address;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Api\Soap\Resource\VisitorInterface;
 
+/**
+ * Class Order
+ *
+ * @package ThreeDCart\Api\Soap\Resource\Order
+ */
 class Order extends SoapResource
 {
     

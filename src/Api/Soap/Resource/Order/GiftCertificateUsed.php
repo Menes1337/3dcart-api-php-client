@@ -5,6 +5,11 @@ namespace ThreeDCart\Api\Soap\Resource\Order;
 use ThreeDCart\Api\Soap\Resource\SoapResource;
 use ThreeDCart\Api\Soap\Resource\VisitorInterface;
 
+/**
+ * Class GiftCertificateUsed
+ *
+ * @package ThreeDCart\Api\Soap\Resource\Order
+ */
 class GiftCertificateUsed extends SoapResource
 {
     /** @var string */
