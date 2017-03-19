@@ -18,7 +18,6 @@
     }
   },
   "require": {
-    "guzzlehttp/guzzle": "^6.2",
-    "sabre/xml": "^1.4"
+    "guzzlehttp/guzzle": "^6.2"
   }
 }
