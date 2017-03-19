@@ -10,6 +10,12 @@ Minimum PHP Version: 5.6
 
 ## Example usage
 
+### Project Initialization
+    
+    git clone https://github.com/Menes1337/3dcart-api-php-client.git
+    cd 3dcart-api-php-client
+    composer install
+    
 ### Soap API
     include('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
         
