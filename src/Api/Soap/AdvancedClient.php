@@ -58,7 +58,7 @@ class AdvancedClient
     /**
      * @param SqlFieldList $sqlFieldList
      *
-     * @return string
+     * @return ArrayValueObject
      *
      * @throws ResponseInvalidException
      */

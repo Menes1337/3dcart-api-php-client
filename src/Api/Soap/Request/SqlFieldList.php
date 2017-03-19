@@ -44,7 +44,7 @@ class SqlFieldList
     {
         $fields = array();
         foreach ($this->list as $listEntry) {
-            $fields[] = $listEntry->getName();
+            $fields[] = $listEntry->getName()->getValue();
         }
         
         if (empty($fields)) {

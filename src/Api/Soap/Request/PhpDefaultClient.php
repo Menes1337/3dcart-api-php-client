@@ -102,14 +102,6 @@ class PhpDefaultClient implements ClientInterface
         $this->soapClient = $soapClient;
     }
     
-    /**
-     * @param BatchSize|IntegerValueObject $batchSize
-     * @param StartNum|IntegerValueObject  $startNum
-     * @param StringValueObject            $customersFilter
-     * @param CallBackUrl                  $callBackUrl
-     *
-     * @return Xml
-     */
     public function getCustomers(
         BatchSize $batchSize,
         StartNum $startNum,
@@ -131,14 +123,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param StringValueObject $invoiceNum
-     * @param CallBackUrl       $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function getOrderStatus(StringValueObject $invoiceNum, CallBackUrl $callBackUrl)
     {
         /** @noinspection PhpUndefinedMethodInspection */
@@ -154,13 +138,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param CallBackUrl $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function getProductCount(CallBackUrl $callBackUrl)
     {
         /** @noinspection PhpUndefinedMethodInspection */
@@ -178,14 +155,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_PRODUCT_COUNT_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param StringValueObject $productId
-     * @param CallBackUrl       $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function getProductInventory(StringValueObject $productId, CallBackUrl $callBackUrl)
     {
         /** @noinspection PhpUndefinedMethodInspection */
@@ -205,15 +174,6 @@ class PhpDefaultClient implements ClientInterface
         
     }
     
-    /**
-     * @param StringValueObject  $customerEmail
-     * @param IntegerValueObject $timeToLive
-     * @param CallBackUrl        $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function getCustomerLoginToken(
         StringValueObject $customerEmail,
         IntegerValueObject $timeToLive,
@@ -237,13 +197,6 @@ class PhpDefaultClient implements ClientInterface
         
     }
     
-    /**
-     * @param CallBackUrl $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function getCustomerCount(CallBackUrl $callBackUrl)
     {
         /** @noinspection PhpUndefinedMethodInspection */
@@ -261,15 +214,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_COUNT_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param StringValueObject $customerData
-     * @param CustomerAction    $action
-     * @param CallBackUrl       $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function editCustomer(
         StringValueObject $customerData,
         CustomerAction $action,
@@ -292,18 +236,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_EDIT_CUSTOMER_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param BooleanValueObject $startFrom
-     * @param StringValueObject  $invoiceNum
-     * @param StringValueObject  $status
-     * @param \DateTime | null   $dateFrom
-     * @param \DateTime | null   $dateTo
-     * @param CallBackUrl | null $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function getOrderCount(
         BooleanValueObject $startFrom,
         StringValueObject $invoiceNum,
@@ -332,18 +264,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_COUNT_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param BatchSize          $batchSize
-     * @param StartNum           $startNum
-     * @param BooleanValueObject $startFrom
-     * @param StringValueObject  $invoiceNum
-     * @param StringValueObject  $status
-     * @param \DateTime | null   $dateFrom
-     * @param \DateTime | null   $dateTo
-     * @param CallBackUrl | null $callBackUrl
-     *
-     * @return Xml
-     */
     public function getOrders(
         BatchSize $batchSize,
         StartNum $startNum,
@@ -376,16 +296,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_ORDER_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param StringValueObject  $productId
-     * @param IntegerValueObject $quantity
-     * @param BooleanValueObject $replaceStock
-     * @param CallBackUrl        $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function updateProductInventory(
         StringValueObject $productId,
         IntegerValueObject $quantity,
@@ -410,13 +320,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_UPDATE_PRODUCT_INVENTORY_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param StringValueObject $invoiceNum
-     * @param StringValueObject $newStatus
-     * @param CallBackUrl       $callBackUrl
-     *
-     * @return Xml
-     */
     public function updateOrderStatus(
         StringValueObject $invoiceNum,
         StringValueObject $newStatus,
@@ -439,17 +342,6 @@ class PhpDefaultClient implements ClientInterface
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_UPDATE_ORDER_STATUS_RESULT_FIELD}->any));
     }
     
-    /**
-     * @param StringValueObject $invoiceNum
-     * @param StringValueObject $shipmentID
-     * @param StringValueObject $tracking
-     * @param \DateTime         $shipmentDate
-     * @param CallBackUrl       $callBackUrl
-     *
-     * @return Xml
-     *
-     * @throws ResponseInvalidException
-     */
     public function updateOrderShipment(
         StringValueObject $invoiceNum,
         StringValueObject $shipmentID,

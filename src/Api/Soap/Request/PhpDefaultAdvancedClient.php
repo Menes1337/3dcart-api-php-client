@@ -12,6 +12,8 @@ use ThreeDCart\Primitive\StringValueObject;
  */
 class PhpDefaultAdvancedClient implements AdvancedClientInterface
 {
+    const THREEDCART_RUN_QUERY_RESULT_FIELD = 'runQueryResult';
+    
     /** @var StringValueObject */
     private $threeDCartApiKey;
     /** @var StringValueObject */
@@ -44,19 +46,20 @@ class PhpDefaultAdvancedClient implements AdvancedClientInterface
             'callBackURL'  => is_null($callBackUrl) ? '' : $callBackUrl->getValue()
         ));
         
-        $this->checkEmptyResponse($soapResponse);
+        $this->checkEmptyResponse($soapResponse, new StringValueObject(self::THREEDCART_RUN_QUERY_RESULT_FIELD));
         
-        return new Xml(new StringValueObject($soapResponse));
+        return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_RUN_QUERY_RESULT_FIELD}->any));
     }
     
     /**
-     * @param \stdClass $response
+     * @param \stdClass         $response
+     * @param StringValueObject $field
      *
      * @throws ResponseBodyEmptyException
      */
-    public function checkEmptyResponse(\stdClass $response)
+    public function checkEmptyResponse(\stdClass $response, StringValueObject $field)
     {
-        if (empty($response) || empty($response->any)) {
+        if (empty($response) || empty($response->{$field->getValue()}->any)) {
             throw new ResponseBodyEmptyException('response body is empty', null);
         }
     }
