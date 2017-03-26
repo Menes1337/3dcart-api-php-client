@@ -358,12 +358,114 @@ class ClientTest extends ThreeDCartTestCase
         $this->assertEquals(true, $success->getValue());
     }
     
+    public function testInsertCustomer()
+    {
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('insertCustomer', 'editCustomer'));
+    
+        $billingAddress = new Address();
+        $billingAddress->setFirstName('Max');
+        $billingAddress->setLastName('Mustermann');
+        $billingAddress->setEmail('test@test.com');
+        
+        $shippingAddress = new Address();
+        $shippingAddress->setFirstName('Max');
+        
+        $customer = new Customer();
+        $customer->setBillingAddress($billingAddress);
+        $customer->setShippingAddress($shippingAddress);
+        $customer->setPass('test');
+        
+        $result = $this->subjectUnderTest->insertCustomer(
+            $customer,
+            new CallBackUrl('')
+        );
+        
+        $this->assertEquals(true, $result->getValue());
+    }
+    
+    public function testInsertCustomerMissingField()
+    {
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('insertCustomer', 'editCustomer'));
+        
+        $billingAddress = new Address();
+        $billingAddress->setFirstName('Max');
+        $billingAddress->setLastName('Mustermann');
+        $billingAddress->setEmail('test@test.com');
+        
+        $customer = new Customer();
+        $customer->setBillingAddress($billingAddress);
+        
+        $this->expectException(\InvalidArgumentException::class);
+        
+        $this->subjectUnderTest->insertCustomer(
+            $customer,
+            new CallBackUrl('')
+        );
+    }
+    
+    public function testUpdateCustomer()
+    {
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('updateCustomer', 'editCustomer'));
+        
+        $billingAddress = new Address();
+        $billingAddress->setFirstName('Max');
+        
+        $customer = new Customer();
+        $customer->setCustomerID(12);
+        $customer->setBillingAddress($billingAddress);
+        
+        $result = $this->subjectUnderTest->updateCustomer(
+            $customer,
+            array(
+                Customer::EDIT_CUSTOMER_CONTACTID
+            ),
+            new CallBackUrl('')
+        );
+        
+        $this->assertEquals(true, $result->getValue());
+    }
+    
+    public function testUpdateAltCustomerContactId()
+    {
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('updateCustomer', 'editCustomer'));
+        
+        $customer = new Customer();
+        $customer->setCustomerID(12);
+        $customer->setAltContactId('Alt12');
+        
+        $result = $this->subjectUnderTest->updateCustomer(
+            $customer,
+            array(
+                Customer::EDIT_CUSTOMER_ALT_CONTACTID
+            ),
+            new CallBackUrl('')
+        );
+        
+        $this->assertEquals(true, $result->getValue());
+    }
+    
+    public function testDeleteCustomer()
+    {
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('deleteCustomer', 'editCustomer'));
+        
+        $customer = new Customer();
+        $customer->setCustomerID(12);
+        
+        $result = $this->subjectUnderTest->deleteCustomer(
+            $customer,
+            new CallBackUrl('')
+        );
+        
+        $this->assertEquals(true, $result->getValue());
+    }
+    
     /**
-     * @param string $method
+     * @param string      $mockMethod
+     * @param string|null $calledMethod
      *
      * @return \PHPUnit_Framework_MockObject_MockObject | ClientInterface
      */
-    private function getSoapClientMock($method)
+    private function getSoapClientMock($mockMethod, $calledMethod = null)
     {
         $methods        = array(
             '__construct',
@@ -386,7 +488,9 @@ class ClientTest extends ThreeDCartTestCase
                                ->setMethods($methods)
                                ->getMock()
         ;
-        $soapClientMock->method($method)->willReturn($this->getResponseMock($method));
+        $soapClientMock->method($calledMethod != null ? $calledMethod : $mockMethod)
+                       ->willReturn($this->getResponseMock($mockMethod))
+        ;
         
         return $soapClientMock;
     }
