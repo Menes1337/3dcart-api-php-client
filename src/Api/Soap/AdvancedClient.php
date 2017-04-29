@@ -66,7 +66,7 @@ class AdvancedClient
     {
         return $this->runQuery(
             new StringValueObject(
-                'SELECT ' . $sqlFieldList->toString()->getValue() . ' FROM category'
+                'SELECT ' . $sqlFieldList->toString()->getStringValue() . ' FROM category'
             )
         );
     }
@@ -82,7 +82,7 @@ class AdvancedClient
     protected function extractSpecificXmlTagAsArray(StringValueObject $responseXmlTag, ArrayValueObject $responseData)
     {
         if (!$responseData->issetKey($responseXmlTag)) {
-            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getValue() . ' is missing');
+            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getStringValue() . ' is missing');
         }
         
         return $responseData->getArrayValueObject($responseXmlTag);

@@ -16,7 +16,34 @@ Minimum PHP Version: 5.6
     cd 3dcart-api-php-client
     composer install
     
+### REST API
+
+see also [3dCart REST API](https://apirest.3dcart.com/Help)
+
+    include('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+        
+    $restFactory        = new \ThreeDCart\Api\Rest\Factory();
+    $authenticationService = $restFactory->getAuthenticationService(
+        new \ThreeDCart\Api\Rest\Application\PrivateKey('Your application\'s private key'),
+        new \ThreeDCart\Api\Rest\Shop\Token('The 3dcart merchant\'s token'),
+        new \ThreeDCart\Api\Rest\Shop\SecureUrl('3dcart merchant\'s Secure URL')
+    );
+    $customerService       = $restFactory->getCustomerService(
+        $authenticationService,
+        new \ThreeDCart\Api\Rest\Api\Version(\ThreeDCart\Api\Rest\Api\Version::VERSION_1)
+    );
+    
+    $customerFilter = new \ThreeDCart\Api\Rest\Filter\CustomerFilter();
+    $customerFilter->filterLimit(new \ThreeDCart\Api\Rest\Filter\Limit(5));
+    
+    $customerObjects = $customerService->getCustomers($customerFilter);
+    
+    var_dump($customerObjects);
+    
 ### Soap API
+
+see also [3dCart Soap API](https://api.3dcart.com/cart.asmx)
+
     include('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
         
     $soapFactory = new \ThreeDCart\Api\Soap\Factory();
@@ -30,6 +57,9 @@ Minimum PHP Version: 5.6
     var_dump($customerObjects);
     
 ### Advanced SOAP API
+
+see also [3dCart Advanced Soap API](https://api.3dcart.com/cart_advanced.asmx)
+
     include('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
     
     $soapFactory = new \ThreeDCart\Api\Soap\Factory();

@@ -20,7 +20,7 @@ class BatchSize extends UnsignedIntegerValueObject
     {
         parent::__construct($value, false);
         
-        if ($this->getValue() > 100) {
+        if ($this->getIntValue() > 100) {
             throw new \InvalidArgumentException('parameter must be between 1 and 100');
         }
     }

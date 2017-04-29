@@ -66,7 +66,7 @@ class IntegerValueObjectTest extends ThreeDCartTestCase
     {
         $int = new IntegerValueObject($value);
         
-        $this->assertEquals($expectedResult, $int->getValue());
+        $this->assertEquals($expectedResult, $int->getIntValue());
     }
     
     /**

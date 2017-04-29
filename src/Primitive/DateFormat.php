@@ -13,4 +13,12 @@ class DateFormat extends Enum
     const THREE_D_CART_API_DATE_FORMAT = self::AMERICAN_STANDARD;
     
     public static $allowedValues = array(self::AMERICAN_STANDARD);
+    
+    /**
+     * @return string
+     */
+    public function getFormat()
+    {
+        return $this->getValue();
+    }
 }

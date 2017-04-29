@@ -26,7 +26,7 @@ class ResourceParser implements ResourceParserInterface
             throw new ParseException('unable to create resource. data empty');
         }
         
-        $class = $className->getValue();
+        $class = $className->getStringValue();
         
         /** @var SoapResource $resource */
         $resource = new $class();

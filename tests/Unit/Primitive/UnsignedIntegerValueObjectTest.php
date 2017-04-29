@@ -75,7 +75,7 @@ class UnsignedIntegerValueObjectTest extends ThreeDCartTestCase
     {
         $int = new UnsignedIntegerValueObject($value, true);
         
-        $this->assertEquals($expectedResult, $int->getValue());
+        $this->assertEquals($expectedResult, $int->getIntValue());
     }
     
     /**

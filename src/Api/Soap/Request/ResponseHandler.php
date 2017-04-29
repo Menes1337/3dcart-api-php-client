@@ -85,7 +85,7 @@ class ResponseHandler implements ResponseHandlerInterface
         try {
             libxml_use_internal_errors(true);
             libxml_clear_errors();
-            $simpleXML = new \SimpleXMLElement($xml->getXmlAsString()->getValue(), LIBXML_NOCDATA);
+            $simpleXML = new \SimpleXMLElement($xml->getXmlAsString()->getStringValue(), LIBXML_NOCDATA);
             
             return $simpleXML;
         } catch (\Exception $ex) {
@@ -119,8 +119,8 @@ class ResponseHandler implements ResponseHandlerInterface
             && $response->issetKey(new StringValueObject(self::XML_RESPONSE_DESCRIPTION))
         ) {
             throw new ApiErrorException(
-                $response->getStringValueObject(new StringValueObject(self::XML_RESPONSE_DESCRIPTION))->getValue(),
-                $response->getStringValueObject(new StringValueObject(self::XML_RESPONSE_ID))->getValue()
+                $response->getStringValueObject(new StringValueObject(self::XML_RESPONSE_DESCRIPTION))->getStringValue(),
+                $response->getStringValueObject(new StringValueObject(self::XML_RESPONSE_ID))->getStringValue()
             );
         }
         
@@ -133,16 +133,16 @@ class ResponseHandler implements ResponseHandlerInterface
                 throw new ApiErrorException(
                     $errorResponse->getStringValueObject(
                         new StringValueObject(self::XML_RESPONSE_DESCRIPTION)
-                    )->getValue(),
+                    )->getStringValue(),
                     $errorResponse->getStringValueObject(
                         new StringValueObject(self::XML_RESPONSE_ID)
-                    )->getValue()
+                    )->getStringValue()
                 );
             }
         }
         
-        if (strpos($xmlResponse->getXmlAsString()->getValue(), '<' . self::XML_RESPONSE_ERROR) === 0) {
-            throw new ApiErrorException(substr($xmlResponse->getXmlAsString()->getValue(), 0, 500), null);
+        if (strpos($xmlResponse->getXmlAsString()->getStringValue(), '<' . self::XML_RESPONSE_ERROR) === 0) {
+            throw new ApiErrorException(substr($xmlResponse->getXmlAsString()->getStringValue(), 0, 500), null);
         }
     }
 }

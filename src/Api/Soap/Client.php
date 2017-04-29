@@ -417,11 +417,11 @@ class Client
         $arrayResponse = $this->getArrayValueObject($xmlResponse);
         $isResultOk    = $this->isResultOk($arrayResponse);
         
-        if ($isResultOk->getValue()
+        if ($isResultOk->getBoolValue()
             && $arrayResponse->issetKey(new StringValueObject(self::XML_TAG_CUSTOMER_CONTACT_ID))
         ) {
             $customer->setCustomerID($arrayResponse->getIntegerValueObject(new StringValueObject(self::XML_TAG_CUSTOMER_CONTACT_ID))
-                                                   ->getValue());
+                                                   ->getIntValue());
         }
         
         return $isResultOk;
@@ -456,7 +456,7 @@ class Client
      */
     private function editCustomer(Customer $customer, array $customerDataFieldList, $action, CallBackUrl $callBackUrl)
     {
-        $customerDataFieldList[] = $this->getCustomerIdentifier($customer)->getValue();
+        $customerDataFieldList[] = $this->getCustomerIdentifier($customer)->getStringValue();
         
         return $this->soapClient->editCustomer(
             $this->convertCustomerData(
@@ -540,7 +540,7 @@ class Client
         return new IntegerValueObject((int)$this->extractSpecificXmlTagAsString(
             $tagName,
             $objectData
-        )->getValue());
+        )->getStringValue());
     }
     
     /**
@@ -557,11 +557,11 @@ class Client
     ) {
         return new BooleanValueObject(
             $response->issetKey(new StringValueObject(self::XML_TAG_Product_ID))
-            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_Product_ID))->getValue()
-            === $productId->getValue()
+            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_Product_ID))->getStringValue()
+            === $productId->getStringValue()
             && $response->issetKey(new StringValueObject(self::XML_TAG_NEW_INVENTORY))
-            && $response->getIntegerValueObject(new StringValueObject(self::XML_TAG_NEW_INVENTORY))->getValue()
-            === $quantity->getValue());
+            && $response->getIntegerValueObject(new StringValueObject(self::XML_TAG_NEW_INVENTORY))->getIntValue()
+            === $quantity->getIntValue());
     }
     
     /**
@@ -577,11 +577,11 @@ class Client
         ArrayValueObject $response
     ) {
         return new BooleanValueObject($response->issetKey(new StringValueObject(self::XML_TAG_INVOICE_NUM))
-            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_INVOICE_NUM))->getValue()
-            === $invoiceNum->getValue()
+            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_INVOICE_NUM))->getStringValue()
+            === $invoiceNum->getStringValue()
             && $response->issetKey(new StringValueObject(self::XML_TAG_NEW_STATUS))
-            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_NEW_STATUS))->getValue()
-            === $newStatus->getValue());
+            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_NEW_STATUS))->getStringValue()
+            === $newStatus->getStringValue());
     }
     
     /**
@@ -592,7 +592,7 @@ class Client
     protected function isResultOk(ArrayValueObject $response)
     {
         return new BooleanValueObject($response->issetKey(new StringValueObject(self::XML_TAG_RESULT))
-            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_RESULT))->getValue()
+            && $response->getStringValueObject(new StringValueObject(self::XML_TAG_RESULT))->getStringValue()
             == self::XML_TAG_RESULT_OK);
     }
     
@@ -681,11 +681,11 @@ class Client
     protected function extractSpecificXmlTagAsArray(StringValueObject $responseXmlTag, ArrayValueObject $apiResponse)
     {
         $arrResponse = $apiResponse->getValue();
-        if (!isset($arrResponse[$responseXmlTag->getValue()])) {
-            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getValue() . ' is missing');
+        if (!isset($arrResponse[$responseXmlTag->getStringValue()])) {
+            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getStringValue() . ' is missing');
         }
         
-        return new ArrayValueObject($arrResponse[$responseXmlTag->getValue()]);
+        return new ArrayValueObject($arrResponse[$responseXmlTag->getStringValue()]);
     }
     
     /**
@@ -699,10 +699,10 @@ class Client
     protected function extractSpecificXmlTagAsString(StringValueObject $responseXmlTag, ArrayValueObject $apiResponse)
     {
         $arrResponse = $apiResponse->getValue();
-        if (!isset($arrResponse[$responseXmlTag->getValue()])) {
-            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getValue() . ' is missing');
+        if (!isset($arrResponse[$responseXmlTag->getStringValue()])) {
+            throw new MalFormedApiResponseException('xml tag ' . $responseXmlTag->getStringValue() . ' is missing');
         }
         
-        return new StringValueObject($arrResponse[$responseXmlTag->getValue()]);
+        return new StringValueObject($arrResponse[$responseXmlTag->getStringValue()]);
     }
 }
