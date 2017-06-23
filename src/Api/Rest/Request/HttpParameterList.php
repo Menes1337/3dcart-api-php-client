@@ -2,31 +2,20 @@
 
 namespace ThreeDCart\Api\Rest\Request;
 
-use ThreeDCart\Primitive\BooleanValueObject;
-use ThreeDCart\Primitive\IntegerValueObject;
+use ThreeDCart\Primitive\AbstractList;
 use ThreeDCart\Primitive\StringValueObject;
 
-class HttpParameterList
+class HttpParameterList extends AbstractList
 {
     /** @var HttpParameter[] */
-    private $list;
-    
-    public function __construct()
-    {
-        $this->list = [];
-    }
+    protected $list;
     
     /**
      * @param HttpParameter $httpParameter
      */
     public function addParameter(HttpParameter $httpParameter)
     {
-        $this->list[] = $httpParameter;
-    }
-    
-    public function clear()
-    {
-        $this->list = [];
+        $this->addEntry($httpParameter);
     }
     
     /**
@@ -49,21 +38,5 @@ class HttpParameterList
     public function buildHttpQuery()
     {
         return new StringValueObject(http_build_query($this->getSimpleParameterArray()));
-    }
-    
-    /**
-     * @return BooleanValueObject
-     */
-    public function isEmpty()
-    {
-        return new BooleanValueObject(empty($this->list));
-    }
-    
-    /**
-     * @return IntegerValueObject
-     */
-    public function count()
-    {
-        return new IntegerValueObject(count($this->list));
     }
 }

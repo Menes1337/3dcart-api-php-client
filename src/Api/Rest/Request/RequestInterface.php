@@ -4,7 +4,7 @@ namespace ThreeDCart\Api\Rest\Request;
 
 use ThreeDCart\Primitive\StringValueObject;
 
-interface HandlerInterface
+interface RequestInterface
 {
     /**
      * @param HttpMethod        $httpMethod
@@ -14,7 +14,7 @@ interface HandlerInterface
      *
      * @return StringValueObject
      */
-    public function request(
+    public function send(
         HttpMethod $httpMethod,
         ApiPathAppendix $apiPathAppendix,
         HttpParameterList $httpGetParameterList,

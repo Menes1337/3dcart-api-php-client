@@ -2,10 +2,14 @@
 
 namespace ThreeDCart\Api\Rest\Service;
 
-use ThreeDCart\Api\Rest\Filter\CustomerFilterInterface;
+use ThreeDCart\Api\Rest\Filter\CustomerInterface;
 use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
 use ThreeDCart\Api\Rest\Request\HttpMethod;
+use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Api\Rest\Request\HttpParameterList;
+use ThreeDCart\Api\Rest\Select\SelectInterface;
+use ThreeDCart\Api\Rest\Sort\SortInterface;
+use ThreeDCart\Primitive\StringValueObject;
 
 /**
  * Class Customers
@@ -14,12 +18,36 @@ use ThreeDCart\Api\Rest\Request\HttpParameterList;
  */
 class Customers extends AbstractService implements CustomersInterface
 {
-    public function getCustomers(CustomerFilterInterface $customerFilter = null)
-    {
-        return $this->requestHandler->request(
+    public function getCustomers(
+        SelectInterface $selectList = null,
+        CustomerInterface $customerFilterList = null,
+        SortInterface $sortOrderList = null
+    ) {
+        $requestParameterList =
+            !is_null($customerFilterList) ? $customerFilterList->getHttpParameterList() : new HttpParameterList();
+        
+        if ($sortOrderList !== null && !$sortOrderList->isEmpty()->getBoolValue()) {
+            $requestParameterList->addParameter(
+                new HttpParameter(
+                    new StringValueObject('$orderby'),
+                    $sortOrderList->getOrderByQueryString()
+                )
+            );
+        }
+        
+        if ($selectList !== null && !$selectList->isEmpty()->getBoolValue()) {
+            $requestParameterList->addParameter(
+                new HttpParameter(
+                    new StringValueObject('$select'),
+                    $selectList->getSelectQueryString()
+                )
+            );
+        }
+        
+        return $this->requestClient->send(
             new HttpMethod(HttpMethod::HTTP_METHOD_GET),
             new ApiPathAppendix(''),
-            $customerFilter !== null ? $customerFilter->getHttpParameterList() : new HttpParameterList(),
+            $requestParameterList,
             new HttpParameterList()
         );
     }

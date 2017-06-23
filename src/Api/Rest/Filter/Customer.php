@@ -7,11 +7,9 @@ use ThreeDCart\Primitive\StringValueObject;
 use ThreeDCart\Primitive\UnsignedIntegerValueObject;
 
 /**
- * Class CustomerFilter
- *
  * @package ThreeDCart\Api\Rest\Filter
  */
-class CustomerFilter extends AbstractFilter implements CustomerFilterInterface
+class Customer extends Abstraction implements CustomerInterface
 {
     const FILTER_LIMIT           = 'limit';
     const FILTER_OFFSET          = 'offset';

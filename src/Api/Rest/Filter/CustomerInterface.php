@@ -10,9 +10,8 @@ use ThreeDCart\Primitive\UnsignedIntegerValueObject;
 
 /**
  * @package ThreeDCart\Api\Rest\Filter
- *
  */
-interface CustomerFilterInterface
+interface CustomerInterface
 {
     /**
      * @param StringValueObject $email
@@ -95,5 +94,4 @@ interface CustomerFilterInterface
      * @return IntegerValueObject will return the number of active entries in the filter
      */
     public function count();
-    
 }

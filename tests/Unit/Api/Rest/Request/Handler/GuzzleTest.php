@@ -9,8 +9,8 @@ use tests\Unit\ThreeDCartTestCase;
 use ThreeDCart\Api\Rest\Authentication\HttpHeader;
 use ThreeDCart\Api\Rest\AuthenticationServiceInterface;
 use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
-use ThreeDCart\Api\Rest\Request\Handler\Guzzle;
-use ThreeDCart\Api\Rest\Request\HandlerInterface;
+use ThreeDCart\Api\Rest\Request\Guzzle;
+use ThreeDCart\Api\Rest\Request\RequestInterface;
 use ThreeDCart\Api\Rest\Request\HttpMethod;
 use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Api\Rest\Request\HttpParameterList;
@@ -43,7 +43,7 @@ class GuzzleTest extends ThreeDCartTestCase
             ...$expectedGuzzleCallParameter
         );
         
-        /** @var HandlerInterface | \PHPUnit_Framework_MockObject_MockObject $subjectUnderTest */
+        /** @var RequestInterface | \PHPUnit_Framework_MockObject_MockObject $subjectUnderTest */
         $subjectUnderTest = $this->getMockBuilder(Guzzle::class)
                                  ->setMethods(null)
                                  ->setConstructorArgs(
@@ -53,7 +53,7 @@ class GuzzleTest extends ThreeDCartTestCase
                                      ]
                                  )->getMock();
         
-        $subjectUnderTest->request(
+        $subjectUnderTest->send(
             $httpMethod,
             $apiPathAppendix,
             $httpGetParameterList,

@@ -9,11 +9,9 @@ use ThreeDCart\Primitive\IntegerValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 
 /**
- * Class AbstractFilter
- *
  * @package ThreeDCart\Api\Rest\Filter
  */
-abstract class AbstractFilter
+abstract class Abstraction
 {
     /** @var array this needs to be overwritten in the sub class */
     public static $filter = array('example');

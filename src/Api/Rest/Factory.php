@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use ThreeDCart\Api\Rest\Api\Service;
 use ThreeDCart\Api\Rest\Api\Version;
 use ThreeDCart\Api\Rest\Application\PrivateKey;
-use ThreeDCart\Api\Rest\Request\Handler\Guzzle;
+use ThreeDCart\Api\Rest\Request\Guzzle;
 use ThreeDCart\Api\Rest\Service\Customers;
 use ThreeDCart\Api\Rest\Service\CustomersInterface;
 use ThreeDCart\Api\Rest\Shop\SecureUrl;

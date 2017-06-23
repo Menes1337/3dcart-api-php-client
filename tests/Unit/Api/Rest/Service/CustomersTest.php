@@ -3,7 +3,7 @@
 namespace tests\Unit\Api\Rest\Service;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Request\HandlerInterface;
+use ThreeDCart\Api\Rest\Request\RequestInterface;
 use ThreeDCart\Api\Rest\Service\Customers;
 use ThreeDCart\Primitive\StringValueObject;
 
@@ -47,7 +47,7 @@ class CustomersTest extends ThreeDCartTestCase
     {
         $handlerMock = $this->getHandlerMock();
         
-        $handlerMock->method('request')->willReturn(
+        $handlerMock->method('send')->willReturn(
             new StringValueObject(
                 $expectedResponse
             )
@@ -57,10 +57,10 @@ class CustomersTest extends ThreeDCartTestCase
     }
     
     /**
-     * @return HandlerInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @return RequestInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private function getHandlerMock()
     {
-        return $this->getMockBuilder(HandlerInterface::class)->getMock();
+        return $this->getMockBuilder(RequestInterface::class)->getMock();
     }
 }

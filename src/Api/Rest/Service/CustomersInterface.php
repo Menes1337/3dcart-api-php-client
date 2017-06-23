@@ -2,17 +2,25 @@
 
 namespace ThreeDCart\Api\Rest\Service;
 
-use ThreeDCart\Api\Rest\Filter\CustomerFilterInterface;
+use ThreeDCart\Api\Rest\Filter\CustomerInterface;
+use ThreeDCart\Api\Rest\Select\SelectInterface;
+use ThreeDCart\Api\Rest\Sort\SortInterface;
 use ThreeDCart\Primitive\StringValueObject;
 
 interface CustomersInterface
 {
     /**
-     * @param CustomerFilterInterface|null $customerFilter
+     * @param SelectInterface        $selectList
+     * @param CustomerInterface|null $customerFilterList
+     * @param SortInterface          $sortOrderList
      *
      * @return StringValueObject
      */
-    public function getCustomers(CustomerFilterInterface $customerFilter = null);
+    public function getCustomers(
+        SelectInterface $selectList = null,
+        CustomerInterface $customerFilterList = null,
+        SortInterface $sortOrderList = null
+    );
 
 //    public function getCustomer(CustomerId $customerId);
 //    

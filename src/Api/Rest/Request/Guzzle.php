@@ -1,16 +1,12 @@
 <?php
 
-namespace ThreeDCart\Api\Rest\Request\Handler;
+namespace ThreeDCart\Api\Rest\Request;
 
 use GuzzleHttp\ClientInterface;
 use ThreeDCart\Api\Rest\AuthenticationServiceInterface;
-use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
-use ThreeDCart\Api\Rest\Request\HandlerInterface;
-use ThreeDCart\Api\Rest\Request\HttpMethod;
-use ThreeDCart\Api\Rest\Request\HttpParameterList;
 use ThreeDCart\Primitive\StringValueObject;
 
-class Guzzle implements HandlerInterface
+class Guzzle implements RequestInterface
 {
     const OPTION_HEADERS     = 'headers';
     const OPTION_VERIFY      = 'verify';
@@ -32,7 +28,7 @@ class Guzzle implements HandlerInterface
         $this->authenticationService = $authenticationService;
     }
     
-    public function request(
+    public function send(
         HttpMethod $httpMethod,
         ApiPathAppendix $apiPathAppendix,
         HttpParameterList $httpGetParameterList,

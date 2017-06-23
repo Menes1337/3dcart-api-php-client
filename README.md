@@ -20,6 +20,7 @@ Minimum PHP Version: 5.6
 
 see also [3dCart REST API](https://apirest.3dcart.com/Help)
 
+#### Example without selecting, filtering and sorting
     include('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
         
     $restFactory        = new \ThreeDCart\Api\Rest\Factory();
@@ -33,10 +34,44 @@ see also [3dCart REST API](https://apirest.3dcart.com/Help)
         new \ThreeDCart\Api\Rest\Api\Version(\ThreeDCart\Api\Rest\Api\Version::VERSION_1)
     );
     
-    $customerFilter = new \ThreeDCart\Api\Rest\Filter\CustomerFilter();
-    $customerFilter->filterLimit(new \ThreeDCart\Api\Rest\Filter\Limit(5));
+    $customerObjects = $customerService->getCustomers();
     
-    $customerObjects = $customerService->getCustomers($customerFilter);
+    var_dump($customerObjects);
+    
+#### Example with selecting, filtering and sorting
+    include('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+        
+    $restFactory        = new \ThreeDCart\Api\Rest\Factory();
+    $authenticationService = $restFactory->getAuthenticationService(
+        new \ThreeDCart\Api\Rest\Application\PrivateKey('Your application\'s private key'),
+        new \ThreeDCart\Api\Rest\Shop\Token('The 3dcart merchant\'s token'),
+        new \ThreeDCart\Api\Rest\Shop\SecureUrl('3dcart merchant\'s Secure URL')
+    );
+    $customerService       = $restFactory->getCustomerService(
+        $authenticationService,
+        new \ThreeDCart\Api\Rest\Api\Version(\ThreeDCart\Api\Rest\Api\Version::VERSION_1)
+    );
+        
+    $selectList = new \ThreeDCart\Api\Rest\Select\SelectList();
+    $selectList->addSelect(new \ThreeDCart\Api\Rest\Select\Customer(
+        new \ThreeDCart\Api\Rest\Field\Customer(\ThreeDCart\Api\Rest\Field\Customer::BILLINGFIRSTNAME)
+    ));
+        
+    $customerFilterList = new \ThreeDCart\Api\Rest\Filter\Customer();
+    $customerFilterList->filterLimit(new \ThreeDCart\Api\Rest\Filter\Limit(3));
+    
+    $sortOrderList = new \ThreeDCart\Api\Rest\Sort\SortList();
+    $customerSorting  = new \ThreeDCart\Api\Rest\Sort\Customer(
+        new \ThreeDCart\Api\Rest\Field\Customer(\ThreeDCart\Api\Rest\Field\Customer::BILLINGFIRSTNAME),
+        new \ThreeDCart\Api\Rest\Sort\Order(\ThreeDCart\Api\Rest\Sort\Order::SORTING_DESC)
+    );
+    $sortOrderList->addOrderBy($customerSorting);
+    
+    $customerObjects = $customerService->getCustomers(
+        $selectList,
+        $customerFilterList,
+        $sortOrderList
+    );
     
     var_dump($customerObjects);
     

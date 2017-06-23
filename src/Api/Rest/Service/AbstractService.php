@@ -2,7 +2,7 @@
 
 namespace ThreeDCart\Api\Rest\Service;
 
-use ThreeDCart\Api\Rest\Request\HandlerInterface;
+use ThreeDCart\Api\Rest\Request\RequestInterface;
 
 /**
  * Class AbstractService
@@ -11,15 +11,15 @@ use ThreeDCart\Api\Rest\Request\HandlerInterface;
  */
 class AbstractService
 {
-    /** @var HandlerInterface */
-    protected $requestHandler;
+    /** @var RequestInterface */
+    protected $requestClient;
     
     /**
-     * @param HandlerInterface $requestHandler
+     * @param RequestInterface $requestClient
      */
     public function __construct(
-        HandlerInterface $requestHandler
+        RequestInterface $requestClient
     ) {
-        $this->requestHandler = $requestHandler;
+        $this->requestClient = $requestClient;
     }
 }
