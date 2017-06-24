@@ -2,7 +2,6 @@
 
 namespace ThreeDCart\Api\Rest\Request;
 
-use phpDocumentor\Reflection\Types\Integer;
 use ThreeDCart\Primitive\IntegerValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 
@@ -22,8 +21,8 @@ class RequestException extends \Exception
     public function __construct(
         StringValueObject $message = null,
         IntegerValueObject $code = null,
-        IntegerValueObject $httpStatusCode = null,
-        StringValueObject $responseBody = null
+        StringValueObject $responseBody = null,
+        IntegerValueObject $httpStatusCode = null
     ) {
         parent::__construct(
             empty($message) ? '' : $message->getStringValue(),

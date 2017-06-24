@@ -12,7 +12,7 @@ use ThreeDCart\Primitive\StringValueObject;
  *
  * @package tests\Unit\Api\Rest\Request
  */
-class HttpParameterTest extends ThreeDCartTestCase
+class RequestExceptionTest extends ThreeDCartTestCase
 {
     /** @var RequestException */
     private $subjectUnderTest;
@@ -22,8 +22,8 @@ class HttpParameterTest extends ThreeDCartTestCase
         $this->subjectUnderTest = new RequestException(
             new StringValueObject('test message'),
             new IntegerValueObject(321),
-            new IntegerValueObject(123),
-            new StringValueObject('response body')
+            new StringValueObject('response body'),
+            new IntegerValueObject(123)
         );
     }
     

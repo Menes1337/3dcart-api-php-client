@@ -3,75 +3,39 @@
 namespace tests\Unit\Api\Rest\Request;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Request\HttpParameterList;
 use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Primitive\StringValueObject;
 
 /**
- * Class HttpPostListTest
+ * Class HttpPostTest
  *
  * @package tests\Unit\Api\Rest\Request
  */
-class HttpParameterListTest extends ThreeDCartTestCase
+class HttpParameterTest extends ThreeDCartTestCase
 {
-    /** @var HttpParameterList */
+    /** @var HttpParameter */
     private $subjectUnderTest;
     
     public function setup()
     {
-        $this->subjectUnderTest = new HttpParameterList();
+        $this->subjectUnderTest = new HttpParameter(
+            new StringValueObject('key'),
+            new StringValueObject('value')
+        );
     }
     
-    public function testCounting()
+    public function testGetter()
     {
-        $this->assertEquals(0, $this->subjectUnderTest->count()->getIntValue());
-        $this->subjectUnderTest->addParameter(
-            new HttpParameter(
-                new StringValueObject('testKey'),
-                new StringValueObject('testValue')
-            )
-        );
-        $this->assertEquals(1, $this->subjectUnderTest->count()->getIntValue());
+        $this->assertEquals(new StringValueObject('key'), $this->subjectUnderTest->getParameterKey());
+        $this->assertEquals(new StringValueObject('value'), $this->subjectUnderTest->getParameterValue());
     }
     
-    public function testIsEmpty()
+    public function testSetter()
     {
-        $this->assertEquals(true, $this->subjectUnderTest->isEmpty()->getBoolValue());
-        $this->subjectUnderTest->addParameter(
-            new HttpParameter(
-                new StringValueObject('testKey'),
-                new StringValueObject('testValue')
-            )
-        );
-        $this->assertEquals(false, $this->subjectUnderTest->isEmpty()->getBoolValue());
-    }
-    
-    public function testAddParameterAndGet()
-    {
-        $this->subjectUnderTest->addParameter(
-            new HttpParameter(
-                new StringValueObject('testKey'),
-                new StringValueObject('testValue')
-            )
-        );
+        $this->subjectUnderTest->setParameterKey(new StringValueObject('new key'));
+        $this->subjectUnderTest->setParameterValue(new StringValueObject('new value'));
         
-        $simpleArray = $this->subjectUnderTest->getSimpleParameterArray();
-        
-        $this->assertEquals(array('testKey' => 'testValue'), $simpleArray);
-    }
-    
-    public function testClear()
-    {
-        $this->assertEquals(true, $this->subjectUnderTest->isEmpty()->getBoolValue());
-        $this->subjectUnderTest->addParameter(
-            new HttpParameter(
-                new StringValueObject('testKey'),
-                new StringValueObject('testValue')
-            )
-        );
-        
-        $this->assertEquals(false, $this->subjectUnderTest->isEmpty()->getBoolValue());
-        $this->subjectUnderTest->clear();
-        $this->assertEquals(true, $this->subjectUnderTest->isEmpty()->getBoolValue());
+        $this->assertEquals(new StringValueObject('new key'), $this->subjectUnderTest->getParameterKey());
+        $this->assertEquals(new StringValueObject('new value'), $this->subjectUnderTest->getParameterValue());
     }
 }

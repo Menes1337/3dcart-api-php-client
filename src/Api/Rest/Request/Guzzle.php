@@ -58,7 +58,7 @@ class Guzzle implements RequestInterface
         } catch (\GuzzleHttp\Exception\ServerException $serverException) {
             throw new ServerException(
                 new StringValueObject($serverException->getMessage()),
-                $serverException->getCode(),
+                new IntegerValueObject($serverException->getCode()),
                 $serverException->hasResponse() ?
                     new StringValueObject($serverException->getResponse()->getBody()->getContents()) : null,
                 $serverException->hasResponse() ?
