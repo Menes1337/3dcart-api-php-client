@@ -2,18 +2,20 @@
 
 namespace tests\Unit\Api\Rest\Request\Handler;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
 use tests\Unit\ThreeDCartTestCase;
 use ThreeDCart\Api\Rest\Authentication\HttpHeader;
 use ThreeDCart\Api\Rest\AuthenticationServiceInterface;
 use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
+use ThreeDCart\Api\Rest\Request\ClientException;
+use ThreeDCart\Api\Rest\Request\ConnectException;
 use ThreeDCart\Api\Rest\Request\Guzzle;
-use ThreeDCart\Api\Rest\Request\RequestInterface;
 use ThreeDCart\Api\Rest\Request\HttpMethod;
 use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Api\Rest\Request\HttpParameterList;
+use ThreeDCart\Api\Rest\Request\ServerException;
 use ThreeDCart\Primitive\StringValueObject;
 
 /**
@@ -21,6 +23,32 @@ use ThreeDCart\Primitive\StringValueObject;
  */
 class GuzzleTest extends ThreeDCartTestCase
 {
+    /** @var Guzzle */
+    private $subjectUnderTest;
+    
+    /** @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject */
+    private $clientInterfaceMock;
+    
+    /** @var AuthenticationServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
+    private $authenticationMock;
+    
+    public function setUp()
+    {
+        $this->clientInterfaceMock = $this->getMockBuilder(ClientInterface::class)
+                                          ->getMockForAbstractClass();
+        $this->clientInterfaceMock->method('request')->willReturn(
+            new Response(200, [], 'test')
+        );
+        $this->authenticationMock = $this->getMockBuilder(AuthenticationServiceInterface::class)
+                                         ->getMockForAbstractClass();
+        $this->authenticationMock->method('getHttpHeaders')->willReturn(new HttpHeader(array()));
+        
+        $this->subjectUnderTest = new Guzzle(
+            $this->clientInterfaceMock,
+            $this->authenticationMock
+        );
+    }
+    
     /**
      * @param array             $expectedGuzzleCallParameter
      * @param HttpMethod        $httpMethod
@@ -30,30 +58,18 @@ class GuzzleTest extends ThreeDCartTestCase
      *
      * @dataProvider provideRequests
      */
-    public function testRequest(
+    public function testSendParameters(
         array $expectedGuzzleCallParameter,
         HttpMethod $httpMethod,
         ApiPathAppendix $apiPathAppendix,
         HttpParameterList $httpGetParameterList,
         HttpParameterList $httpPostParameterList
     ) {
-        $clientMock = $this->getClientMock();
-        
-        $clientMock->expects($this->once())->method('request')->with(
+        $this->clientInterfaceMock->method('request')->with(
             ...$expectedGuzzleCallParameter
         );
         
-        /** @var RequestInterface | \PHPUnit_Framework_MockObject_MockObject $subjectUnderTest */
-        $subjectUnderTest = $this->getMockBuilder(Guzzle::class)
-                                 ->setMethods(null)
-                                 ->setConstructorArgs(
-                                     [
-                                         $clientMock,
-                                         $this->getAuthenticationMock()
-                                     ]
-                                 )->getMock();
-        
-        $subjectUnderTest->send(
+        $this->subjectUnderTest->send(
             $httpMethod,
             $apiPathAppendix,
             $httpGetParameterList,
@@ -72,7 +88,7 @@ class GuzzleTest extends ThreeDCartTestCase
         );
         
         return [
-            'default'                    => [
+            'default'                             => [
                 array(
                     'GET',
                     '',
@@ -86,7 +102,7 @@ class GuzzleTest extends ThreeDCartTestCase
                 new HttpParameterList(),
                 new HttpParameterList()
             ],
-            'default with appendix path' => [
+            'default with appendix path'          => [
                 array(
                     'GET',
                     'test',
@@ -100,7 +116,7 @@ class GuzzleTest extends ThreeDCartTestCase
                 new HttpParameterList(),
                 new HttpParameterList()
             ],
-            'get parameter'              => [
+            'get parameter'                       => [
                 array(
                     'GET',
                     '?testKey=testValue',
@@ -114,7 +130,7 @@ class GuzzleTest extends ThreeDCartTestCase
                 $httpParameterList,
                 new HttpParameterList()
             ],
-            'get parameter and appendix' => [
+            'get parameter and appendix'          => [
                 array(
                     'GET',
                     'test?testKey=testValue',
@@ -128,7 +144,7 @@ class GuzzleTest extends ThreeDCartTestCase
                 $httpParameterList,
                 new HttpParameterList()
             ],
-            'post parameter'             => [
+            'post parameter'                      => [
                 array(
                     'GET',
                     '',
@@ -145,7 +161,7 @@ class GuzzleTest extends ThreeDCartTestCase
                 new HttpParameterList(),
                 $httpParameterList,
             ],
-            'post and get parameter'             => [
+            'post and get parameter'              => [
                 array(
                     'GET',
                     '?testKey=testValue',
@@ -162,7 +178,7 @@ class GuzzleTest extends ThreeDCartTestCase
                 $httpParameterList,
                 $httpParameterList,
             ],
-            'post and get parameter and appendix'             => [
+            'post and get parameter and appendix' => [
                 array(
                     'GET',
                     'test?testKey=testValue',
@@ -182,31 +198,66 @@ class GuzzleTest extends ThreeDCartTestCase
         ];
     }
     
-    /**
-     * @return AuthenticationServiceInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function getAuthenticationMock()
+    public function testSendConnectException()
     {
-        $authenticationMock = $this->getMockBuilder(AuthenticationServiceInterface::class)->getMock();
+        /** @var RequestInterface $requestInterface */
+        $requestInterface = $this->getMockBuilder(RequestInterface::class)
+                                 ->getMockForAbstractClass();
+        $this->clientInterfaceMock->method('request')
+                                  ->will($this->throwException(
+                                      new \GuzzleHttp\Exception\ConnectException(
+                                          'test',
+                                          $requestInterface
+                                      )
+                                  ));
         
-        $authenticationMock->method('getHttpHeaders')->willReturn(new HttpHeader(array()));
-        
-        return $authenticationMock;
+        $this->expectException(ConnectException::class);
+        $this->subjectUnderTest->send(
+            new HttpMethod(HttpMethod::HTTP_METHOD_GET),
+            new ApiPathAppendix(''),
+            new HttpParameterList(),
+            new HttpParameterList());
     }
     
-    /**
-     * @return ClientInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function getClientMock()
+    public function testSendClientException()
     {
-        $clientMock = $this->getMockBuilder(Client::class)
-                           ->setMethods(array('request'))
-                           ->getMock();
+        /** @var RequestInterface $requestInterface */
+        $requestInterface = $this->getMockBuilder(RequestInterface::class)
+                                 ->getMockForAbstractClass();
+        $this->clientInterfaceMock->method('request')
+                                  ->will($this->throwException(
+                                      new \GuzzleHttp\Exception\ClientException(
+                                          'test',
+                                          $requestInterface
+                                      )
+                                  ));
         
-        $clientMock->method('request')->willReturn(
-            new Response(200, [], 'test')
-        );
+        $this->expectException(ClientException::class);
+        $this->subjectUnderTest->send(
+            new HttpMethod(HttpMethod::HTTP_METHOD_GET),
+            new ApiPathAppendix(''),
+            new HttpParameterList(),
+            new HttpParameterList());
+    }
+    
+    public function testSendServerException()
+    {
+        /** @var RequestInterface $requestInterface */
+        $requestInterface = $this->getMockBuilder(RequestInterface::class)
+                                 ->getMockForAbstractClass();
+        $this->clientInterfaceMock->method('request')
+                                  ->will($this->throwException(
+                                      new \GuzzleHttp\Exception\ServerException(
+                                          'test',
+                                          $requestInterface
+                                      )
+                                  ));
         
-        return $clientMock;
+        $this->expectException(ServerException::class);
+        $this->subjectUnderTest->send(
+            new HttpMethod(HttpMethod::HTTP_METHOD_GET),
+            new ApiPathAppendix(''),
+            new HttpParameterList(),
+            new HttpParameterList());
     }
 }

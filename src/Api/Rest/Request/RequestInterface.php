@@ -13,6 +13,8 @@ interface RequestInterface
      * @param HttpParameterList $httpPostParameterList
      *
      * @return StringValueObject
+     *
+     * @throws RequestException
      */
     public function send(
         HttpMethod $httpMethod,

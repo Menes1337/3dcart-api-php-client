@@ -4,6 +4,7 @@ namespace ThreeDCart\Api\Rest\Request;
 
 use GuzzleHttp\ClientInterface;
 use ThreeDCart\Api\Rest\AuthenticationServiceInterface;
+use ThreeDCart\Primitive\IntegerValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 
 class Guzzle implements RequestInterface
@@ -34,11 +35,36 @@ class Guzzle implements RequestInterface
         HttpParameterList $httpGetParameterList,
         HttpParameterList $httpPostParameterList
     ) {
-        $response = $this->requestClient->request(
-            $httpMethod->getMethod(),
-            $this->getUrl($apiPathAppendix, $httpGetParameterList)->getStringValue(),
-            $this->getGuzzleOptions($httpPostParameterList)
-        );
+        try {
+            $response = $this->requestClient->request(
+                $httpMethod->getMethod(),
+                $this->getUrl($apiPathAppendix, $httpGetParameterList)->getStringValue(),
+                $this->getGuzzleOptions($httpPostParameterList)
+            );
+        } catch (\GuzzleHttp\Exception\ConnectException $connectException) {
+            throw new ConnectException(
+                new StringValueObject($connectException->getMessage()),
+                new IntegerValueObject($connectException->getCode())
+            );
+        } catch (\GuzzleHttp\Exception\ClientException $serverException) {
+            throw new ClientException(
+                new StringValueObject($serverException->getMessage()),
+                new IntegerValueObject($serverException->getCode()),
+                $serverException->hasResponse() ?
+                    new StringValueObject($serverException->getResponse()->getBody()->getContents()) : null,
+                $serverException->hasResponse() ?
+                    new IntegerValueObject($serverException->getResponse()->getStatusCode()) : null
+            );
+        } catch (\GuzzleHttp\Exception\ServerException $serverException) {
+            throw new ServerException(
+                new StringValueObject($serverException->getMessage()),
+                $serverException->getCode(),
+                $serverException->hasResponse() ?
+                    new StringValueObject($serverException->getResponse()->getBody()->getContents()) : null,
+                $serverException->hasResponse() ?
+                    new IntegerValueObject($serverException->getResponse()->getStatusCode()) : null
+            );
+        }
         
         return new StringValueObject($response->getBody()->getContents());
     }
