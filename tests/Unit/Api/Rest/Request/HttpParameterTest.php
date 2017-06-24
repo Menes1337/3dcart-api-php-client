@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Primitive\StringValueObject;
 
 /**
- * Class HttpPostTest
+ * Class HttpParameterTest
  *
  * @package tests\Unit\Api\Rest\Request
  */

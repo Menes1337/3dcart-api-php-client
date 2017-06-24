@@ -6,7 +6,7 @@ use ThreeDCart\Primitive\StringValueObject;
 
 abstract class AbstractOrderBy
 {
-    /** @var Order */
+    /** @var SortOrder */
     protected $sortOrder;
     
     /** @var StringValueObject */
@@ -14,9 +14,9 @@ abstract class AbstractOrderBy
     
     /**
      * @param StringValueObject $orderBy
-     * @param Order             $sortOrder
+     * @param SortOrder         $sortOrder
      */
-    public function __construct(StringValueObject $orderBy, Order $sortOrder)
+    public function __construct(StringValueObject $orderBy, SortOrder $sortOrder)
     {
         $this->orderBy   = $orderBy;
         $this->sortOrder = $sortOrder;
@@ -31,7 +31,7 @@ abstract class AbstractOrderBy
     }
     
     /**
-     * @return Order
+     * @return SortOrder
      */
     public function getSortOrder()
     {

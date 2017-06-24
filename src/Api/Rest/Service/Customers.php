@@ -30,7 +30,7 @@ class Customers extends AbstractService implements CustomersInterface
             $requestParameterList->addParameter(
                 new HttpParameter(
                     new StringValueObject('$orderby'),
-                    $sortOrderList->getOrderByQueryString()
+                    $sortOrderList->getQueryString()
                 )
             );
         }
@@ -39,7 +39,7 @@ class Customers extends AbstractService implements CustomersInterface
             $requestParameterList->addParameter(
                 new HttpParameter(
                     new StringValueObject('$select'),
-                    $selectList->getSelectQueryString()
+                    $selectList->getQueryString()
                 )
             );
         }

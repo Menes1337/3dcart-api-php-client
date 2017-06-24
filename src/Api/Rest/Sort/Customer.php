@@ -6,12 +6,12 @@ use ThreeDCart\Primitive\StringValueObject;
 
 class Customer extends AbstractOrderBy
 {
-    const DEFAULT_SORT_ORDER = Order::SORTING_ASC;
+    const DEFAULT_SORT_ORDER = SortOrder::SORTING_ASC;
     
-    public function __construct(\ThreeDCart\Api\Rest\Field\Customer $orderBy, Order $sortOrder = null)
+    public function __construct(\ThreeDCart\Api\Rest\Field\Customer $orderBy, SortOrder $sortOrder = null)
     {
         if ($sortOrder == null) {
-            $sortOrder = new Order(self::DEFAULT_SORT_ORDER);
+            $sortOrder = new SortOrder(self::DEFAULT_SORT_ORDER);
         }
         
         parent::__construct(new StringValueObject($orderBy->getValue()), $sortOrder);

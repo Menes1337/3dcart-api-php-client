@@ -10,11 +10,6 @@ class SelectList extends AbstractList implements SelectInterface
     /** @var AbstractSelect[] */
     protected $list;
     
-    public function __construct()
-    {
-        parent::__construct();
-    }
-    
     /**
      * @param AbstractSelect $orderBy
      */
@@ -26,7 +21,7 @@ class SelectList extends AbstractList implements SelectInterface
     /**
      * @return StringValueObject
      */
-    public function getSelectQueryString()
+    public function getQueryString()
     {
         $sortQuery = [];
         foreach ($this->list as $select) {

@@ -10,7 +10,7 @@ interface SelectInterface
     /**
      * @return StringValueObject
      */
-    public function getSelectQueryString();
+    public function getQueryString();
     
     /**
      * @return BooleanValueObject

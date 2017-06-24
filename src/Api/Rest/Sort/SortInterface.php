@@ -10,7 +10,7 @@ interface SortInterface
     /**
      * @return StringValueObject
      */
-    public function getOrderByQueryString();
+    public function getQueryString();
     
     /**
      * @return BooleanValueObject

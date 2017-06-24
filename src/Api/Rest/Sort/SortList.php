@@ -26,7 +26,7 @@ class SortList extends AbstractList implements SortInterface
     /**
      * @return StringValueObject
      */
-    public function getOrderByQueryString()
+    public function getQueryString()
     {
         $sortQuery = [];
         foreach ($this->list as $orderBy) {

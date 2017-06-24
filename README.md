@@ -63,7 +63,7 @@ see also [3dCart REST API](https://apirest.3dcart.com/Help)
     $sortOrderList = new \ThreeDCart\Api\Rest\Sort\SortList();
     $customerSorting  = new \ThreeDCart\Api\Rest\Sort\Customer(
         new \ThreeDCart\Api\Rest\Field\Customer(\ThreeDCart\Api\Rest\Field\Customer::BILLINGFIRSTNAME),
-        new \ThreeDCart\Api\Rest\Sort\Order(\ThreeDCart\Api\Rest\Sort\Order::SORTING_DESC)
+        new \ThreeDCart\Api\Rest\Sort\SortOrder(\ThreeDCart\Api\Rest\Sort\SortOrder::SORTING_DESC)
     );
     $sortOrderList->addOrderBy($customerSorting);
     
