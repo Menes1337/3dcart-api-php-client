@@ -3,7 +3,6 @@
 namespace ThreeDCart\Api\Rest\Api;
 
 use ThreeDCart\Primitive\Enum;
-use ThreeDCart\Primitive\StringValueObject;
 
 class Service extends Enum
 {

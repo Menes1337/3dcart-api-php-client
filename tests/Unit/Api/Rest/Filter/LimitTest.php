@@ -3,7 +3,7 @@
 namespace tests\Unit\Api\Rest\Filter;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Filter\Limit;
+use ThreeDCart\Api\Rest\Filter\Customer\Limit;
 
 class LimitTest extends ThreeDCartTestCase
 {

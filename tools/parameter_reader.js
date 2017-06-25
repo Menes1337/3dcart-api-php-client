@@ -9,52 +9,88 @@ $('.parameter-type').each(function (index) {
     parameterTypeList.push($(this).html());
 })
 
-for (var i = 0; i < parameterList.length; ++i) {
-    console.log(parameterTypeList[i]);
+function walkthrough(printFunction) {
+    var i = 0;
+    for (i = 0; i < parameterList.length; ++i) {
+        var parameterType = '';
+        switch (parameterTypeList[i].trim()) {
+            case "integer":
+                parameterType = 'int';
+                break;
+            case "string":
+                parameterType = 'string';
+                break;
+            case "decimal number":
+                parameterType = 'float';
+                break;
+            case "boolean":
+                parameterType = 'bool';
+                break;
+            case "date":
+                parameterType = 'string';
+                break;
+            default:
+                parameterType = parameterTypeList[i].trim();
+                break;
+        }
 
-    var parameterType = '';
-    switch(parameterTypeList[i].trim()) {
-        case "integer":
-            parameterType = 'int';
-            break;
-        case "string":
-            parameterType = 'string';
-            break;
-        case "decimal number":
-            parameterType = 'float';
-            break;
-        case "boolean":
-            parameterType = 'bool';
-            break;
-        default:
-            parameterType = 'lol';
-            break;
+        printFunction("public", parameterList[i], parameterType);
     }
-
-    printMemberVariable("private", parameterList[i], parameterType);
-
-    //printConstants(parameterList[i])
 }
+
+walkthrough(printResourceMemberVariable)
+walkthrough(printFilterFunctionPerParameter)
+walkthrough(printConstants)
 
 document.write("<br /><br />")
 printAllConstantsInLine();
 
-function printMemberVariable(visibility, parameterName, parameterType) {
+function printResourceMemberVariable(visibility, parameterName, parameterType) {
     document.write("/** @var ");
     document.write(parameterType);
     document.write(" */")
     document.write("<br/ >")
-    document.write(visibility + " $" + parameterName +";");
+    document.write(visibility + " $" + parameterName + ";");
     document.write("<br /><br />")
 }
 
-function printConstants(parameterName) {
-    document.write('const '+ parameterName.toUpperCase() +" = \""+ parameterName +"\";")
+function printFilterFunctionPerParameter(visibility, parameterName, parameterType) {
+    document.write("/**");
+    document.write("<br/ >")
+    document.write(" * @param ")
+
+    parameterTypeName = '';
+    switch (parameterType) {
+        case "string":
+            parameterTypeName = "StringValueObject";
+            break;
+        case "int":
+            parameterTypeName = "IntegerValueObject";
+            break;
+        case "bool":
+            parameterTypeName = "BooleanValueObject";
+            break;
+        default:
+            break;
+    }
+
+    document.write(parameterTypeName + " ");
+
+    document.write("$" + parameterName)
+    document.write("<br/ >")
+    document.write(" */");
+    document.write("<br/ >")
+    document.write("public function filter" + parameterName.charAt(0).toUpperCase() + parameterName.slice(1) + "(" + parameterTypeName + " $" + parameterName + ");")
+    document.write("<br/ ><br />")
+}
+
+function printConstants(visibility, parameterName, parameterType) {
+    document.write('const ' + parameterName.toUpperCase() + " = \"" + parameterName + "\";")
     document.write("<br />")
 }
 
 function printAllConstantsInLine() {
-    toUpper = function(x){
+    toUpper = function (x) {
         return x.toUpperCase();
     };
 

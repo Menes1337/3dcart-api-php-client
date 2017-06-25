@@ -1,13 +1,13 @@
 <?php
 
-namespace ThreeDCart\Api\Rest\Select;
+namespace ThreeDCart\Api\Rest\Field;
 
 use ThreeDCart\Primitive\StringValueObject;
 
-interface SelectInterface
+interface FieldInterface
 {
     /**
      * @return StringValueObject
      */
-    public function getField();
+    public function getStringValueObject();
 }

@@ -2,19 +2,20 @@
 
 namespace ThreeDCart\Api\Rest\Select;
 
+use ThreeDCart\Api\Rest\Field\FieldInterface;
 use ThreeDCart\Primitive\StringValueObject;
 
-abstract class AbstractSelect
+class Select
 {
     /** @var StringValueObject */
     protected $field;
     
     /**
-     * @param StringValueObject $field
+     * @param FieldInterface $field
      */
-    public function __construct(StringValueObject $field)
+    public function __construct(FieldInterface $field)
     {
-        $this->field = $field;
+        $this->field = $field->getStringValueObject();
     }
     
     /**

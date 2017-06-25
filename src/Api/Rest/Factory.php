@@ -7,6 +7,8 @@ use ThreeDCart\Api\Rest\Api\Service;
 use ThreeDCart\Api\Rest\Api\Version;
 use ThreeDCart\Api\Rest\Application\PrivateKey;
 use ThreeDCart\Api\Rest\Request\Guzzle;
+use ThreeDCart\Api\Rest\Service\Categories;
+use ThreeDCart\Api\Rest\Service\CategoriesInterface;
 use ThreeDCart\Api\Rest\Service\Customers;
 use ThreeDCart\Api\Rest\Service\CustomersInterface;
 use ThreeDCart\Api\Rest\Shop\SecureUrl;
@@ -45,6 +47,25 @@ class Factory
             new Guzzle(
                 new Client([
                     'base_uri' => self::THREEDCART_SOAP_API_URL . $apiVersion->getValue() . '/' . Service::CUSTOMERS
+                        . '/'
+                ]),
+                $authenticationService
+            )
+        );
+    }
+    
+    /**
+     * @param AuthenticationServiceInterface $authenticationService
+     * @param Version                        $apiVersion
+     *
+     * @return CategoriesInterface
+     */
+    public function getCategoryService(AuthenticationServiceInterface $authenticationService, Version $apiVersion)
+    {
+        return new Categories(
+            new Guzzle(
+                new Client([
+                    'base_uri' => self::THREEDCART_SOAP_API_URL . $apiVersion->getValue() . '/' . Service::CATEGORIES
                         . '/'
                 ]),
                 $authenticationService

@@ -2,10 +2,7 @@
 
 namespace ThreeDCart\Api\Rest\Field;
 
-use ThreeDCart\Primitive\Enum;
-use ThreeDCart\Primitive\StringValueObject;
-
-class Customer extends Enum
+class Customer extends AbstractField
 {
     const CUSTOMERID                   = "CustomerID";
     const EMAIL                        = "Email";
@@ -80,12 +77,4 @@ class Customer extends Enum
         self::ADDITIONALFIELD3,
         self::TOTALSTORECREDIT
     ];
-    
-    /**
-     * @return StringValueObject
-     */
-    public function getStringValue()
-    {
-        return new StringValueObject(parent::getValue());
-    }
 }

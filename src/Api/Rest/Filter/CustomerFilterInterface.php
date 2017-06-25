@@ -2,16 +2,15 @@
 
 namespace ThreeDCart\Api\Rest\Filter;
 
-use ThreeDCart\Api\Rest\Request\HttpParameterList;
+use ThreeDCart\Api\Rest\Filter\Customer\Limit;
 use ThreeDCart\Primitive\BooleanValueObject;
-use ThreeDCart\Primitive\IntegerValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 use ThreeDCart\Primitive\UnsignedIntegerValueObject;
 
 /**
  * @package ThreeDCart\Api\Rest\Filter
  */
-interface CustomerInterface
+interface CustomerFilterInterface extends FilterInterface
 {
     /**
      * @param StringValueObject $email
@@ -74,24 +73,4 @@ interface CustomerInterface
      * @param StringValueObject $lastUpdateEnd
      */
     public function filterLastUpdateEnd(StringValueObject $lastUpdateEnd);
-    
-    /**
-     * @return HttpParameterList
-     */
-    public function getHttpParameterList();
-    
-    /**
-     * @post the filter will have no active entries
-     */
-    public function clear();
-    
-    /**
-     * @return BooleanValueObject will return whether the filter has active entries or not
-     */
-    public function isEmpty();
-    
-    /**
-     * @return IntegerValueObject will return the number of active entries in the filter
-     */
-    public function count();
 }

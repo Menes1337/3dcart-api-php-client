@@ -3,7 +3,7 @@
 namespace tests\Unit\Api\Rest\Request;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Select\AbstractSelect;
+use ThreeDCart\Api\Rest\Select\SelectInterface;
 use ThreeDCart\Api\Rest\Select\SelectList;
 use ThreeDCart\Primitive\StringValueObject;
 
@@ -24,39 +24,36 @@ class SelectListTest extends ThreeDCartTestCase
     
     public function testGenerationOfQueryStringOneEntry()
     {
-        /** @var AbstractSelect $select */
-        $select = $this->getMockBuilder(AbstractSelect::class)
-                       ->setConstructorArgs([
-                           new StringValueObject('test')
-                       ])
-                       ->getMockForAbstractClass();
-        
-        $this->subjectUnderTest->addSelect($select);
+        $this->subjectUnderTest->addSelect($this->createSelectInterfaceMock(new StringValueObject('test')));
         
         $this->assertEquals(new StringValueObject('test'), $this->subjectUnderTest->getQueryString());
     }
     
     public function testGenerationOfQueryStringTwoEntries()
     {
-        /** @var AbstractSelect $select */
-        $select = $this->getMockBuilder(AbstractSelect::class)
-                       ->setConstructorArgs([
-                           new StringValueObject('first select')
-                       ])
-                       ->getMockForAbstractClass();
-        
-        $this->subjectUnderTest->addSelect($select);
-        
-        /** @var AbstractSelect $secondSelect */
-        $secondSelect = $this->getMockBuilder(AbstractSelect::class)
-                             ->setConstructorArgs([
-                                 new StringValueObject('second select')
-                             ])
-                             ->getMockForAbstractClass();
-        
-        $this->subjectUnderTest->addSelect($secondSelect);
+        $this->subjectUnderTest->addSelect($this->createSelectInterfaceMock(
+            new StringValueObject('first select')
+        ));
+        $this->subjectUnderTest->addSelect($this->createSelectInterfaceMock(
+            new StringValueObject('second select')
+        ));
         
         $this->assertEquals(new StringValueObject('first select,second select'),
             $this->subjectUnderTest->getQueryString());
+    }
+    
+    /**
+     * @param StringValueObject $selectValue
+     *
+     * @return SelectInterface
+     */
+    private function createSelectInterfaceMock(StringValueObject $selectValue)
+    {
+        /** @var SelectInterface|\PHPUnit_Framework_MockObject_MockObject $select */
+        $select = $this->getMockBuilder(SelectInterface::class)
+                       ->getMockForAbstractClass();
+        $select->method('getField')->willReturn($selectValue);
+        
+        return $select;
     }
 }

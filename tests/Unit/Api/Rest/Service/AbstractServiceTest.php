@@ -3,15 +3,14 @@
 namespace tests\Unit\Api\Rest\Service;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Filter\CustomerInterface;
+use ThreeDCart\Api\Rest\Filter\FilterInterface;
 use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
 use ThreeDCart\Api\Rest\Request\HttpMethod;
 use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Api\Rest\Request\HttpParameterList;
 use ThreeDCart\Api\Rest\Request\RequestInterface;
-use ThreeDCart\Api\Rest\Resource\Customer;
-use ThreeDCart\Api\Rest\Select\SelectInterface;
-use ThreeDCart\Api\Rest\Service\Customers;
+use ThreeDCart\Api\Rest\Select\SelectListInterface;
+use ThreeDCart\Api\Rest\Service\AbstractService;
 use ThreeDCart\Api\Rest\Sort\SortInterface;
 use ThreeDCart\Primitive\BooleanValueObject;
 use ThreeDCart\Primitive\StringValueObject;
@@ -19,9 +18,9 @@ use ThreeDCart\Primitive\StringValueObject;
 /**
  * @package tests\Unit\Api\Rest\Service
  */
-class CustomersTest extends ThreeDCartTestCase
+class AbstractServiceTest extends ThreeDCartTestCase
 {
-    /** @var Customers */
+    /** @var AbstractService */
     private $subjectUnderTest;
     /** @var RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $requestInterfaceMock;
@@ -29,23 +28,25 @@ class CustomersTest extends ThreeDCartTestCase
     public function setUp()
     {
         $this->requestInterfaceMock = $this->getRequestInterfaceMock();
-        $this->subjectUnderTest     = new Customers(
-            $this->requestInterfaceMock
-        );
+        $this->subjectUnderTest     = $this->getMockBuilder(AbstractService::class)
+                                           ->setConstructorArgs([
+                                               $this->requestInterfaceMock
+                                           ])
+                                           ->getMockForAbstractClass();
     }
     
     /**
-     * @param array             $expectedParameterList
-     * @param SelectInterface   $selectInterface
-     * @param CustomerInterface $customerInterface
-     * @param SortInterface     $sortInterface
+     * @param array               $expectedParameterList
+     * @param SelectListInterface $selectListInterface
+     * @param FilterInterface     $filterInterface
+     * @param SortInterface       $sortInterface
      *
      * @dataProvider provideGetCustomerParameter
      */
-    public function testGetCustomersSendParameter(
+    public function testGenerateRequestParameter(
         array $expectedParameterList,
-        SelectInterface $selectInterface = null,
-        CustomerInterface $customerInterface = null,
+        SelectListInterface $selectListInterface = null,
+        FilterInterface $filterInterface = null,
         SortInterface $sortInterface = null
     ) {
         $this->requestInterfaceMock->method('send')->willReturn(
@@ -58,12 +59,11 @@ class CustomersTest extends ThreeDCartTestCase
             ...$expectedParameterList
         );
         
-        /** @var Customer[] $generatedCustomerObject */
-        $this->subjectUnderTest->getCustomers(
-            $selectInterface,
-            $customerInterface,
+        $this->invokeMethod($this->subjectUnderTest, 'generateRequestParameter', [
+            $selectListInterface,
+            $filterInterface,
             $sortInterface
-        );
+        ]);
     }
     
     /**
@@ -79,7 +79,7 @@ class CustomersTest extends ThreeDCartTestCase
             new StringValueObject('test asc,test2 desc')
         );
         
-        $selectInterfaceMock = $this->getMockBuilder(SelectInterface::class)->getMockForAbstractClass();
+        $selectInterfaceMock = $this->getMockBuilder(SelectListInterface::class)->getMockForAbstractClass();
         $selectInterfaceMock->method('isEmpty')->willReturn(
             new BooleanValueObject(false)
         );
@@ -87,8 +87,8 @@ class CustomersTest extends ThreeDCartTestCase
             new StringValueObject('test,test2')
         );
         
-        $customerFilterInterfaceMock = $this->getMockBuilder(CustomerInterface::class)->getMockForAbstractClass();
-        $customerFilterInterfaceMock->method('getHttpParameterList')->willReturn(
+        $filterInterfaceMock = $this->getMockBuilder(FilterInterface::class)->getMockForAbstractClass();
+        $filterInterfaceMock->method('getHttpParameterList')->willReturn(
             new HttpParameterList([
                     new HttpParameter(
                         new StringValueObject('key'),
@@ -161,7 +161,7 @@ class CustomersTest extends ThreeDCartTestCase
                     new HttpParameterList()
                 ],
                 null,
-                clone $customerFilterInterfaceMock,
+                clone $filterInterfaceMock,
                 null
             ],
             'all parameters are set'         => [
@@ -187,31 +187,10 @@ class CustomersTest extends ThreeDCartTestCase
                     new HttpParameterList()
                 ],
                 clone $selectInterfaceMock,
-                clone $customerFilterInterfaceMock,
+                clone $filterInterfaceMock,
                 clone $sortInterfaceMock
             ],
         ];
-    }
-    
-    public function testIsGetCustomersResponseProcessedToValidCustomerObject()
-    {
-        $this->requestInterfaceMock->method('send')->willReturn(
-            new StringValueObject(
-                '[{"CustomerID" : 123}]'
-            )
-        );
-        
-        /** @var Customer[] $generatedCustomerObject */
-        $generatedCustomerObject = $this->subjectUnderTest->getCustomers(
-            null,
-            null,
-            null
-        );
-        
-        $this->assertEquals(
-            123,
-            $generatedCustomerObject[0]->CustomerID
-        );
     }
     
     /**

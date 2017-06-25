@@ -3,7 +3,8 @@
 namespace tests\Unit\Api\Rest\Request;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Select\Customer;
+use ThreeDCart\Api\Rest\Field\Customer;
+use ThreeDCart\Api\Rest\Select\Select;
 use ThreeDCart\Primitive\StringValueObject;
 
 /**
@@ -13,20 +14,20 @@ use ThreeDCart\Primitive\StringValueObject;
  */
 class CustomerTest extends ThreeDCartTestCase
 {
-    /** @var Customer */
+    /** @var Select */
     private $subjectUnderTest;
     
     public function setup()
     {
-        $this->subjectUnderTest = new Customer(
-            new \ThreeDCart\Api\Rest\Field\Customer(\ThreeDCart\Api\Rest\Field\Customer::BILLINGCITY)
+        $this->subjectUnderTest = new Select(
+            new Customer(Customer::BILLINGCITY)
         );
     }
     
     public function testGetter()
     {
         $this->assertEquals(
-            new StringValueObject(\ThreeDCart\Api\Rest\Field\Customer::BILLINGCITY),
+            new StringValueObject(Customer::BILLINGCITY),
             $this->subjectUnderTest->getField()
         );
     }

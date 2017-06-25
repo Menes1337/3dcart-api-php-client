@@ -1,36 +1,16 @@
 <?php
 
-namespace tests\Unit\Api\Rest\Application;
+namespace tests\Unit\Api\Rest\Authentication;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Application\PrivateKey;
+use ThreeDCart\Api\Rest\Authentication\HttpHeader;
 
-class PrivateKeyTest extends ThreeDCartTestCase
+class HttpHeaderTest extends ThreeDCartTestCase
 {
     public function testGetter()
     {
-        $subjectUnderTest = new PrivateKey('abc123');
+        $subjectUnderTest = new HttpHeader([]);
         
-        $this->assertEquals('abc123', $subjectUnderTest->getStringValue());
-    }
-    
-    /**
-     * @param mixed $value
-     *
-     * @dataProvider provideInvalidValues
-     */
-    public function testEmptyConstructorParameter($value)
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        new PrivateKey($value);
-    }
-    
-    public function provideInvalidValues()
-    {
-        return [
-            'empty string' => [
-                ''
-            ]
-        ];
+        $this->assertEquals([], $subjectUnderTest->getValue());
     }
 }

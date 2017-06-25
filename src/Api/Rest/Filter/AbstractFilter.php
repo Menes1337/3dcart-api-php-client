@@ -11,7 +11,7 @@ use ThreeDCart\Primitive\StringValueObject;
 /**
  * @package ThreeDCart\Api\Rest\Filter
  */
-abstract class Abstraction
+abstract class AbstractFilter
 {
     /** @var array this needs to be overwritten in the sub class */
     public static $filter = array('example');

@@ -4,7 +4,9 @@ namespace ThreeDCart\Api\Rest\Resource;
 
 abstract class AbstractResource
 {
-    protected static $lists   = [];
+    /** @var array(string $fieldName, string $resourceClass) */
+    protected static $lists = [];
+    /** @var array(string, bool) string is the field name */
     protected static $objects = [];
     
     /**
@@ -17,6 +19,13 @@ abstract class AbstractResource
         $self = new static();
         
         foreach ($data as $field => $value) {
+            if (isset(static::$lists[$field])) {
+                $listClass = static::$lists[$field];
+                /** @var AbstractResource $listClass */
+                $self->{$field} = $listClass::fromList($value);
+                continue;
+            }
+            
             $self->{$field} = $value;
         }
         

@@ -5,15 +5,15 @@ namespace ThreeDCart\Api\Rest\Select;
 use ThreeDCart\Primitive\AbstractList;
 use ThreeDCart\Primitive\StringValueObject;
 
-class SelectList extends AbstractList implements SelectInterface
+class SelectList extends AbstractList implements SelectListInterface
 {
-    /** @var AbstractSelect[] */
+    /** @var SelectInterface[] */
     protected $list;
     
     /**
-     * @param AbstractSelect $orderBy
+     * @param SelectInterface $orderBy
      */
-    public function addSelect(AbstractSelect $orderBy)
+    public function addSelect(SelectInterface $orderBy)
     {
         $this->addEntry($orderBy);
     }

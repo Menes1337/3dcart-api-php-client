@@ -2,6 +2,7 @@
 
 namespace ThreeDCart\Api\Rest\Filter;
 
+use ThreeDCart\Api\Rest\Filter\Customer\Limit;
 use ThreeDCart\Primitive\BooleanValueObject;
 use ThreeDCart\Primitive\StringValueObject;
 use ThreeDCart\Primitive\UnsignedIntegerValueObject;
@@ -9,7 +10,7 @@ use ThreeDCart\Primitive\UnsignedIntegerValueObject;
 /**
  * @package ThreeDCart\Api\Rest\Filter
  */
-class Customer extends Abstraction implements CustomerInterface
+class CustomerFilter extends AbstractFilter implements CustomerFilterInterface
 {
     const FILTER_LIMIT           = 'limit';
     const FILTER_OFFSET          = 'offset';

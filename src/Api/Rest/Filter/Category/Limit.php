@@ -1,11 +1,13 @@
 <?php
 
-namespace ThreeDCart\Api\Rest\Filter;
+namespace ThreeDCart\Api\Rest\Filter\Category;
 
 use ThreeDCart\Primitive\UnsignedIntegerValueObject;
 
 class Limit extends UnsignedIntegerValueObject
 {
+    const DEFAULT_LIMIT = 10;
+    
     const LIMIT_MINIMUM = 0;
     const LIMIT_MAXIMUM = 500;
     
