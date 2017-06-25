@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Rest\Api;
 
 use ThreeDCart\Primitive\Enum;
+use ThreeDCart\Primitive\StringValueObject;
 
 class Version extends Enum
 {
@@ -11,9 +12,9 @@ class Version extends Enum
     public static $allowedValues = array(self::VERSION_1);
     
     /**
-     * @return string
+     * @return StringValueObject
      */
-    public function getVersion()
+    public function getStringValue()
     {
         return $this->getValue();
     }

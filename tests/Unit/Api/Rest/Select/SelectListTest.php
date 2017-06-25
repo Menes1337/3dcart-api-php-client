@@ -3,7 +3,6 @@
 namespace tests\Unit\Api\Rest\Request;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Api\Rest\Select\AbstractSelect;
 use ThreeDCart\Api\Rest\Select\SelectList;
 use ThreeDCart\Primitive\StringValueObject;

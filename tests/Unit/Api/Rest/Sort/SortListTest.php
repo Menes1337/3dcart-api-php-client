@@ -5,7 +5,6 @@ namespace tests\Unit\Api\Rest\Sort;
 use tests\Unit\ThreeDCartTestCase;
 use ThreeDCart\Api\Rest\Sort\AbstractOrderBy;
 use ThreeDCart\Api\Rest\Sort\SortOrder;
-use ThreeDCart\Api\Rest\Sort\SortInterface;
 use ThreeDCart\Api\Rest\Sort\SortList;
 use ThreeDCart\Primitive\StringValueObject;
 

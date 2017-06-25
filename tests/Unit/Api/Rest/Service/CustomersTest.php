@@ -3,7 +3,6 @@
 namespace tests\Unit\Api\Rest\Service;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Filter\Customer;
 use ThreeDCart\Api\Rest\Filter\CustomerInterface;
 use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
 use ThreeDCart\Api\Rest\Request\HttpMethod;

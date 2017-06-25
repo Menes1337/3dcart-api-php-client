@@ -3,6 +3,7 @@
 namespace ThreeDCart\Api\Rest\Api;
 
 use ThreeDCart\Primitive\Enum;
+use ThreeDCart\Primitive\StringValueObject;
 
 class Service extends Enum
 {
@@ -31,7 +32,7 @@ class Service extends Enum
     /**
      * @return string
      */
-    public function getService()
+    public function getStringValue()
     {
         return $this->getValue();
     }
