@@ -9,6 +9,7 @@ use ThreeDCart\Api\Rest\Request\HttpMethod;
 use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Api\Rest\Request\HttpParameterList;
 use ThreeDCart\Api\Rest\Request\RequestInterface;
+use ThreeDCart\Api\Rest\Resource\Customer;
 use ThreeDCart\Api\Rest\Select\SelectInterface;
 use ThreeDCart\Api\Rest\Service\Customers;
 use ThreeDCart\Api\Rest\Sort\SortInterface;
@@ -41,7 +42,7 @@ class CustomersTest extends ThreeDCartTestCase
      *
      * @dataProvider provideGetCustomerParameter
      */
-    public function testGetCustomer(
+    public function testGetCustomersSendParameter(
         array $expectedParameterList,
         SelectInterface $selectInterface = null,
         CustomerInterface $customerInterface = null,
@@ -49,7 +50,7 @@ class CustomersTest extends ThreeDCartTestCase
     ) {
         $this->requestInterfaceMock->method('send')->willReturn(
             new StringValueObject(
-                'test'
+                '[{"CustomerID" : 123}]'
             )
         );
         
@@ -57,13 +58,12 @@ class CustomersTest extends ThreeDCartTestCase
             ...$expectedParameterList
         );
         
-        $this->assertEquals(
-            new StringValueObject('test'),
-            $this->subjectUnderTest->getCustomers(
-                $selectInterface,
-                $customerInterface,
-                $sortInterface
-            ));
+        /** @var Customer[] $generatedCustomerObject */
+        $this->subjectUnderTest->getCustomers(
+            $selectInterface,
+            $customerInterface,
+            $sortInterface
+        );
     }
     
     /**
@@ -191,6 +191,27 @@ class CustomersTest extends ThreeDCartTestCase
                 clone $sortInterfaceMock
             ],
         ];
+    }
+    
+    public function testIsGetCustomersResponseProcessedToValidCustomerObject()
+    {
+        $this->requestInterfaceMock->method('send')->willReturn(
+            new StringValueObject(
+                '[{"CustomerID" : 123}]'
+            )
+        );
+        
+        /** @var Customer[] $generatedCustomerObject */
+        $generatedCustomerObject = $this->subjectUnderTest->getCustomers(
+            null,
+            null,
+            null
+        );
+        
+        $this->assertEquals(
+            123,
+            $generatedCustomerObject[0]->CustomerID
+        );
     }
     
     /**

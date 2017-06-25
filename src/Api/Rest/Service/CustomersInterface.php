@@ -4,6 +4,7 @@ namespace ThreeDCart\Api\Rest\Service;
 
 use ThreeDCart\Api\Rest\Filter\CustomerInterface;
 use ThreeDCart\Api\Rest\Request\RequestException;
+use ThreeDCart\Api\Rest\Resource\Customer;
 use ThreeDCart\Api\Rest\Select\SelectInterface;
 use ThreeDCart\Api\Rest\Sort\SortInterface;
 use ThreeDCart\Primitive\StringValueObject;
@@ -11,12 +12,12 @@ use ThreeDCart\Primitive\StringValueObject;
 interface CustomersInterface
 {
     /**
-     * @param SelectInterface        $selectList
+     * @param SelectInterface|null   $selectList
      * @param CustomerInterface|null $customerFilterList
-     * @param SortInterface          $sortOrderList
+     * @param SortInterface|null     $sortOrderList
      *
-     * @return StringValueObject
-     * 
+     * @return Customer[]
+     *
      * @throws RequestException
      */
     public function getCustomers(

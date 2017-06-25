@@ -1,45 +1,15 @@
 <?php
 
-namespace ThreeDCart\Api\Rest\Customer;
+namespace ThreeDCart\Api\Rest\Resource;
 
-class Customer
+/**
+ * @package ThreeDCart\Api\Rest\Resource
+ *
+ * @method static Customer fromArray(array $data)
+ * @method static Customer[] fromList(array $list)
+ */
+class Customer extends AbstractResource
 {
-    /** @var int */
-    public $limit;
-    
-    /** @var int */
-    public $offset;
-    
-    /** @var string */
-    public $email;
-    
-    /** @var string */
-    public $firstname;
-    
-    /** @var string */
-    public $lastname;
-    
-    /** @var string */
-    public $country;
-    
-    /** @var string */
-    public $state;
-    
-    /** @var string */
-    public $city;
-    
-    /** @var string */
-    public $phone;
-    
-    /** @var int */
-    public $countonly;
-    
-    /** @var string */
-    public $lastupdatestart;
-    
-    /** @var string */
-    public $lastupdateend;
-    
     /** @var int */
     public $CustomerID;
     

@@ -7,6 +7,7 @@ use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
 use ThreeDCart\Api\Rest\Request\HttpMethod;
 use ThreeDCart\Api\Rest\Request\HttpParameter;
 use ThreeDCart\Api\Rest\Request\HttpParameterList;
+use ThreeDCart\Api\Rest\Resource\Customer;
 use ThreeDCart\Api\Rest\Select\SelectInterface;
 use ThreeDCart\Api\Rest\Sort\SortInterface;
 use ThreeDCart\Primitive\StringValueObject;
@@ -44,11 +45,13 @@ class Customers extends AbstractService implements CustomersInterface
             );
         }
         
-        return $this->requestClient->send(
+        $rawResponse = $this->requestClient->send(
             new HttpMethod(HttpMethod::HTTP_METHOD_GET),
             new ApiPathAppendix(''),
             $requestParameterList,
             new HttpParameterList()
         );
+        
+        return Customer::fromList(json_decode($rawResponse->getStringValue(), true));
     }
 }
