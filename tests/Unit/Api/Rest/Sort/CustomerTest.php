@@ -54,4 +54,4 @@ class CustomerTest extends ThreeDCartTestCase
             $subjectUnderTest->getOrderByField()
         );
     }
-}
+} 

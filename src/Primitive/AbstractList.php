@@ -7,9 +7,12 @@ abstract class AbstractList
     /** @var array */
     protected $list;
     
-    public function __construct()
+    /**
+     * @param array $list
+     */
+    public function __construct(array $list = [])
     {
-        $this->list = [];
+        $this->list = $list;
     }
     
     /**
