@@ -3,6 +3,7 @@
 namespace tests\Unit\Api\Rest\Sort;
 
 use tests\Unit\ThreeDCartTestCase;
+use ThreeDCart\Api\Rest\Field\Customer;
 use ThreeDCart\Api\Rest\Sort\OrderBy;
 use ThreeDCart\Api\Rest\Sort\SortOrder;
 use ThreeDCart\Primitive\StringValueObject;
@@ -22,8 +23,8 @@ class CustomerTest extends ThreeDCartTestCase
     {
         $this->sortOrder        = new SortOrder(SortOrder::SORTING_DESC);
         $this->subjectUnderTest = new OrderBy(
-            new \ThreeDCart\Api\Rest\Field\Customer(
-                \ThreeDCart\Api\Rest\Field\Customer::BILLINGLASTNAME
+            new Customer(
+                Customer::BILLINGLASTNAME
             ),
             $this->sortOrder
         );
@@ -33,7 +34,7 @@ class CustomerTest extends ThreeDCartTestCase
     {
         $this->assertEquals(new SortOrder(SortOrder::SORTING_DESC), $this->subjectUnderTest->getSortOrder());
         $this->assertEquals(
-            new StringValueObject(\ThreeDCart\Api\Rest\Field\Customer::BILLINGLASTNAME),
+            new StringValueObject(Customer::BILLINGLASTNAME),
             $this->subjectUnderTest->getOrderByField()
         );
     }
@@ -41,13 +42,13 @@ class CustomerTest extends ThreeDCartTestCase
     public function testDefaultSortOrderParameter()
     {
         $subjectUnderTest = new OrderBy(
-            new \ThreeDCart\Api\Rest\Field\Customer(
-                \ThreeDCart\Api\Rest\Field\Customer::SHIPPINGCITY
+            new Customer(
+                Customer::SHIPPINGCITY
             )
         );
         $this->assertEquals(new SortOrder(SortOrder::SORTING_ASC), $subjectUnderTest->getSortOrder());
         $this->assertEquals(
-            new StringValueObject(\ThreeDCart\Api\Rest\Field\Customer::SHIPPINGCITY),
+            new StringValueObject(Customer::SHIPPINGCITY),
             $subjectUnderTest->getOrderByField()
         );
     }
