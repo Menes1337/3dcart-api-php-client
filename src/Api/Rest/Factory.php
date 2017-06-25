@@ -11,6 +11,8 @@ use ThreeDCart\Api\Rest\Service\Categories;
 use ThreeDCart\Api\Rest\Service\CategoriesInterface;
 use ThreeDCart\Api\Rest\Service\Customers;
 use ThreeDCart\Api\Rest\Service\CustomersInterface;
+use ThreeDCart\Api\Rest\Service\Products;
+use ThreeDCart\Api\Rest\Service\ProductsInterface;
 use ThreeDCart\Api\Rest\Shop\SecureUrl;
 use ThreeDCart\Api\Rest\Shop\Token;
 
@@ -66,6 +68,25 @@ class Factory
             new Guzzle(
                 new Client([
                     'base_uri' => self::THREEDCART_SOAP_API_URL . $apiVersion->getValue() . '/' . Service::CATEGORIES
+                        . '/'
+                ]),
+                $authenticationService
+            )
+        );
+    }
+    
+    /**
+     * @param AuthenticationServiceInterface $authenticationService
+     * @param Version                        $apiVersion
+     *
+     * @return ProductsInterface
+     */
+    public function getProductService(AuthenticationServiceInterface $authenticationService, Version $apiVersion)
+    {
+        return new Products(
+            new Guzzle(
+                new Client([
+                    'base_uri' => self::THREEDCART_SOAP_API_URL . $apiVersion->getValue() . '/' . Service::PRODUCTS
                         . '/'
                 ]),
                 $authenticationService

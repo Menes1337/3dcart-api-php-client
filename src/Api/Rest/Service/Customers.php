@@ -8,8 +8,6 @@ use ThreeDCart\Api\Rest\Select\SelectListInterface;
 use ThreeDCart\Api\Rest\Sort\SortInterface;
 
 /**
- * Class Customers
- *
  * @package ThreeDCart\Api\Rest\Request\Service
  */
 class Customers extends AbstractService implements CustomersInterface

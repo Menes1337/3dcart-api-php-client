@@ -51,17 +51,17 @@ see also [3dCart REST API](https://apirest.3dcart.com/Help)
         $authenticationService,
         new \ThreeDCart\Api\Rest\Api\Version(\ThreeDCart\Api\Rest\Api\Version::VERSION_1)
     );
-        
+    
     $selectList = new \ThreeDCart\Api\Rest\Select\SelectList();
-    $selectList->addSelect(new \ThreeDCart\Api\Rest\Select\Customer(
+    $selectList->addSelect(new \ThreeDCart\Api\Rest\Select\Select(
         new \ThreeDCart\Api\Rest\Field\Customer(\ThreeDCart\Api\Rest\Field\Customer::BILLINGFIRSTNAME)
     ));
-        
-    $customerFilterList = new \ThreeDCart\Api\Rest\Filter\Customer();
-    $customerFilterList->filterLimit(new \ThreeDCart\Api\Rest\Filter\Limit(3));
+    
+    $customerFilterList = new \ThreeDCart\Api\Rest\Filter\CustomerFilter();
+    $customerFilterList->filterLimit(new \ThreeDCart\Api\Rest\Filter\Customer\Limit(3));
     
     $sortOrderList = new \ThreeDCart\Api\Rest\Sort\SortList();
-    $customerSorting  = new \ThreeDCart\Api\Rest\Sort\Customer(
+    $customerSorting  = new \ThreeDCart\Api\Rest\Sort\OrderBy(
         new \ThreeDCart\Api\Rest\Field\Customer(\ThreeDCart\Api\Rest\Field\Customer::BILLINGFIRSTNAME),
         new \ThreeDCart\Api\Rest\Sort\SortOrder(\ThreeDCart\Api\Rest\Sort\SortOrder::SORTING_DESC)
     );

@@ -6,8 +6,10 @@ use tests\Unit\ThreeDCartTestCase;
 use ThreeDCart\Api\Rest\Request\RequestInterface;
 use ThreeDCart\Api\Rest\Resource\Category;
 use ThreeDCart\Api\Rest\Resource\Customer;
+use ThreeDCart\Api\Rest\Resource\Product;
 use ThreeDCart\Api\Rest\Service\Categories;
 use ThreeDCart\Api\Rest\Service\Customers;
+use ThreeDCart\Api\Rest\Service\Products;
 use ThreeDCart\Primitive\StringValueObject;
 
 /**
@@ -97,6 +99,19 @@ class ServicesTest extends ThreeDCartTestCase
                 ],
                 '[{"CategoryID" : 23}, {"CategoryID" : 45}]',
                 'CategoryID'
+            ],
+            'Product - getProducts'      => [
+                Product::class,
+                ['MPNNUMBER11', 'MPNNUMBER12'],
+                Products::class,
+                'getProducts',
+                [
+                    null,
+                    null,
+                    null
+                ],
+                '[{"MFGID" : "MPNNUMBER11"}, {"MFGID" : "MPNNUMBER12"}]',
+                'MFGID'
             ],
         ];
     }

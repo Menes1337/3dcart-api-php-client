@@ -3,7 +3,7 @@
 namespace tests\Unit\Api\Rest\Sort;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Sort\Customer;
+use ThreeDCart\Api\Rest\Sort\OrderBy;
 use ThreeDCart\Api\Rest\Sort\SortOrder;
 use ThreeDCart\Primitive\StringValueObject;
 
@@ -12,7 +12,7 @@ use ThreeDCart\Primitive\StringValueObject;
  */
 class CustomerTest extends ThreeDCartTestCase
 {
-    /** @var Customer */
+    /** @var OrderBy */
     private $subjectUnderTest;
     
     /** @var SortOrder */
@@ -21,7 +21,7 @@ class CustomerTest extends ThreeDCartTestCase
     public function setup()
     {
         $this->sortOrder        = new SortOrder(SortOrder::SORTING_DESC);
-        $this->subjectUnderTest = new Customer(
+        $this->subjectUnderTest = new OrderBy(
             new \ThreeDCart\Api\Rest\Field\Customer(
                 \ThreeDCart\Api\Rest\Field\Customer::BILLINGLASTNAME
             ),
@@ -40,7 +40,7 @@ class CustomerTest extends ThreeDCartTestCase
     
     public function testDefaultSortOrderParameter()
     {
-        $subjectUnderTest = new Customer(
+        $subjectUnderTest = new OrderBy(
             new \ThreeDCart\Api\Rest\Field\Customer(
                 \ThreeDCart\Api\Rest\Field\Customer::SHIPPINGCITY
             )

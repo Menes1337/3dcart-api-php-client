@@ -6,6 +6,7 @@ use tests\Unit\ThreeDCartTestCase;
 use ThreeDCart\Api\Rest\Resource\AbstractResource;
 use ThreeDCart\Api\Rest\Resource\Category;
 use ThreeDCart\Api\Rest\Resource\Customer;
+use ThreeDCart\Api\Rest\Resource\Product;
 
 class AbstractResourceTest extends ThreeDCartTestCase
 {
@@ -41,6 +42,10 @@ class AbstractResourceTest extends ThreeDCartTestCase
             'category resource' => [
                 Category::class,
                 $this->loadMock('getCategory', 'response.json')
+            ],
+            'product resource'  => [
+                Product::class,
+                $this->loadMock('getProduct', 'response.json')
             ]
         ];
     }
@@ -71,6 +76,10 @@ class AbstractResourceTest extends ThreeDCartTestCase
             'category resources' => [
                 Category::class,
                 $this->loadMock('getCategories', 'response.json')
+            ],
+            'product resources'  => [
+                Product::class,
+                $this->loadMock('getProducts', 'response.json')
             ],
         ];
     }

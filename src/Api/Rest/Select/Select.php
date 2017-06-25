@@ -5,7 +5,7 @@ namespace ThreeDCart\Api\Rest\Select;
 use ThreeDCart\Api\Rest\Field\FieldInterface;
 use ThreeDCart\Primitive\StringValueObject;
 
-class Select
+class Select implements SelectInterface
 {
     /** @var StringValueObject */
     protected $field;

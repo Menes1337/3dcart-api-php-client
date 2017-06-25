@@ -7,7 +7,7 @@ use ThreeDCart\Primitive\StringValueObject;
 
 class SortList extends AbstractList implements SortInterface
 {
-    /** @var AbstractOrderBy[] */
+    /** @var OrderByInterface[] */
     protected $list;
     
     public function __construct()
@@ -16,9 +16,9 @@ class SortList extends AbstractList implements SortInterface
     }
     
     /**
-     * @param AbstractOrderBy $orderBy
+     * @param OrderByInterface $orderBy
      */
-    public function addOrderBy(AbstractOrderBy $orderBy)
+    public function addOrderBy(OrderByInterface $orderBy)
     {
         $this->addEntry($orderBy);
     }

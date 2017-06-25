@@ -26,6 +26,13 @@ abstract class AbstractResource
                 continue;
             }
             
+            if (isset(static::$objects[$field])) {
+                $listClass = static::$objects[$field];
+                /** @var AbstractResource $listClass */
+                $self->{$field} = $listClass::fromArray($value);
+                continue;
+            }
+            
             $self->{$field} = $value;
         }
         
