@@ -35,15 +35,20 @@ class SimpleXmlExceptionRendererTest extends ThreeDCartTestCase
         $testMessages = explode("\n", $messages);
         
         $this->assertCount(4, $testMessages);
-        $this->assertEquals($testMessages[0],
-            strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'Fatal Error 65: Blank needed here on line 1 in column 20'
-                : 'Fatal Error 65: Blank needed here on line 1 in column 19');
-        $this->assertEquals($testMessages[1],
-            'Fatal Error 57: parsing XML declaration: \'?>\' expected on line 1 in column 20');
-        $this->assertEquals($testMessages[2],
-            'Fatal Error 76: Opening and ending tag mismatch: xml line 1 and broken on line 1 in column 43');
-        $this->assertEquals($testMessages[3],
-            'Fatal Error 77: Premature end of data in tag broken line 1 on line 1 in column 43');
+        $this->assertEquals(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'
+            ? 'Fatal Error 65: Blank needed here on line 1 in column 20'
+            : 'Fatal Error 65: Blank needed here on line 1 in column 19', $testMessages[0]);
+        $this->assertEquals('Fatal Error 57: parsing XML declaration: \'?>\' expected on line 1 in column 20',
+            $testMessages[1]
+        );
+        $this->assertEquals(
+            'Fatal Error 76: Opening and ending tag mismatch: xml line 1 and broken on line 1 in column 43',
+            $testMessages[2]
+        );
+        $this->assertEquals(
+            'Fatal Error 77: Premature end of data in tag broken line 1 on line 1 in column 43',
+            $testMessages[3]
+        );
     }
     
     public function testParseLibXMLWarning()
