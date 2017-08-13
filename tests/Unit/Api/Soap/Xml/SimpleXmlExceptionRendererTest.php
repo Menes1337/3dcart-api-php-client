@@ -35,7 +35,9 @@ class SimpleXmlExceptionRendererTest extends ThreeDCartTestCase
         $testMessages = explode("\n", $messages);
         
         $this->assertCount(4, $testMessages);
-        $this->assertEquals($testMessages[0], 'Fatal Error 65: Blank needed here on line 1 in column 20');
+        $this->assertEquals($testMessages[0],
+            strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'Fatal Error 65: Blank needed here on line 1 in column 20'
+                : 'Fatal Error 65: Blank needed here on line 1 in column 19');
         $this->assertEquals($testMessages[1],
             'Fatal Error 57: parsing XML declaration: \'?>\' expected on line 1 in column 20');
         $this->assertEquals($testMessages[2],
