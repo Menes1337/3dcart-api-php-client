@@ -44,11 +44,15 @@ class SimpleXmlExceptionRendererTest extends ThreeDCartTestCase
             $testMessages[1]
         );
         $this->assertEquals(
-            'Fatal Error 76: Opening and ending tag mismatch: xml line 1 and broken on line 1 in column 43',
+            defined('PHP_WINDOWS_VERSION_MAJOR')
+                ? 'Fatal Error 76: Opening and ending tag mismatch: xml line 1 and broken on line 1 in column 43'
+                : 'Fatal Error 76: Opening and ending tag mismatch: xml line 1 and broken on line 1 in column 42',
             $testMessages[2]
         );
         $this->assertEquals(
-            'Fatal Error 77: Premature end of data in tag broken line 1 on line 1 in column 43',
+            defined('PHP_WINDOWS_VERSION_MAJOR')
+                ? 'Fatal Error 77: Premature end of data in tag broken line 1 on line 1 in column 43'
+                : 'Fatal Error 77: Premature end of data in tag broken line 1 on line 1 in column 42',
             $testMessages[3]
         );
     }
