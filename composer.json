@@ -3,6 +3,11 @@
   "description": "PHP client library for accessing 3dCart Soap API, Soap Advanced API and REST API",
   "keywords": ["library", "api", "3dcart", "soap", "rest"],
   "license": "MIT",
+  "config" : {
+    "platform": {
+      "php": "5.6.31"
+    }
+  },
   "authors": [
     {
       "name": "Oliver Müller",
@@ -10,7 +15,7 @@
     }
   ],
   "require-dev": {
-    "phpunit/phpunit": "5.5.*"
+    "phpunit/phpunit": ">=5.7"
   },
   "autoload": {
     "psr-4": {
@@ -19,6 +24,7 @@
     }
   },
   "require": {
+    "php" : ">=5.6",
     "guzzlehttp/guzzle": "^6.2"
   }
 }
