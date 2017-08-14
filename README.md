@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Menes1337/3dcart-api-php-client.svg?branch=master)](https://travis-ci.org/Menes1337/3dcart-api-php-client)
+[![codecov](https://codecov.io/gh/Menes1337/3dcart-api-php-client/branch/master/graph/badge.svg)](https://codecov.io/gh/Menes1337/3dcart-api-php-client)
 
 # 3dcart PHP Api-Client
 
