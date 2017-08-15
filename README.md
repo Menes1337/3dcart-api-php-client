@@ -55,7 +55,7 @@ You are welcome to contribute!
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Make the codestyle (PSR-1 / PSR-2) is applied to your changes, your code is PHP Unit tested and can be executed at least under PHP 5.6
+3. Make sure the codestyle (PSR-1 / PSR-2) is applied to your changes, your code is PHP Unit tested and can be executed on PHP 5.6/7.0/7.1
 4. Commit your changes (`git commit -am 'Add some feature'`))
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create a new pull request
