@@ -10,7 +10,7 @@ use ThreeDCart\Api\Soap\Resource\VisitorInterface;
  *
  * @package ThreeDCart\Api\Soap\Resource\Product
  */
-class EProduct extends SoapResource 
+class EProduct extends SoapResource
 {
     /** @var string */
     private $eProductPassword;

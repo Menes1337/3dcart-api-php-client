@@ -62,9 +62,9 @@ class Customer extends SoapResource
     
     /*    alt_contaactId
         pass
-    
+
     contactid => CustomerID
-    $BillingAddress => 
+    $BillingAddress =>
     $billing_firstname
     $billing_lastname
     $billing_address
@@ -76,7 +76,7 @@ class Customer extends SoapResource
     $billing_company
     $billing_phone
     $email
-    
+
     $shipping_firstname
     $shipping_lastname
     $shipping_address
@@ -88,7 +88,7 @@ class Customer extends SoapResource
     $shipping_company
     $shipping_phone
     (no email)
-    
+
     $comments => $Comments
     $lastlogindate => $LastLoginDate
     $website => $WebSite
@@ -99,7 +99,7 @@ class Customer extends SoapResource
     additional_field1 => $AditionalFields
     additional_field2 => $AditionalFields
     additional_field3 => $AditionalFields
-    
+
     $CustomerType missing
     */
     

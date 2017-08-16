@@ -61,5 +61,4 @@ class Factory
             new ResponseHandler(new SimpleXmlExceptionRenderer())
         );
     }
-    
 }

@@ -14,7 +14,7 @@ class BooleanValueObject
     
     /**
      * @param bool $value
-     * 
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct($value)

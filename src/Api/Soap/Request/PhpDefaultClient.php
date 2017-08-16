@@ -171,7 +171,6 @@ class PhpDefaultClient implements ClientInterface
         );
         
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_PRODUCT_INVENTORY_RESULT_FIELD}->any));
-        
     }
     
     public function getCustomerLoginToken(
@@ -194,7 +193,6 @@ class PhpDefaultClient implements ClientInterface
         );
         
         return new Xml(new StringValueObject($soapResponse->{self::THREEDCART_GET_CUSTOMER_LOGIN_TOKEN_RESULT_FIELD}->any));
-        
     }
     
     public function getCustomerCount(CallBackUrl $callBackUrl)

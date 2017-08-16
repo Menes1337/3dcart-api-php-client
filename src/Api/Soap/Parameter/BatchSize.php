@@ -13,7 +13,7 @@ class BatchSize extends UnsignedIntegerValueObject
 {
     /**
      * @param int $value
-     * 
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct($value)

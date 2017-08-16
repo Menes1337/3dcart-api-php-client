@@ -11,7 +11,6 @@ use ThreeDCart\Primitive\StringValueObject;
  */
 class SqlTable
 {
-    
     const TABLE_CATEGORY                 = 'category';
     const TABLE_CUSTOMERS                = 'customers';
     const TABLE_PRODUCT_CATEGORY         = 'product_category';

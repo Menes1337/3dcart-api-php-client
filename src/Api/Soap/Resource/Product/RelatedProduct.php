@@ -10,7 +10,7 @@ use ThreeDCart\Api\Soap\Resource\VisitorInterface;
  *
  * @package ThreeDCart\Api\Soap\Resource\Product
  */
-class RelatedProduct extends SoapResource 
+class RelatedProduct extends SoapResource
 {
     /** @var int */
     private $ProductID;

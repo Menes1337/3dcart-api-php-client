@@ -127,5 +127,4 @@ class SimpleXmlExceptionRendererTest extends ThreeDCartTestCase
         
         return $libXMLError;
     }
-    
 }

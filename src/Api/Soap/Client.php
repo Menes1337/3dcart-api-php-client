@@ -34,19 +34,19 @@ class Client
 {
     const THREEDCART_SOAP_API_URL = 'http://api.3dcart.com/cart.asmx';
     
-    CONST XML_TAG_PRODUCT             = 'Product';
-    CONST XML_TAG_CUSTOMER            = 'Customer';
-    CONST XML_TAG_PRODUCT_QUANTITY    = 'ProductQuantity';
-    CONST XML_TAG_CUSTOMER_COUNT      = 'CustomerCount';
-    CONST XML_TAG_ORDER_QUANTITY      = 'Quantity';
-    CONST XML_TAG_ORDER               = 'Order';
-    CONST XML_TAG_CUSTOMER_CONTACT_ID = 'contactid';
-    CONST XML_TAG_Product_ID          = 'ProductID';
-    CONST XML_TAG_NEW_INVENTORY       = 'NewInventory';
-    CONST XML_TAG_INVOICE_NUM         = 'InvoiceNum';
-    CONST XML_TAG_NEW_STATUS          = 'NewStatus';
-    CONST XML_TAG_RESULT              = 'result';
-    CONST XML_TAG_RESULT_OK           = 'OK';
+    const XML_TAG_PRODUCT             = 'Product';
+    const XML_TAG_CUSTOMER            = 'Customer';
+    const XML_TAG_PRODUCT_QUANTITY    = 'ProductQuantity';
+    const XML_TAG_CUSTOMER_COUNT      = 'CustomerCount';
+    const XML_TAG_ORDER_QUANTITY      = 'Quantity';
+    const XML_TAG_ORDER               = 'Order';
+    const XML_TAG_CUSTOMER_CONTACT_ID = 'contactid';
+    const XML_TAG_Product_ID          = 'ProductID';
+    const XML_TAG_NEW_INVENTORY       = 'NewInventory';
+    const XML_TAG_INVOICE_NUM         = 'InvoiceNum';
+    const XML_TAG_NEW_STATUS          = 'NewStatus';
+    const XML_TAG_RESULT              = 'result';
+    const XML_TAG_RESULT_OK           = 'OK';
     
     /** @var ClientInterface */
     private $soapClient;
