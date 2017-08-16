@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/Menes1337/3dcart-api-php-client.svg?branch=master)](https://travis-ci.org/Menes1337/3dcart-api-php-client)
+[![codecov](https://codecov.io/gh/Menes1337/3dcart-api-php-client/branch/master/graph/badge.svg)](https://codecov.io/gh/Menes1337/3dcart-api-php-client)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/aab429ac8fb342de98cc3283d920a369)](https://www.codacy.com/app/Menes1337/3dcart-api-php-client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Menes1337/3dcart-api-php-client&amp;utm_campaign=Badge_Grade)
 
 # 3dcart PHP Api-Client
 
@@ -53,7 +55,7 @@ You are welcome to contribute!
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Make the codestyle (PSR-1 / PSR-2) is applied to your changes, your code is PHP Unit tested and can be executed at least under PHP 5.6
+3. Make sure the codestyle (PSR-1 / PSR-2) is applied to your changes, your code is PHP Unit tested and can be executed on PHP 5.6/7.0/7.1
 4. Commit your changes (`git commit -am 'Add some feature'`))
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create a new pull request
