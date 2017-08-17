@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\Category\OptionSet;
 /**
  * @package ThreeDCart\Api\Rest\Resource
  *
- * @method static Category fromArray(array $data)
+ * @method static Category fromArray(array $properties)
  * @method static Category[] fromList(array $list)
  */
 class Category extends AbstractResource
@@ -144,5 +144,4 @@ class Category extends AbstractResource
     
     /** @var string */
     public $AdditionalKeywords;
-
 }

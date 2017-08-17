@@ -3,25 +3,25 @@
 namespace ThreeDCart\Api\Rest\Service;
 
 use ThreeDCart\Api\Rest\Filter\FilterListInterface;
-use ThreeDCart\Api\Rest\Resource\Customer;
+use ThreeDCart\Api\Rest\Resource\CustomerGroup;
 use ThreeDCart\Api\Rest\Select\SelectListInterface;
 use ThreeDCart\Api\Rest\Sort\SortInterface;
 
 /**
  * @package ThreeDCart\Api\Rest\Request\Service
  */
-class Customers extends AbstractService implements CustomersInterface
+class CustomerGroups extends AbstractService implements CustomerGroupsInterface
 {
-    public function getCustomers(
+    public function getCustomerGroups(
         SelectListInterface $selectList = null,
         FilterListInterface $filterList = null,
         SortInterface $sortOrderList = null
     ) {
         $rawResponse = $this->sendRequest($selectList, $filterList, $sortOrderList);
         
-        return Customer::fromList(json_decode($rawResponse->getStringValue(), true));
+        return CustomerGroup::fromList(json_decode($rawResponse->getStringValue(), true));
     }
-    
+
     //    public function getCustomer(CustomerId $customerId)
 //    {
 //        return $this->requestHandler->request(

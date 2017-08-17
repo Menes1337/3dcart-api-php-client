@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Product
  *
- * @method static UpSellingItem fromArray(array $data)
+ * @method static UpSellingItem fromArray(array $properties)
  * @method static UpSellingItem[] fromList(array $list)
  */
 class UpSellingItem extends AbstractResource

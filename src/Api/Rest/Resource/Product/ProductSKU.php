@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Product
  *
- * @method static ProductSKU fromArray(array $data)
+ * @method static ProductSKU fromArray(array $properties)
  * @method static ProductSKU[] fromList(array $list)
  */
 class ProductSKU extends AbstractResource

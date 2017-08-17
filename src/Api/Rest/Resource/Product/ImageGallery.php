@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Product
  *
- * @method static ImageGallery fromArray(array $data)
+ * @method static ImageGallery fromArray(array $properties)
  * @method static ImageGallery[] fromList(array $list)
  */
 class ImageGallery extends AbstractResource

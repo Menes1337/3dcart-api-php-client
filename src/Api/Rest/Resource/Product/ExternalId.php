@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Product
  *
- * @method static ExternalId fromArray(array $data)
+ * @method static ExternalId fromArray(array $properties)
  * @method static ExternalId[] fromList(array $list)
  */
 class ExternalId extends AbstractResource

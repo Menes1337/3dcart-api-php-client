@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Product
  *
- * @method static Discount fromArray(array $data)
+ * @method static Discount fromArray(array $properties)
  * @method static Discount[] fromList(array $list)
  */
 class Discount extends AbstractResource

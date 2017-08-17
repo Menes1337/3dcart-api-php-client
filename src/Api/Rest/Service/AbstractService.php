@@ -2,7 +2,7 @@
 
 namespace ThreeDCart\Api\Rest\Service;
 
-use ThreeDCart\Api\Rest\Filter\FilterInterface;
+use ThreeDCart\Api\Rest\Filter\FilterListInterface;
 use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
 use ThreeDCart\Api\Rest\Request\HttpMethod;
 use ThreeDCart\Api\Rest\Request\HttpParameter;
@@ -33,14 +33,14 @@ class AbstractService
     
     /**
      * @param SelectListInterface $selectList
-     * @param FilterInterface     $filterList
+     * @param FilterListInterface $filterList
      * @param SortInterface       $sortOrderList
      *
      * @return HttpParameterList
      */
     protected function generateRequestParameter(
         SelectListInterface $selectList = null,
-        FilterInterface $filterList = null,
+        FilterListInterface $filterList = null,
         SortInterface $sortOrderList = null
     ) {
         $requestParameterList =
@@ -69,14 +69,14 @@ class AbstractService
     
     /**
      * @param SelectListInterface $selectList
-     * @param FilterInterface     $filterList
+     * @param FilterListInterface $filterList
      * @param SortInterface       $sortOrderList
      *
      * @return StringValueObject
      */
     protected function sendRequest(
         SelectListInterface $selectList = null,
-        FilterInterface $filterList = null,
+        FilterListInterface $filterList = null,
         SortInterface $sortOrderList = null
     ) {
         $requestParameterList = $this->generateRequestParameter($selectList, $filterList, $sortOrderList);

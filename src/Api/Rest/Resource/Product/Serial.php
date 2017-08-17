@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Product
  *
- * @method static Serial fromArray(array $data)
+ * @method static Serial fromArray(array $properties)
  * @method static Serial[] fromList(array $list)
  */
 class Serial extends AbstractResource

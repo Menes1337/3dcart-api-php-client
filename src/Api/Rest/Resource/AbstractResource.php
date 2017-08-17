@@ -10,15 +10,15 @@ abstract class AbstractResource
     protected static $objects = [];
     
     /**
-     * @param array $data
+     * @param array $properties
      *
      * @return AbstractResource
      */
-    public static function fromArray(array $data)
+    public static function fromArray(array $properties)
     {
         $self = new static();
         
-        foreach ($data as $field => $value) {
+        foreach ($properties as $field => $value) {
             if (isset(static::$lists[$field])) {
                 $listClass = static::$lists[$field];
                 /** @var AbstractResource $listClass */

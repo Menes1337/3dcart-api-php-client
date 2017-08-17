@@ -2,7 +2,7 @@
 
 namespace ThreeDCart\Api\Rest\Service;
 
-use ThreeDCart\Api\Rest\Filter\FilterInterface;
+use ThreeDCart\Api\Rest\Filter\FilterListInterface;
 use ThreeDCart\Api\Rest\Request\RequestException;
 use ThreeDCart\Api\Rest\Resource\Category;
 use ThreeDCart\Api\Rest\Select\SelectListInterface;
@@ -12,7 +12,7 @@ interface CategoriesInterface
 {
     /**
      * @param SelectListInterface|null $selectList
-     * @param FilterInterface|null     $filterList
+     * @param FilterListInterface|null $filterList
      * @param SortInterface|null       $sortOrderList
      *
      * @return Category[]
@@ -21,9 +21,9 @@ interface CategoriesInterface
      */
     public function getCategories(
         SelectListInterface $selectList = null,
-        FilterInterface $filterList = null,
+        FilterListInterface $filterList = null,
         SortInterface $sortOrderList = null
     );
-
-//    public function getCategory(CategoryId $categoryId);
+    
+    //    public function getCategory(CategoryId $categoryId);
 }

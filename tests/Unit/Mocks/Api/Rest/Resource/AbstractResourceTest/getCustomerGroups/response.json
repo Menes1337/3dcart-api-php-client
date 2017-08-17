@@ -1,0 +1,38 @@
+[
+  {
+    "CustomerGroupID": 1,
+    "Name": "New customer",
+    "Description": "Neue Kunden \"Gruppe\"",
+    "MinimumOrder": 0.0,
+    "NonTaxable": false,
+    "AllowRegistration": false,
+    "DisableRewardPoints": false,
+    "AutoApprove": false,
+    "RegistrationMessage": "",
+    "PriceLevel": 1
+  },
+  {
+    "CustomerGroupID": 2,
+    "Name": "old customers",
+    "Description": "Alte Kunden",
+    "MinimumOrder": 0.0,
+    "NonTaxable": false,
+    "AllowRegistration": false,
+    "DisableRewardPoints": false,
+    "AutoApprove": false,
+    "RegistrationMessage": "",
+    "PriceLevel": 1
+  },
+  {
+    "CustomerGroupID": 3,
+    "Name": "Meine Gruippe",
+    "Description": "Testkundengruppe",
+    "MinimumOrder": 0.0,
+    "NonTaxable": false,
+    "AllowRegistration": false,
+    "DisableRewardPoints": false,
+    "AutoApprove": false,
+    "RegistrationMessage": "",
+    "PriceLevel": 2
+  }
+]

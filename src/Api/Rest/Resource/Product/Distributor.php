@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Product
  *
- * @method static Distributor fromArray(array $data)
+ * @method static Distributor fromArray(array $properties)
  * @method static Distributor[] fromList(array $list)
  */
 class Distributor extends AbstractResource

@@ -3,7 +3,7 @@
 namespace tests\Unit\Api\Rest\Filter;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Filter\CustomerFilter;
+use ThreeDCart\Api\Rest\Filter\CustomerFilterList;
 use ThreeDCart\Api\Rest\Filter\Customer\Limit;
 use ThreeDCart\Primitive\BooleanValueObject;
 use ThreeDCart\Primitive\StringValueObject;
@@ -14,12 +14,12 @@ use ThreeDCart\Primitive\UnsignedIntegerValueObject;
  */
 class CustomerFilterTest extends ThreeDCartTestCase
 {
-    /** @var CustomerFilter */
+    /** @var CustomerFilterList */
     private $subjectUnderTest;
     
     public function setup()
     {
-        $this->subjectUnderTest = new CustomerFilter();
+        $this->subjectUnderTest = new CustomerFilterList();
     }
     
     public function testSetFilterLimit()
@@ -37,7 +37,7 @@ class CustomerFilterTest extends ThreeDCartTestCase
         
         $httpPostList = $this->subjectUnderTest->getHttpParameterList();
         
-        $this->assertEquals([CustomerFilter::FILTER_COUNTONLY => true], $httpPostList->getSimpleParameterArray());
+        $this->assertEquals([CustomerFilterList::FILTER_COUNTONLY => true], $httpPostList->getSimpleParameterArray());
     }
     
     public function testMultipleFilter()
@@ -48,8 +48,8 @@ class CustomerFilterTest extends ThreeDCartTestCase
         $httpPostList = $this->subjectUnderTest->getHttpParameterList();
         
         $this->assertEquals([
-            CustomerFilter::FILTER_COUNTONLY => true,
-            CustomerFilter::FILTER_LIMIT     => 2
+            CustomerFilterList::FILTER_COUNTONLY => true,
+            CustomerFilterList::FILTER_LIMIT     => 2
         ], $httpPostList->getSimpleParameterArray());
     }
     
@@ -76,67 +76,67 @@ class CustomerFilterTest extends ThreeDCartTestCase
     {
         return [
             'limit'           => [
-                [CustomerFilter::FILTER_LIMIT => 3],
+                [CustomerFilterList::FILTER_LIMIT => 3],
                 'filterLimit',
                 new Limit(3)
             ],
             'offset'          => [
-                [CustomerFilter::FILTER_OFFSET => 4],
+                [CustomerFilterList::FILTER_OFFSET => 4],
                 'filterOffset',
                 new UnsignedIntegerValueObject(4)
             ],
             'email'           => [
-                [CustomerFilter::FILTER_EMAIL => 'test'],
+                [CustomerFilterList::FILTER_EMAIL => 'test'],
                 'filterEmail',
                 new StringValueObject('test')
             ],
             'firstname'       => [
-                [CustomerFilter::FILTER_FIRSTNAME => 'test'],
+                [CustomerFilterList::FILTER_FIRSTNAME => 'test'],
                 'filterFirstName',
                 new StringValueObject('test')
             ],
             'lastname'        => [
-                [CustomerFilter::FILTER_LASTNAME => 'test'],
+                [CustomerFilterList::FILTER_LASTNAME => 'test'],
                 'filterLastName',
                 new StringValueObject('test')
             ],
             'country'         => [
-                [CustomerFilter::FILTER_COUNTRY => 'test'],
+                [CustomerFilterList::FILTER_COUNTRY => 'test'],
                 'filterCountry',
                 new StringValueObject('test')
             ],
             'state'           => [
-                [CustomerFilter::FILTER_STATE => 'test'],
+                [CustomerFilterList::FILTER_STATE => 'test'],
                 'filterState',
                 new StringValueObject('test')
             ],
             'city'            => [
-                [CustomerFilter::FILTER_CITY => 'test'],
+                [CustomerFilterList::FILTER_CITY => 'test'],
                 'filterCity',
                 new StringValueObject('test')
             ],
             'phone'           => [
-                [CustomerFilter::FILTER_PHONE => 'test'],
+                [CustomerFilterList::FILTER_PHONE => 'test'],
                 'filterPhone',
                 new StringValueObject('test')
             ],
             'countonly false' => [
-                [CustomerFilter::FILTER_COUNTONLY => 0],
+                [CustomerFilterList::FILTER_COUNTONLY => 0],
                 'filterCountOnly',
                 new BooleanValueObject(false)
             ],
             'countonly true'  => [
-                [CustomerFilter::FILTER_COUNTONLY => 1],
+                [CustomerFilterList::FILTER_COUNTONLY => 1],
                 'filterCountOnly',
                 new BooleanValueObject(true)
             ],
             'lastupdatestart' => [
-                [CustomerFilter::FILTER_LASTUPDATESTART => 'test'],
+                [CustomerFilterList::FILTER_LASTUPDATESTART => 'test'],
                 'filterLastUpdateStart',
                 new StringValueObject('test')
             ],
             'lastupdateend'   => [
-                [CustomerFilter::FILTER_LASTUPDATEEND => 'test'],
+                [CustomerFilterList::FILTER_LASTUPDATEEND => 'test'],
                 'filterLastUpdateEnd',
                 new StringValueObject('test')
             ],

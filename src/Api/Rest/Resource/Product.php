@@ -18,14 +18,14 @@ use ThreeDCart\Api\Rest\Resource\Product\UpSellingItem;
 /**
  * @package ThreeDCart\Api\Rest\Resource
  *
- * @method static Product fromArray(array $data)
+ * @method static Product fromArray(array $properties)
  * @method static Product[] fromList(array $list)
  */
 class Product extends AbstractResource
 {
     protected static $lists = [
         'DistributorList'    => Distributor::class,
-        'CategoryList'       => \ThreeDCart\Api\Rest\Resource\Product\Category::class,
+        'CategoryList'       => Category::class,
         'ExternalIdsList'    => ExternalId::class,
         'FeatureList'        => Feature::class,
         'ImageGalleryList'   => ImageGallery::class,

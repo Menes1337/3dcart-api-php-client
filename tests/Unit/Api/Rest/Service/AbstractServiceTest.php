@@ -3,7 +3,7 @@
 namespace tests\Unit\Api\Rest\Service;
 
 use tests\Unit\ThreeDCartTestCase;
-use ThreeDCart\Api\Rest\Filter\FilterInterface;
+use ThreeDCart\Api\Rest\Filter\FilterListInterface;
 use ThreeDCart\Api\Rest\Request\ApiPathAppendix;
 use ThreeDCart\Api\Rest\Request\HttpMethod;
 use ThreeDCart\Api\Rest\Request\HttpParameter;
@@ -38,7 +38,7 @@ class AbstractServiceTest extends ThreeDCartTestCase
     /**
      * @param array               $expectedParameterList
      * @param SelectListInterface $selectListInterface
-     * @param FilterInterface     $filterInterface
+     * @param FilterListInterface $filterInterface
      * @param SortInterface       $sortInterface
      *
      * @dataProvider provideGetCustomerParameter
@@ -46,7 +46,7 @@ class AbstractServiceTest extends ThreeDCartTestCase
     public function testGenerateRequestParameter(
         array $expectedParameterList,
         SelectListInterface $selectListInterface = null,
-        FilterInterface $filterInterface = null,
+        FilterListInterface $filterInterface = null,
         SortInterface $sortInterface = null
     ) {
         $this->requestInterfaceMock->method('send')->willReturn(
@@ -87,7 +87,7 @@ class AbstractServiceTest extends ThreeDCartTestCase
             new StringValueObject('test,test2')
         );
         
-        $filterInterfaceMock = $this->getMockBuilder(FilterInterface::class)->getMockForAbstractClass();
+        $filterInterfaceMock = $this->getMockBuilder(FilterListInterface::class)->getMockForAbstractClass();
         $filterInterfaceMock->method('getHttpParameterList')->willReturn(
             new HttpParameterList([
                     new HttpParameter(

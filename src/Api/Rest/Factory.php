@@ -9,6 +9,8 @@ use ThreeDCart\Api\Rest\Application\PrivateKey;
 use ThreeDCart\Api\Rest\Request\Guzzle;
 use ThreeDCart\Api\Rest\Service\Categories;
 use ThreeDCart\Api\Rest\Service\CategoriesInterface;
+use ThreeDCart\Api\Rest\Service\CustomerGroups;
+use ThreeDCart\Api\Rest\Service\CustomerGroupsInterface;
 use ThreeDCart\Api\Rest\Service\Customers;
 use ThreeDCart\Api\Rest\Service\CustomersInterface;
 use ThreeDCart\Api\Rest\Service\Products;
@@ -49,6 +51,26 @@ class Factory
             new Guzzle(
                 new Client([
                     'base_uri' => self::THREEDCART_SOAP_API_URL . $apiVersion->getValue() . '/' . Service::CUSTOMERS
+                        . '/'
+                ]),
+                $authenticationService
+            )
+        );
+    }
+    
+    /**
+     * @param AuthenticationServiceInterface $authenticationService
+     * @param Version                        $apiVersion
+     *
+     * @return CustomerGroupsInterface
+     */
+    public function getCustomerGroupService(AuthenticationServiceInterface $authenticationService, Version $apiVersion)
+    {
+        return new CustomerGroups(
+            new Guzzle(
+                new Client([
+                    'base_uri' => self::THREEDCART_SOAP_API_URL . $apiVersion->getValue() . '/'
+                        . Service::CUSTOMER_GROUPS
                         . '/'
                 ]),
                 $authenticationService

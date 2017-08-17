@@ -2,7 +2,7 @@
 
 namespace ThreeDCart\Api\Rest\Service;
 
-use ThreeDCart\Api\Rest\Filter\FilterInterface;
+use ThreeDCart\Api\Rest\Filter\FilterListInterface;
 use ThreeDCart\Api\Rest\Resource\Category;
 use ThreeDCart\Api\Rest\Select\SelectListInterface;
 use ThreeDCart\Api\Rest\Sort\SortInterface;
@@ -14,15 +14,15 @@ class Categories extends AbstractService implements CategoriesInterface
 {
     public function getCategories(
         SelectListInterface $selectList = null,
-        FilterInterface $filterList = null,
+        FilterListInterface $filterList = null,
         SortInterface $sortOrderList = null
     ) {
         $rawResponse = $this->sendRequest($selectList, $filterList, $sortOrderList);
         
         return Category::fromList(json_decode($rawResponse->getStringValue(), true));
     }
-
-//    public function getCustomer(CustomerId $customerId)
+    
+    //    public function getCustomer(CustomerId $customerId)
 //    {
 //        return $this->requestHandler->request(
 //            new HttpMethod(HttpMethod::HTTP_METHOD_GET),
@@ -45,5 +45,4 @@ class Categories extends AbstractService implements CategoriesInterface
 //    public function deleteCustomer(Customer $customer)
 //    {
 //    }
-    
 }

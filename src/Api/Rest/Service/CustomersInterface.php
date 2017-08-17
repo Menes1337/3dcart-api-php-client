@@ -2,7 +2,7 @@
 
 namespace ThreeDCart\Api\Rest\Service;
 
-use ThreeDCart\Api\Rest\Filter\FilterInterface;
+use ThreeDCart\Api\Rest\Filter\FilterListInterface;
 use ThreeDCart\Api\Rest\Request\RequestException;
 use ThreeDCart\Api\Rest\Resource\Customer;
 use ThreeDCart\Api\Rest\Select\SelectListInterface;
@@ -12,7 +12,7 @@ interface CustomersInterface
 {
     /**
      * @param SelectListInterface|null $selectList
-     * @param FilterInterface|null     $filterList
+     * @param FilterListInterface|null $filterList
      * @param SortInterface|null       $sortOrderList
      *
      * @return Customer[]
@@ -21,17 +21,17 @@ interface CustomersInterface
      */
     public function getCustomers(
         SelectListInterface $selectList = null,
-        FilterInterface $filterList = null,
+        FilterListInterface $filterList = null,
         SortInterface $sortOrderList = null
     );
-
-//    public function getCustomer(CustomerId $customerId);
-//    
+    
+    //    public function getCustomer(CustomerId $customerId);
+//
 //    public function addCustomer(Customer $customer);
-//    
+//
 //    public function updateCustomer(Customer $customer);
-//    
+//
 //    public function updateCustomers(CustomersList $customer);
-//    
+//
 //    public function deleteCustomer(Customer $customer);
 }

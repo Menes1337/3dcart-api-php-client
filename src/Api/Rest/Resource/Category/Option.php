@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Category
  *
- * @method static Option fromArray(array $data)
+ * @method static Option fromArray(array $properties)
  * @method static Option[] fromList(array $list)
  */
 class Option extends AbstractResource

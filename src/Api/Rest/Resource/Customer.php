@@ -5,7 +5,7 @@ namespace ThreeDCart\Api\Rest\Resource;
 /**
  * @package ThreeDCart\Api\Rest\Resource
  *
- * @method static Customer fromArray(array $data)
+ * @method static Customer fromArray(array $properties)
  * @method static Customer[] fromList(array $list)
  */
 class Customer extends AbstractResource

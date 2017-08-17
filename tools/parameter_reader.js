@@ -44,6 +44,10 @@ walkthrough(printConstants)
 
 document.write("<br /><br />")
 printAllConstantsInLine();
+document.write("<br /><br />")
+walkthrough(printFilterConstants)
+document.write("<br /><br />")
+printAllFilterConstantsInLine();
 
 function printResourceMemberVariable(visibility, parameterName, parameterType) {
     document.write("/** @var ");
@@ -70,6 +74,9 @@ function printFilterFunctionPerParameter(visibility, parameterName, parameterTyp
         case "bool":
             parameterTypeName = "BooleanValueObject";
             break;
+        case "float":
+            parameterTypeName = "FloatValueObject";
+            break;
         default:
             break;
     }
@@ -95,4 +102,17 @@ function printAllConstantsInLine() {
     };
 
     document.write("public static $allowedValues = [self::" + parameterList.map(toUpper).join(", self::") + "];");
+}
+
+function printFilterConstants(visibility, parameterName, parameterType) {
+    document.write('const FILTER_' + parameterName.toUpperCase() + " = \"" + parameterName + "\";")
+    document.write("<br />")
+}
+
+function printAllFilterConstantsInLine() {
+    toUpper = function (x) {
+        return x.toUpperCase();
+    };
+
+    document.write("public static $allowedValues = [self::FILTER_" + parameterList.map(toUpper).join(", self::FILTER_") + "];");
 }

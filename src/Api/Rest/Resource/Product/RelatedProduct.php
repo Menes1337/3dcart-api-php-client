@@ -7,7 +7,7 @@ use ThreeDCart\Api\Rest\Resource\AbstractResource;
 /**
  * @package ThreeDCart\Api\Rest\Resource\Product
  *
- * @method static RelatedProduct fromArray(array $data)
+ * @method static RelatedProduct fromArray(array $properties)
  * @method static RelatedProduct[] fromList(array $list)
  */
 class RelatedProduct extends AbstractResource
