@@ -31,5 +31,4 @@ interface CategoryFilterInterface extends FilterInterface
      * @param BooleanValueObject $countOnly
      */
     public function filterCountOnly(BooleanValueObject $countOnly);
-    
 }

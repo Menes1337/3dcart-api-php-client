@@ -6,5 +6,4 @@ use ThreeDCart\Primitive\StringValueObject;
 
 class ApiPathAppendix extends StringValueObject
 {
-    
 }

@@ -66,6 +66,5 @@ class SortListTest extends ThreeDCartTestCase
         $orderByInterfaceMock->method('getSortOrder')->willReturn($sortOrder);
         
         return $orderByInterfaceMock;
-        
     }
 }
