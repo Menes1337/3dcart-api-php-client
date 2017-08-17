@@ -61,7 +61,6 @@ class ResponseHandlerTest extends ThreeDCartTestCase
     
     public function testConvertXMLInvalidXML()
     {
-        
         $xml = $this->getXml('<somexmls><id>4<test></id></somexmls>');
         
         $this->expectException(MalFormedApiResponseException::class);

@@ -100,6 +100,4 @@ class BooleanValueObjectTest extends ThreeDCartTestCase
             ],
         ];
     }
-    
-    
 }

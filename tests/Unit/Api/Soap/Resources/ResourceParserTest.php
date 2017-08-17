@@ -85,7 +85,6 @@ class ResourceParserTest extends ThreeDCartTestCase
             }
             echo '/** @var string */' . "\n";
             echo 'private $' . $key . ';' . "\n";
-            
         }
     }
     

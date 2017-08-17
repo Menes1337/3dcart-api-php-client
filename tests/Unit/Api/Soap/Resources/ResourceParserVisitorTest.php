@@ -41,7 +41,6 @@ use ThreeDCart\Primitive\ArrayValueObject;
  */
 class ResourceParserVisitorTest extends ThreeDCartTestCase
 {
-    
     public function testVisitorCustomer()
     {
         $customer              = new Customer();
@@ -431,7 +430,6 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
         $this->assertEquals(null, $item->getWarehouseBin());
         $this->assertEquals(null, $item->getWarehouseAisle());
         $this->assertEquals(null, $item->getWarehouseCustom());
-        
     }
     
     public function testVisitorOrder()
@@ -479,7 +477,6 @@ class ResourceParserVisitorTest extends ThreeDCartTestCase
         $this->assertEquals('API', $order->getUserID());
         $this->assertEquals('6/22/2009', $order->getLastUpdate());
         $this->assertEquals('1.00', $order->getWeight());
-        
     }
     
     public function testVisitorOrderPromotion()

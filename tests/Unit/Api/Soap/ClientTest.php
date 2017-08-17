@@ -144,7 +144,7 @@ class ClientTest extends ThreeDCartTestCase
     
     public function testGetCustomerLoginToken()
     {
-        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('GetCustomerLoginToken'));
+        $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getCustomerLoginToken'));
         $customerLoginToken = $this->subjectUnderTest->getCustomerLoginToken(
             new StringValueObject('test@3dcart.com'),
             new IntegerValueObject(1800),

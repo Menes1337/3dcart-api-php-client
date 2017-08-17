@@ -86,6 +86,4 @@ class StringValueObjectTest extends ThreeDCartTestCase
             ],
         ];
     }
-    
-    
 }

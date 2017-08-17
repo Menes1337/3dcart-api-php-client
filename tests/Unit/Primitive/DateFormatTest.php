@@ -113,6 +113,4 @@ class DateFormatTest extends ThreeDCartTestCase
             ]
         ];
     }
-    
-    
 }

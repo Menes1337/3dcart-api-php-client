@@ -50,5 +50,4 @@ class ApiErrorException extends ResponseInvalidException
     {
         parent::__construct($message, $threeDCartSoapErrorCode);
     }
-    
 }
