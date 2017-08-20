@@ -35,7 +35,7 @@ class CategoryFilterList extends AbstractFilterList implements CategoryFilterLis
     public function filterOffset(UnsignedIntegerValueObject $offset)
     {
         $this->addFilter(
-            new StringValueObject(self::FILTER_LIMIT),
+            new StringValueObject(self::FILTER_OFFSET),
             new StringValueObject((string)$offset->getIntValue())
         );
     }
