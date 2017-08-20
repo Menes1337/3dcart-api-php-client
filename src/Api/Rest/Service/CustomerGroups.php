@@ -21,28 +21,4 @@ class CustomerGroups extends AbstractService implements CustomerGroupsInterface
         
         return CustomerGroup::fromList(json_decode($rawResponse->getStringValue(), true));
     }
-
-    //    public function getCustomer(CustomerId $customerId)
-//    {
-//        return $this->requestHandler->request(
-//            new HttpMethod(HttpMethod::HTTP_METHOD_GET),
-//            new ApiPathAppendix('')
-//        );
-//    }
-//
-//    public function addCustomer(Customer $customer)
-//    {
-//    }
-//
-//    public function updateCustomer(Customer $customer)
-//    {
-//    }
-//
-//    public function updateCustomers(CustomersList $customer)
-//    {
-//    }
-//
-//    public function deleteCustomer(Customer $customer)
-//    {
-//    }
 }
