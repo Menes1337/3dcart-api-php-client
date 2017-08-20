@@ -24,9 +24,6 @@ class Order extends AbstractResource
         'QuestionList'    => Question::class,
     ];
     
-    /** @var int */
-    public $orderid;
-    
     /** @var string */
     public $InvoiceNumberPrefix;
     
