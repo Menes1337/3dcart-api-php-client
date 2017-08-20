@@ -115,4 +115,23 @@ class Factory
             )
         );
     }
+    
+    /**
+     * @param AuthenticationServiceInterface $authenticationService
+     * @param Version                        $apiVersion
+     *
+     * @return ProductsInterface
+     */
+    public function getOrderService(AuthenticationServiceInterface $authenticationService, Version $apiVersion)
+    {
+        return new Products(
+            new Guzzle(
+                new Client([
+                    'base_uri' => self::THREEDCART_SOAP_API_URL . $apiVersion->getValue() . '/' . Service::ORDERS
+                        . '/'
+                ]),
+                $authenticationService
+            )
+        );
+    }
 }
