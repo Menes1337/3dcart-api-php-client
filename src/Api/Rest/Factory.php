@@ -13,6 +13,8 @@ use ThreeDCart\Api\Rest\Service\CustomerGroups;
 use ThreeDCart\Api\Rest\Service\CustomerGroupsInterface;
 use ThreeDCart\Api\Rest\Service\Customers;
 use ThreeDCart\Api\Rest\Service\CustomersInterface;
+use ThreeDCart\Api\Rest\Service\Orders;
+use ThreeDCart\Api\Rest\Service\OrdersInterface;
 use ThreeDCart\Api\Rest\Service\Products;
 use ThreeDCart\Api\Rest\Service\ProductsInterface;
 use ThreeDCart\Api\Rest\Shop\SecureUrl;
@@ -120,11 +122,11 @@ class Factory
      * @param AuthenticationServiceInterface $authenticationService
      * @param Version                        $apiVersion
      *
-     * @return ProductsInterface
+     * @return OrdersInterface
      */
     public function getOrderService(AuthenticationServiceInterface $authenticationService, Version $apiVersion)
     {
-        return new Products(
+        return new Orders(
             new Guzzle(
                 new Client([
                     'base_uri' => self::THREEDCART_SOAP_API_URL . $apiVersion->getValue() . '/' . Service::ORDERS
