@@ -6,9 +6,13 @@ use tests\Unit\ThreeDCartTestCase;
 use ThreeDCart\Api\Rest\Request\RequestInterface;
 use ThreeDCart\Api\Rest\Resource\Category;
 use ThreeDCart\Api\Rest\Resource\Customer;
+use ThreeDCart\Api\Rest\Resource\CustomerGroup;
+use ThreeDCart\Api\Rest\Resource\Order;
 use ThreeDCart\Api\Rest\Resource\Product;
 use ThreeDCart\Api\Rest\Service\Categories;
+use ThreeDCart\Api\Rest\Service\CustomerGroups;
 use ThreeDCart\Api\Rest\Service\Customers;
+use ThreeDCart\Api\Rest\Service\Orders;
 use ThreeDCart\Api\Rest\Service\Products;
 use ThreeDCart\Primitive\StringValueObject;
 
@@ -74,7 +78,7 @@ class ServicesTest extends ThreeDCartTestCase
     public function provideServicesAndMethodsForResponseLists()
     {
         return [
-            'Customer - getCustomers'    => [
+            'Customer - getCustomers'            => [
                 Customer::class,
                 [123, 234],
                 Customers::class,
@@ -87,7 +91,7 @@ class ServicesTest extends ThreeDCartTestCase
                 '[{"CustomerID" : 123}, {"CustomerID" : 234}]',
                 'CustomerID'
             ],
-            'Categories - getCategories' => [
+            'Categories - getCategories'         => [
                 Category::class,
                 [23, 45],
                 Categories::class,
@@ -100,7 +104,7 @@ class ServicesTest extends ThreeDCartTestCase
                 '[{"CategoryID" : 23}, {"CategoryID" : 45}]',
                 'CategoryID'
             ],
-            'Product - getProducts'      => [
+            'Product - getProducts'              => [
                 Product::class,
                 ['MPNNUMBER11', 'MPNNUMBER12'],
                 Products::class,
@@ -112,6 +116,32 @@ class ServicesTest extends ThreeDCartTestCase
                 ],
                 '[{"MFGID" : "MPNNUMBER11"}, {"MFGID" : "MPNNUMBER12"}]',
                 'MFGID'
+            ],
+            'CustomerGroups - getCustomerGroups' => [
+                CustomerGroup::class,
+                [1234, 321],
+                CustomerGroups::class,
+                'getCustomerGroups',
+                [
+                    null,
+                    null,
+                    null
+                ],
+                '[{"CustomerGroupID" : 1234}, {"CustomerGroupID" : 321}]',
+                'CustomerGroupID'
+            ],
+            'Orders - getOrders'                 => [
+                Order::class,
+                ['AB-', 'ABC-'],
+                Orders::class,
+                'getOrders',
+                [
+                    null,
+                    null,
+                    null
+                ],
+                '[{"InvoiceNumberPrefix" : "AB-"}, {"InvoiceNumberPrefix" : "ABC-"}]',
+                'InvoiceNumberPrefix'
             ],
         ];
     }
