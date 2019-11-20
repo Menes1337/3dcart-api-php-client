@@ -22,6 +22,8 @@ Minimum PHP Version: 5.6
     
 ### Soap API
     include('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+    
+    use \ThreeDCart\Primitive\StringValueObject;
         
     $soapFactory = new \ThreeDCart\Api\Soap\Factory();
     $soapClient  = $soapFactory->getApiClient(
@@ -36,8 +38,10 @@ Minimum PHP Version: 5.6
 ### Advanced SOAP API
     include('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
     
+    use \ThreeDCart\Primitive\StringValueObject;
+    
     $soapFactory = new \ThreeDCart\Api\Soap\Factory();
-    $soapClient  = $soapFactory->getAdvancedApiClient(
+    $advancedClient  = $soapFactory->getAdvancedApiClient(
         new StringValueObject('Your 3dcart API key'),
         new StringValueObject('yourstore.3dcartstores.com')
     );
