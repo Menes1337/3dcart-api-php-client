@@ -35,7 +35,7 @@ class ArrayValueObject
      */
     public function getIntegerValueObject(StringValueObject $key)
     {
-        return new IntegerValueObject((int)$this->value[$key->getValue()]);
+        return new IntegerValueObject((int)$this->value[$key->getStringValue()]);
     }
     
     /**
@@ -45,7 +45,7 @@ class ArrayValueObject
      */
     public function getStringValueObject(StringValueObject $key)
     {
-        return new StringValueObject((String)$this->value[$key->getValue()]);
+        return new StringValueObject((String)$this->value[$key->getStringValue()]);
     }
     
     /**
@@ -55,7 +55,7 @@ class ArrayValueObject
      */
     public function getArrayValueObject(StringValueObject $key)
     {
-        return new ArrayValueObject($this->value[$key->getValue()]);
+        return new ArrayValueObject($this->value[$key->getStringValue()]);
     }
     
     /**
@@ -65,7 +65,7 @@ class ArrayValueObject
      */
     public function issetIndex(IntegerValueObject $index)
     {
-        return isset($this->value[$index->getValue()]);
+        return isset($this->value[$index->getIntValue()]);
     }
     
     /**
@@ -75,7 +75,7 @@ class ArrayValueObject
      */
     public function issetKey(StringValueObject $index)
     {
-        return isset($this->value[$index->getValue()]);
+        return isset($this->value[$index->getStringValue()]);
     }
     
     /**

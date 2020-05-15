@@ -33,7 +33,7 @@ class ResponseHandlerTest extends ThreeDCartTestCase
         
         $response = $this->subjectUnderTest->convertToArray($xml);
         $this->assertEquals(2,
-            $response->getArrayValueObject(new StringValueObject('runQueryRecord'))->count()->getValue());
+            $response->getArrayValueObject(new StringValueObject('runQueryRecord'))->count()->getIntValue());
     }
     
     public function testConvertXMLInvalidLogin()

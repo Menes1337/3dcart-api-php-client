@@ -63,7 +63,7 @@ class StringValueObjectTest extends ThreeDCartTestCase
     {
         $string = new StringValueObject($value);
         
-        $this->assertEquals($expectedResult, $string->getValue());
+        $this->assertEquals($expectedResult, $string->getStringValue());
     }
     
     /**

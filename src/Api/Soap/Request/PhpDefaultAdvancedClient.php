@@ -40,10 +40,10 @@ class PhpDefaultAdvancedClient implements AdvancedClientInterface
     {
         /** @noinspection PhpUndefinedMethodInspection */
         $soapResponse = $this->soapClient->runQuery(array(
-            'storeUrl'     => $this->threeDCartStoreUrl->getValue(),
-            'userKey'      => $this->threeDCartApiKey->getValue(),
-            'sqlStatement' => $sql->getValue(),
-            'callBackURL'  => is_null($callBackUrl) ? '' : $callBackUrl->getValue()
+            'storeUrl'     => $this->threeDCartStoreUrl->getStringValue(),
+            'userKey'      => $this->threeDCartApiKey->getStringValue(),
+            'sqlStatement' => $sql->getStringValue(),
+            'callBackURL'  => is_null($callBackUrl) ? '' : $callBackUrl->getStringValue()
         ));
         
         $this->checkEmptyResponse($soapResponse, new StringValueObject(self::THREEDCART_RUN_QUERY_RESULT_FIELD));
@@ -59,7 +59,7 @@ class PhpDefaultAdvancedClient implements AdvancedClientInterface
      */
     public function checkEmptyResponse(\stdClass $response, StringValueObject $field)
     {
-        if (empty($response) || empty($response->{$field->getValue()}->any)) {
+        if (empty($response) || empty($response->{$field->getStringValue()}->any)) {
             throw new ResponseBodyEmptyException('response body is empty', null);
         }
     }

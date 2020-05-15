@@ -19,18 +19,27 @@ class StringValueObject
      */
     public function __construct($value)
     {
+        $this->validate($value);
+        
+        $this->value = $value;
+    }
+    
+    /**
+     * @param string $value
+     */
+    protected function validate($value)
+    {
         if (!is_string($value)) {
             throw new \InvalidArgumentException(
                 'parameter $value is not of type string. type is ' . gettype($value)
             );
         }
-        $this->value = $value;
     }
     
     /**
      * @return string
      */
-    public function getValue()
+    public function getStringValue()
     {
         return $this->value;
     }

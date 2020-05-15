@@ -39,8 +39,16 @@ class IntegerValueObject
     /**
      * @return int
      */
-    public function getValue()
+    public function getIntValue()
     {
         return $this->value;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getStringValue()
+    {
+        return (string)$this->value;
     }
 }

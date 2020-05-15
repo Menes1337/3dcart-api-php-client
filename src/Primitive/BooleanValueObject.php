@@ -30,7 +30,7 @@ class BooleanValueObject
     /**
      * @return bool
      */
-    public function getValue()
+    public function getBoolValue()
     {
         return $this->value;
     }

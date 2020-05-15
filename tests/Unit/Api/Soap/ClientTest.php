@@ -106,7 +106,7 @@ class ClientTest extends ThreeDCartTestCase
         $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getProductCount'));
         $productsCount = $this->subjectUnderTest->getProductCount(new CallBackUrl(''));
         
-        $this->assertEquals(20, $productsCount->getValue());
+        $this->assertEquals(20, $productsCount->getIntValue());
     }
     
     public function testGetCustomerCount()
@@ -114,7 +114,7 @@ class ClientTest extends ThreeDCartTestCase
         $this->subjectUnderTest->setSoapClient($this->getSoapClientMock('getCustomerCount'));
         $customerCount = $this->subjectUnderTest->getCustomerCount(new CallBackUrl(''));
         
-        $this->assertEquals(38, $customerCount->getValue());
+        $this->assertEquals(38, $customerCount->getIntValue());
     }
     
     public function testGetOrderCount()
@@ -129,7 +129,7 @@ class ClientTest extends ThreeDCartTestCase
             new CallBackUrl('')
         );
         
-        $this->assertEquals(311, $orderCount->getValue());
+        $this->assertEquals(311, $orderCount->getIntValue());
     }
     
     public function testGetProductInventory()
@@ -329,7 +329,7 @@ class ClientTest extends ThreeDCartTestCase
                 new CallBackUrl('')
             );
         
-        $this->assertEquals(true, $success->getValue());
+        $this->assertEquals(true, $success->getBoolValue());
     }
     
     public function testUpdateOrderStatus()
@@ -341,7 +341,7 @@ class ClientTest extends ThreeDCartTestCase
             new CallBackUrl('')
         );
         
-        $this->assertEquals(true, $success->getValue());
+        $this->assertEquals(true, $success->getBoolValue());
     }
     
     public function testUpdateOrderShipment()
@@ -355,7 +355,7 @@ class ClientTest extends ThreeDCartTestCase
             new CallBackUrl('')
         );
         
-        $this->assertEquals(true, $success->getValue());
+        $this->assertEquals(true, $success->getBoolValue());
     }
     
     public function testInsertCustomer()
@@ -380,7 +380,7 @@ class ClientTest extends ThreeDCartTestCase
             new CallBackUrl('')
         );
         
-        $this->assertEquals(true, $result->getValue());
+        $this->assertEquals(true, $result->getBoolValue());
     }
     
     public function testInsertCustomerMissingField()
@@ -422,7 +422,7 @@ class ClientTest extends ThreeDCartTestCase
             new CallBackUrl('')
         );
         
-        $this->assertEquals(true, $result->getValue());
+        $this->assertEquals(true, $result->getBoolValue());
     }
     
     public function testUpdateAltCustomerContactId()
@@ -441,7 +441,7 @@ class ClientTest extends ThreeDCartTestCase
             new CallBackUrl('')
         );
         
-        $this->assertEquals(true, $result->getValue());
+        $this->assertEquals(true, $result->getBoolValue());
     }
     
     public function testDeleteCustomer()
@@ -456,7 +456,7 @@ class ClientTest extends ThreeDCartTestCase
             new CallBackUrl('')
         );
         
-        $this->assertEquals(true, $result->getValue());
+        $this->assertEquals(true, $result->getBoolValue());
     }
     
     /**

@@ -1,0 +1,12 @@
+{
+  "CustomerGroupID": 1,
+  "Name": "New customer",
+  "Description": "Neue Kunden \"Gruppe\"",
+  "MinimumOrder": 0.0,
+  "NonTaxable": false,
+  "AllowRegistration": false,
+  "DisableRewardPoints": false,
+  "AutoApprove": false,
+  "RegistrationMessage": "",
+  "PriceLevel": 1
+}

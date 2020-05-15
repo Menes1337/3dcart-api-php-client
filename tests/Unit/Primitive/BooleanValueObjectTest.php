@@ -81,7 +81,7 @@ class BooleanValueObjectTest extends ThreeDCartTestCase
     {
         $boolean = new BooleanValueObject($value);
         
-        $this->assertEquals($expectedResult, $boolean->getValue());
+        $this->assertEquals($expectedResult, $boolean->getBoolValue());
     }
     
     /**

@@ -331,12 +331,12 @@ class ResourceParserVisitor implements VisitorInterface
         $order->setShippingInformation($shippingInformation);
         
         
-        /** @var GiftCertificatePurchased $giftCertificatePurchased */
+        /** @var GiftCertificatePurchased[] $giftCertificatePurchased */
         $giftCertificatePurchased = $this->createObjects(GiftCertificatePurchased::class, $this->data,
             'GiftCertificatePurchased', 'Gift');
         $order->setGiftCertificatePurchased(isset($giftCertificatePurchased[0]) ? $giftCertificatePurchased[0] : null);
         
-        /** @var GiftCertificateUsed $giftCertificateUsed */
+        /** @var GiftCertificateUsed[] $giftCertificateUsed */
         $giftCertificateUsed = $this->createObjects(GiftCertificateUsed::class, $this->data,
             'GiftCertificateUsed', 'Gift');
         $order->setGiftCertificateUsed(isset($giftCertificateUsed[0]) ? $giftCertificateUsed[0] : null);
